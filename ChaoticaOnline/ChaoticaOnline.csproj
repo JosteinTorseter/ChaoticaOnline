@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="lib\AlertHelper.cs" />
     <Compile Include="lib\Diverse.cs" />
     <Compile Include="lib\Enums.cs" />
     <Compile Include="lib\Statics.cs" />
@@ -321,9 +323,11 @@
     <Content Include="Views\Main\Subs\_ActionButton.cshtml" />
     <Content Include="Views\Main\Subs\_PartyWindow.cshtml" />
     <Content Include="Views\Main\Panels\_RosterPanel.cshtml" />
+    <Content Include="Views\Shared\_Alerts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

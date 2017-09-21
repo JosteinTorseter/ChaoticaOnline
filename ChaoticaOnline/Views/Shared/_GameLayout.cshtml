@@ -8,8 +8,13 @@
 
 </head>
 <body>
-    <div class="body-content">
-        @RenderBody()
+    <div id="wrap">
+        <div id="alert-container">
+            @{ Html.RenderPartial("~/Views/Shared/_Alerts.cshtml"); }
+        </div>
+        <div class="body-content">
+            @RenderBody()
+        </div>
     </div>
 
     @Scripts.Render("~/Scripts/bugs/bug.js")
@@ -77,9 +82,18 @@
         }
     }
     function ClickedDungeon(me) {
+        var url = "PopDown";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, textStatus, xhr) {
+                UpdateAlertField(data);
+            }
+        });
         //var $me = $(me);
         //var id = $me.data("duid");
-        new SpiderController();
+        //new SpiderController();
         //DisplayDungeonInfoWindow(id);
     }
 
@@ -192,6 +206,10 @@
                 }
             }
         });
+    }
+
+    function UpdateAlertField(data) {
+        $("div#alert-container").prepend(data);
     }
 
 </script>

@@ -1,0 +1,31 @@
+﻿@using EMSWeb.lib
+@{
+    var alerts = TempData.ContainsKey(Alert.TempDataKey)
+                ? (List<Alert>)TempData[Alert.TempDataKey]
+                : new List<Alert>();
+
+    foreach (var alert in alerts)
+    {
+        var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+        <div style="opacity:0.7;filter:alpha(opacity=70);" class="alert alert-@alert.AlertStyle @dismissableClass">
+            @if (!alert.Dismissable)
+            {
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            }
+            else
+            {
+                <script>
+                    $(".alert-dismissable").delay( 4000 ).slideUp(500, function () {
+                        $(this).alert('close');
+                    });
+
+                    while ($(".alert-dismissable").length > 3) {
+                        $(".alert-dismissable:last").remove();
+                    }
+
+                </script>
+            }
+            @Html.Raw(alert.Message)
+        </div>
+    }
+}

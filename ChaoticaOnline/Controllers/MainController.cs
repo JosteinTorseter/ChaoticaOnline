@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace ChaoticaOnline.Controllers
 {
-    public class MainController : Controller
+    public class MainController : BaseController
     {
         private TemplateContext dbT = new TemplateContext();
         private GameContext dbG = new GameContext();
@@ -236,6 +236,12 @@ namespace ChaoticaOnline.Controllers
                 lstRes.Add(new UnitViewModel(u));
             }
             return PartialView("Panels/_RosterPanel", lstRes);
+        }
+
+        public ActionResult PopDown()
+        {
+            Success(string.Format("Yippi Ka Ye Motherfucker!", "Argument2", "Argument3"), true);
+            return PartialView("_Alerts");
         }
     }
 }

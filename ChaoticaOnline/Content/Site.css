@@ -25,6 +25,18 @@ html {
   overflow-y: scroll;
 }
 
+div#alert-container {
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    z-index: 1060;
+    right: 0px;
+    width: 40%;
+    min-width: 450px;
+}
+
 /*Terrain*/
 
 .main-bg {

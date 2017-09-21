@@ -239,6 +239,7 @@
     <Compile Include="ViewModels\DungeonViewModel.cs" />
     <Compile Include="ViewModels\DwellingViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\InsideDwellingViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\TileViewModel.cs" />

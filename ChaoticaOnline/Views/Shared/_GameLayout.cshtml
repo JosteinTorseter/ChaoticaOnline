@@ -23,6 +23,8 @@
     @RenderSection("scripts", required: false)
 <script>
 
+    var spider;
+
     function allowDrop(ev) {
         ev.preventDefault();
     }
@@ -82,25 +84,27 @@
         }
     }
     function ClickedDungeon(me) {
-        var url = "PopDown";
-        $.ajax({
-            url: url,
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            success: function (data, textStatus, xhr) {
-                UpdateAlertField(data);
-            }
-        });
+        //var url = "PopDown";
+        //$.ajax({
+        //    url: url,
+        //    type: 'POST',
+        //    contentType: 'application/json; charset=utf-8',
+        //    success: function (data, textStatus, xhr) {
+        //        UpdateAlertField(data);
+        //    }
+        //});
         //var $me = $(me);
         //var id = $me.data("duid");
-        //new SpiderController();
+        spider = new SpiderController();
+        spider = null;
         //DisplayDungeonInfoWindow(id);
     }
 
     function ClickedDwelling(me) {
-        var $me = $(me);
-        var id = $me.data("dwid");
-        DisplayDwellingInfoWindow(id);
+        spider = null;
+        //var $me = $(me);
+        //var id = $me.data("dwid");
+        //DisplayDwellingInfoWindow(id);
     }
 
     function ClickedUnit(me) {

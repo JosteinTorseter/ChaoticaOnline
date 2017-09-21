@@ -1,0 +1,54 @@
+﻿@using ChaoticaOnline.lib;
+@model ChaoticaOnline.ViewModels.DwellingViewModel
+
+
+@{
+    string clr = (string)Session["PlayerColor"];
+    string dwColor = Statics.AlignmentColor(Model.Alignment);
+}
+
+<div style="border-radius:10px;width:530px;height:250px;background-color:@dwColor">
+    <table width="530" height="250">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px" rowspan="4"></td>
+            <td rowspan="4" class="imagetd" style="background-image:url(../../Data/places/@Model.Image);border-radius:10px;"></td>
+            <td width="280px" height="35px" style="color:black;text-align:center;text-decoration:underline;">
+                @Model.Name
+            </td>
+            <td width="10px" rowspan="4"></td>
+        </tr>
+        <tr>
+            <td width="280px" style="color:black;text-align:center;text-decoration-color:black;">
+                @Model.Description
+            </td>
+        </tr>
+        <tr>
+            <td width="280px" height="35px" style="text-align:center;">
+                @for (int i = 0; i < 2; i++)
+                {
+                    if (Model.Buttons.Count > i)
+                    {
+                        @Html.Partial("~/Views/Main/Subs/_ActionButton.cshtml", Model.Buttons[i])
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td width="280px" height="35px" style="text-align:center;">
+                @for (int i = 2; i < 4; i++)
+                {
+                    if (Model.Buttons.Count > i)
+                    {
+                        @Html.Partial("~/Views/Main/Subs/_ActionButton.cshtml", Model.Buttons[i])
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+    </table>
+</div>

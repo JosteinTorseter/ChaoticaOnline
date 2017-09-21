@@ -1,0 +1,15 @@
+*336B87 - blue
+*763626 - deep red
+90AFC5 - light blue
+2A3132 - near black
+*BA5536 - Orange
+AEBD38 - Yellow
+*598234 - light green
+07575B - deep blue
+2E4600 - deep green
+A2C523 - lime
+7D4427 - Brown
+375E97 - blue (brighter)
+*B7B8B6 - grey
+*F1F1F1 - warm white
+*1E1F26 - near black

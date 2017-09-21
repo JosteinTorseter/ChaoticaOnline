@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/Scripts/bugs/bug.js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+<script>
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        var data2 = ev.target.id;
+        var s2 = data2.split('_');
+        ReArrangePartyAndRoster(s[0], s[1], s2[0], s2[1]);
+    }
+
+    function ClickedTile(me) {
+        var $me = $(me);
+        var id = $me.data("tileid");
+        RemoveBorders();
+        SetTileBorder(id, "terrain-div-active");
+        DisplayTileInfoWindow(id);
+    }
+
+    function ReArrangePartyAndRoster(strFrom, idFrom, strTo, idTo) {
+
+        if (strFrom  == "roster" && strTo == "roster") { return; }
+        if (strFrom == "party" && idFrom == 0) { return; }
+        if (strTo == "party" && idTo == 0) { return; }
+        var url = "RearrangeUnits/?sf=" + strFrom + "&fid=" + idFrom + "&st=" + strTo + "&tid=" + idTo;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#partytd").html(data);
+                    if (strFrom == "roster" || strTo == "roster") {
+                        DisplayRoster();
+                    }
+                }
+            }
+        });
+    }
+
+    function RemoveBorders() {
+        $("#maptable div.tile-div").removeAttr("class").addClass("tile-div");
+    }
+
+    function SetTileBorder(id, classname) {
+        var tileID = "#tilediv" + id;
+        if (id == 0) { return; }
+        $tile = $(tileID);
+        if (classname != "") {
+            $tile.addClass(classname);
+        }
+    }
+    function ClickedDungeon(me) {
+        //var $me = $(me);
+        //var id = $me.data("duid");
+        new SpiderController();
+        //DisplayDungeonInfoWindow(id);
+    }
+
+    function ClickedDwelling(me) {
+        var $me = $(me);
+        var id = $me.data("dwid");
+        DisplayDwellingInfoWindow(id);
+    }
+
+    function ClickedUnit(me) {
+        var $me = $(me);
+        var id = $me.data("unitid");
+        DisplayUnitInfoWindow(id);
+    }
+
+    function ClickedMainButton(index, id) {
+        switch (index) {
+            case 2: DisplayRoster();
+        }
+    }
+
+    function ClickedAction(me) {
+        var $me = $(me);
+        var id = $me.data("ident");
+        var act = $me.data("acttype");
+        if (act == 1) { 
+            MoveToTile(id);
+            return;
+        }
+        var url = "ClickedAction/" + id + "/" + act;
+        if (id == 0 || act == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    // Switch on action / data
+                }
+            }
+        });
+    }
+
+    function DisplayRoster() {
+        var url = "GetRoster/";
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel1").html(data);
+                $("#InfoPanel2").html("");
+            }
+        });
+    }
+
+    function DisplayTileInfoWindow(id) {
+        var url = "GetTilePanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel1").html(data);
+                $("#InfoPanel2").html("");
+            }
+        });
+    }
+
+
+    function DisplayDwellingInfoWindow(id) {
+        var url = "GetDwellingPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+    function DisplayDungeonInfoWindow(id) {
+        var url = "GetDungeonPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+    function DisplayUnitInfoWindow(id) {
+        var url = "GetUnitPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+
+    function DoubleClickedTile(me) {
+        var $me = $(me);
+        var id = $me.data("tileid");
+        MoveToTile(id);
+    }
+        
+    function MoveToTile(id) {
+        if (id < 1) { return; }
+        var url = "TryMoveToTile/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#MapCell").html(data);
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+
+</html>

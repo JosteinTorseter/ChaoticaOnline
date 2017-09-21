@@ -1,0 +1,198 @@
+﻿body {
+    background-color:black;
+    height:100%;
+}
+
+html {
+    background-color:black;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.pre-x-scrollable {
+  overflow-x: scroll;
+}
+.pre-y-scrollable {
+  overflow-y: scroll;
+}
+
+/*Terrain*/
+
+.main-bg {
+    background-repeat:no-repeat;
+    background-size:1550px 957px;
+    width:1550px;
+    height:957px;
+    background-image:url(../Data/bg3.jpg);
+}
+
+.map-div {
+    text-align:center;
+    vertical-align:middle;
+    margin: auto;
+}
+
+.imagetd {
+    padding:0px;
+    background-repeat:no-repeat;
+    background-size:230px 230px;
+    width:230px;
+    height:230px;
+}
+
+.terrain {
+    padding:0px;
+    background-repeat:no-repeat;
+    background-size:95px 95px;
+    width:95px;
+    height:95px;
+}
+
+.icon-td {
+    width:18px;
+    height:18px;
+    background-size:18px 18px;
+    background-repeat:no-repeat;
+}
+.icon-td-bot {
+    width:18px;
+    height:17px;
+    background-size:18px 17px;
+    background-repeat:no-repeat;
+}
+.icon-td-last {
+    width:17px;
+    height:18px;
+    background-size:17px 18px;
+    background-repeat:no-repeat;
+}
+.icon-td-lastcorner {
+    width:17px;
+    height:17px;
+    background-size:17px 17px;
+    background-repeat:no-repeat;
+}
+.icon-td {
+    width:19px;
+    height:19px;
+    background-size:18px 18px;
+    background-repeat:no-repeat;
+}
+
+.large-icon-td {
+    width:46px;
+    height:46px;
+    background-size:46px 46px;
+    background-repeat:no-repeat;
+}
+
+.icon-player1 {
+    background-image:url(../Data/terrain/test.png);
+}
+
+.td-unit {
+    width:72px;
+    height:72px;
+    min-width:72px;
+    min-height:72px;
+    max-width:72px;
+    max-height:72px;
+}
+.img-rosterunit {
+    width:62px;
+    height:62px;
+    min-width:62px;
+    min-height:62px;
+    max-width:62px;
+    max-height:62px;
+}
+.td-unit1 {
+    width:90px;
+    height:54px;
+    min-width:90px;
+    min-height:54px;
+    max-width:90px;
+    max-height:54px;
+}
+.td-unit2 {
+    width:72px;
+    height:54px;
+    min-width:72px;
+    min-height:54px;
+    max-width:72px;
+    max-height:54px;
+}
+.td-unit3 {
+    width:72px;
+    height:18px;
+    min-width:72px;
+    min-height:18px;
+    max-width:72px;
+    max-height:18px;
+}
+
+.td-herounit {
+    width:90px;
+    height:90px;
+    min-width:90px;
+    min-height:90px;
+    max-width:90px;
+    max-height:90px;
+}
+ 
+
+.td-largeunit {
+    width:144px;
+    height:144px;
+    min-width:144px;
+    min-height:144px;
+    max-width:144px;
+    max-height:144px;
+}
+
+.nopads {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+.main-button {
+    min-width:70px;
+    width:70px;
+}
+.action-button {
+    min-width:100px;
+    width:100px;
+}
+
+.tileborder-selected {
+    border:5px solid white;
+    border-color:white;
+}
+
+.tile-div {
+    width:95px;
+    height:95px;
+}
+.terrain-div-active {
+    border:3px solid white;
+    border-color:white;
+}
+.terrain-div-questorigin {
+    border:3px solid green;
+    border-color:green;
+}
+.terrain-div-questtarget {
+    border:3px solid red;
+    border-color:red;
+}
+

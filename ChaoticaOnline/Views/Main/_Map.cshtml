@@ -1,0 +1,140 @@
+﻿@using ChaoticaOnline.ViewModels
+@model ChaoticaOnline.ViewModels.MapViewModel
+
+
+@{
+    string divClass = "map-div";
+    if (Model.XCount > 10)
+    {
+        divClass = divClass + " pre-x-scrollable";
+    }
+    if (Model.YCount > 10)
+    {
+        divClass = divClass + " pre-y-scrollable";
+    }
+
+}
+<div style="width:@(Model.XCount * 95)px;height:@(Model.YCount * 95)px;" class="@divClass">
+    <table id="maptable" width="@(Model.XCount * 95)" height="@(Model.YCount * 95)" style="max-width:@(Model.XCount * 95)px">
+        @for (int i = 0; i < Model.YCount; i++)
+        {
+            <tr>
+                @for (int j = 0; j < Model.XCount; j++)
+                {
+                    TileViewModel t = Model.GetTile(j, i);
+                    if (t == null)
+                    {
+                        <td class="terrain" style="background-color:black;" data-tileID="0"></td>
+                    }
+                    else
+                    {
+                        <td class="terrain" id="tile@(t.ID)" data-tileid="@( t.Image == "tile.jpg" ? "-1" : t.ID.ToString() )" style="border-radius:10px;background-image:url(../../Data/terrain/@t.Image);" onclick="ClickedTile(this)" ondblclick="DoubleClickedTile(this)">
+                            <div id="tilediv@(t.ID)" class="@t.SelectionClass">
+                                @if (t.Image != "tile.jpg")
+                                {
+                                    <table class="nopads">
+                                        <tr>
+                                            @for (int l = 0; l < 5; l++)
+                                            {
+                                                if (t.Dwellings.Count > l)
+                                                {
+                                                    if (l == 4)
+                                                    {
+                                                        <td class="icon-td-last" data-toggle="tooltip" title="@t.Dwellings[l].Name" style="border-radius:5px;background-image:url(../../Data/places/@(t.Dwellings[l].Image))"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td" data-toggle="tooltip" title="@t.Dwellings[l].Name" style="border-radius:5px;background-image:url(../../Data/places/@(t.Dwellings[l].Image))"></td>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (l == 4)
+                                                    {
+                                                        <td class="icon-td-last"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td"></td>
+                                                    }
+                                                }
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @for (int l = 0; l < 5; l++)
+                                            {
+                                                if (t.Dungeons.Count > l)
+                                                {
+                                                    if (l == 4)
+                                                    {
+                                                        <td class="icon-td-last" data-toggle="tooltip" title="@t.Dungeons[l].Name" style="border-radius:5px;background-image:url(../../Data/places/@(t.Dungeons[l].Image))"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td" data-toggle="tooltip" title="@t.Dungeons[l].Name" style="border-radius:5px;background-image:url(../../Data/places/@(t.Dungeons[l].Image))"></td>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (l == 4)
+                                                    {
+                                                        <td class="icon-td-last"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td"></td>
+                                                    }
+                                                }
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td-last"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td"></td>
+                                            <td class="icon-td-last"></td>
+                                        </tr>
+                                        <tr>
+                                            @for (int k = 0; k < 5; k++)
+                                            {
+                                                if (t.Players.Count > k)
+                                                {
+                                                    if (k == 4)
+                                                    {
+                                                        <td class="icon-td-lastcorner" style="border-radius:10px;background-image:url(../../Data/@(t.Players[k].Color).png)"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td-bot" style="border-radius:10px;background-image:url(../../Data/@(t.Players[k].Color).png)"></td>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (k == 4)
+                                                    {
+                                                        <td class="icon-td-lastcorner"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="icon-td-bot"></td>
+                                                    }
+                                                }
+                                            }
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+</div>

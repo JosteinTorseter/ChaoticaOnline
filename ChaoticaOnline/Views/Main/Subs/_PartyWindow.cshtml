@@ -1,0 +1,90 @@
+﻿@using ChaoticaOnline.ViewModels;
+@model List<UnitViewModel>
+
+@{ 
+    int iCount = 0;
+    int iIndex = 0;
+}
+
+<table width="522" height="144">
+    <tr style="background-color:black">
+        @foreach (UnitViewModel u in Model)
+        {
+            if (iCount == 0)
+            {
+                <td class="td-unit1"></td>
+            }
+            else
+            {
+                if (u.Takes2Slots)
+                {
+                    <td class="td-largeunit" colspan="2" rowspan="3">
+                        <img id="party_@iIndex" data-toggle="tooltip" title="@(u.Name) Level @u.Level" onclick="ClickedUnit(this)" data-unitid="@u.ID" class="td-largeunit" src="~/Data/monsters/@u.Image" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" ondrop="drop(event)" />
+                    </td>
+                    iCount += 1;
+                }
+                else
+                {
+                    <td class="td-unit2"></td>
+                }
+            }
+
+            iCount += 1;
+            iIndex += 1;
+        }
+    </tr>
+    <tr style="background-color:black">
+        @{iCount = 0; }
+        @{iIndex = 0; }
+        @foreach (UnitViewModel u in Model)
+        {
+            if (iCount == 0)
+            {
+                <td class="td-herounit" rowspan="2">
+                    <img id="party_@iIndex" data-toggle="tooltip" title="@(u.Name) Level @u.Level" onclick="ClickedUnit(this)" data-unitid="@u.ID" class="td-herounit" src="~/Data/monsters/@u.Image" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" ondrop="drop(event)" />
+                </td>
+            }
+            else
+            {
+                if (u.Takes2Slots)
+                {
+                    iCount += 1;
+                }
+                else
+                {
+                    <td class="td-unit3"></td>
+                }
+            }
+
+            iCount += 1;
+            iIndex += 1;
+        }
+    </tr>
+    <tr style="background-color:black">
+        @{iCount = 0; }
+        @{iIndex = 0; }
+        @foreach (UnitViewModel u in Model)
+        {
+            if (iCount == 0)
+            {
+                // No action
+            }
+            else
+            {
+                if (u.Takes2Slots)
+                {
+                    iCount += 1;
+                }
+                else
+                {
+                    <td class="td-unit">
+                        <img id="party_@iIndex" data-toggle="tooltip" title="@(u.Name) Level @u.Level" onclick="ClickedUnit(this)" data-unitid="@u.ID" class="td-unit" src="~/Data/monsters/@u.Image" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" ondrop="drop(event)" />
+                    </td>
+                }
+            }
+
+            iCount += 1;
+            iIndex += 1;
+        }
+    </tr>
+</table>

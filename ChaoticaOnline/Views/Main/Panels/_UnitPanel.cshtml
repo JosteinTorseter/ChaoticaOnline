@@ -1,0 +1,37 @@
+﻿@using ChaoticaOnline.lib;
+@model ChaoticaOnline.ViewModels.UnitViewModel
+
+
+@{
+    string clr = (string)Session["PlayerColor"];
+    string uColor = Statics.AlignmentColor(Model.Alignment);
+    string tColor = Statics.AlignmentInverseColor(Model.Alignment);
+}
+
+<div style="border-radius:10px;width:530px;height:250px;background-color:@uColor">
+    <table width="530" height="250">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px" rowspan="4"></td>
+            <td rowspan="4" class="imagetd" style="background-image:url(../../Data/monsters/@Model.Image);border-radius:10px;"></td>
+            <td width="280px" height="35px" style="color:@tColor;text-align:center;text-decoration:underline;">
+                @Model.Name
+            </td>
+            <td width="10px" rowspan="4"></td>
+        </tr>
+        <tr>
+            <td width="280px" style="color:black;text-align:center;text-decoration-color:@tColor;"></td>
+        </tr>
+        <tr>
+            <td width="280px" height="35px" style="text-align:center;"></td>
+        </tr>
+        <tr>
+            <td width="280px" height="35px" style="text-align:center;"></td>
+        </tr>
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+    </table>
+</div>

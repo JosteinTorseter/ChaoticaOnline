@@ -29,6 +29,11 @@ namespace ChaoticaOnline.ViewModels
         public string Damage { get; set; }
         public int Speed { get; set; }
         public int AttackRange { get; set; }
+        public int MagicRange { get; set; }
+        public int Resistance { get; set; }
+        public int MagicResistance { get; set; }
+        public int MagicPower { get; set; }
+        public int MagicDamage { get; set; }
         public bool Takes2Slots { get; set; }
         public int Line { get; set; }
         public UnitViewModel()
@@ -61,9 +66,14 @@ namespace ChaoticaOnline.ViewModels
             this.Attack = Calc.Round(unit.Attack, -1);
             this.Defence = Calc.Round(unit.Defence, -1);
             this.Speed = Calc.Round(unit.Speed, -1);
+            this.Resistance = Calc.Round(unit.Resistance, -1);
+            this.MagicResistance = Calc.Round(unit.MagicResistance, -1);
+            this.MagicPower = Calc.Round(unit.MagicPower, -1);
+            this.MagicDamage = this.MagicPower;
 
-            this.Damage = (unit.DamageBase + 1).ToString() + sSeperator2 + (unit.DamageBase + unit.DamageRoll).ToString();
+            this.Damage = Calc.Round((unit.DamageBase + 1), -1).ToString() + sSeperator2 + Calc.Round((unit.DamageBase + unit.DamageRoll), -1).ToString();
             this.AttackRange = unit.AttackRange;
+            this.MagicRange = unit.MagicRange;
             this.Takes2Slots = unit.Takes2Slots;
             this.Line = unit.Line;
         }

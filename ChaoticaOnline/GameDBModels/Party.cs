@@ -22,5 +22,9 @@ namespace ChaoticaOnline.GameDBModels
         public Party()
         {
         }
+        public List<Unit> OrderedUnits()
+        {
+            return Units.OrderBy(u => u.PartyListIndex).ToList();
+        }
     }
 }

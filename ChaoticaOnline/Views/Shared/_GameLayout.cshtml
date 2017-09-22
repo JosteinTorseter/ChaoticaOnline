@@ -96,12 +96,11 @@
         //var $me = $(me);
         //var id = $me.data("duid");
         spider = new SpiderController();
-        spider = null;
         //DisplayDungeonInfoWindow(id);
     }
 
     function ClickedDwelling(me) {
-        spider = null;
+        spider.end();
         //var $me = $(me);
         //var id = $me.data("dwid");
         //DisplayDwellingInfoWindow(id);

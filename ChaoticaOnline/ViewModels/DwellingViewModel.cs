@@ -15,7 +15,6 @@ namespace ChaoticaOnline.ViewModels
         public string Description { get; set; }
         public string Image { get; set; }
         public Alignment Alignment { get; set; }
-        public string LeaderName { get; set; }
         public bool CanBeRaided { get; set; }
         public bool CanBeAttacked { get; set; }
         public int Happiness { get; set; }
@@ -32,7 +31,6 @@ namespace ChaoticaOnline.ViewModels
             this.Description = dw.Description;
             this.Image = dw.Image;
             this.Alignment = dw.Alignment;
-            this.LeaderName = dw.LeaderName;
             this.Power = dw.Power;
 
             if (p != null)

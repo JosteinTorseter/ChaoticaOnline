@@ -20,6 +20,12 @@ namespace ChaoticaOnline.TemplateModels
         public int DifficultyPrLvl { get; set; }
         public double BaseAttack { get; set; }
         public double BaseDefence { get; set; }
+        public double BaseMagicPower { get; set; }
+        public double BaseMagicResist { get; set; }
+        public double BaseResist { get; set; }
+        public double MagicResistBonus { get; set; }
+        public double ResistBonus { get; set; }
+        public double MagicPowerBonus { get; set; }
         public double BaseMinDamage { get; set; }
         public double BaseMaxDamage { get; set; }
         public double BaseHP { get; set; }
@@ -38,18 +44,33 @@ namespace ChaoticaOnline.TemplateModels
         public bool IsUnique { get; set; }
         public int GoldValue { get; set; }
         public int Level2XP { get; set; }
+
         public string RangeBonusesString { get; set; }
         [NotMapped]
         public int[] RangeBonuses
         {
             get
             {
-                if (RangeBonusesString == null || RangeBonusesString == "") { return new int[0]; }
+                if (String.IsNullOrEmpty(RangeBonusesString)) { return new int[0]; }
                 return Array.ConvertAll(RangeBonusesString.Split(';'), Int32.Parse);
             }
             set
             {
                 RangeBonusesString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+            }
+        }
+        public string MagicRangeBonusesString { get; set; }
+        [NotMapped]
+        public int[] MagicRangeBonuses
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(MagicRangeBonusesString)) { return new int[0]; }
+                return Array.ConvertAll(MagicRangeBonusesString.Split(';'), Int32.Parse);
+            }
+            set
+            {
+                MagicRangeBonusesString = String.Join(";", value.Select(p => p.ToString()).ToArray());
             }
         }
 
@@ -68,9 +89,20 @@ namespace ChaoticaOnline.TemplateModels
             res.Add(new Bonus(BonusType.MaxDMGBonus, this.BaseMaxDamage, 1));
             res.Add(new Bonus(BonusType.MaxManaBonus, this.ManaBonus, 0));
             res.Add(new Bonus(BonusType.MaxManaBonus, this.BaseMana, 1));
+
+            res.Add(new Bonus(BonusType.MagicPower, this.BaseMagicPower, 1));
+            res.Add(new Bonus(BonusType.MagResistance, this.BaseMagicResist, 1));
+            res.Add(new Bonus(BonusType.Resistance, this.BaseResist, 1));
+            res.Add(new Bonus(BonusType.MagResistance, this.MagicResistBonus, 0));
+            res.Add(new Bonus(BonusType.Resistance, this.ResistBonus, 0));
+            res.Add(new Bonus(BonusType.MagicPower, this.MagicPowerBonus, 0));
             foreach (int i in this.RangeBonuses)
             {
-                res.Add(new Bonus(BonusType.AttackBonus, 1, i));
+                res.Add(new Bonus(BonusType.RangeBonus, 1, i));
+            }
+            foreach (int i in this.MagicRangeBonuses)
+            {
+                res.Add(new Bonus(BonusType.MagicRange, 1, i));
             }
 
             res.Add(new Bonus(BonusType.AttackBonus, c.AttackBonus, 0));
@@ -80,13 +112,20 @@ namespace ChaoticaOnline.TemplateModels
             res.Add(new Bonus(BonusType.MaxManaBonus, c.ManaBonus, 0));
             res.Add(new Bonus(BonusType.MaxDMGBonus, c.MaxDmgBonus, 0));
             res.Add(new Bonus(BonusType.MoveBonus, c.MoveBonus, 0));
+            res.Add(new Bonus(BonusType.MagicPower, c.MagicPowerBonus, 0));
             foreach (int i in c.RangeBonuses)
             {
-                res.Add(new Bonus(BonusType.AttackBonus, 1, i));
+                res.Add(new Bonus(BonusType.RangeBonus, 1, i));
+            }
+            foreach (int i in c.MagicRangeBonus)
+            {
+                res.Add(new Bonus(BonusType.MagicRange, 1, i));
             }
 
-            res.Add(new Bonus(BonusType.AttackBonus, r.BaseHP, 1));
-            res.Add(new Bonus(BonusType.AttackBonus, r.HPBonus, 0));
+            res.Add(new Bonus(BonusType.MaxHPBonus, r.BaseHP, 1));
+            res.Add(new Bonus(BonusType.MaxHPBonus, r.HPBonus, 0));
+            res.Add(new Bonus(BonusType.MagResistance, r.MagicResistBonus, 0));
+            res.Add(new Bonus(BonusType.Resistance, r.ResistBonus, 0));
 
             return res;
         }

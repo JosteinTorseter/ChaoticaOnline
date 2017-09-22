@@ -27,7 +27,7 @@ namespace ChaoticaOnline.GameModels
             TilesPerDifficulty.Add(3, 14);
             TilesPerDifficulty.Add(4, 9);
             TilesPerDifficulty.Add(5, 5);
-            TilesPerDifficulty.Add(6, 7);
+            TilesPerDifficulty.Add(6, 3);
             game.Map = GenerateMap(10, 10, true, TilesPerDifficulty, calc);
 
             dbG.Games.Add(game);
@@ -460,18 +460,18 @@ namespace ChaoticaOnline.GameModels
             }
             map.Tiles.Add(t);
             OrigTiles.Remove(t);
-            if (isKingOfTheHill)
-            {
-                TempTiles = TileList.GetSurroundingTiles(OrigTiles, iCurX, iCurY);
-                foreach (Tile tl in TempTiles)
-                {
-                    tl.Difficulty = 6;
-                    tl.TerrainID = 28;
-                    TilesPerDifficulty[6] -= 1;
-                    map.Tiles.Add(tl);
-                    OrigTiles.Remove(tl);
-                }
-            }
+            //if (isKingOfTheHill)
+            //{
+            //    TempTiles = TileList.GetSurroundingTiles(OrigTiles, iCurX, iCurY);
+            //    foreach (Tile tl in TempTiles)
+            //    {
+            //        tl.Difficulty = 6;
+            //        tl.TerrainID = 28;
+            //        TilesPerDifficulty[6] -= 1;
+            //        map.Tiles.Add(tl);
+            //        OrigTiles.Remove(tl);
+            //    }
+            //}
 
             int iCurrentDifficulty = 1;
             while (TilesPerDifficulty[6] > 0)

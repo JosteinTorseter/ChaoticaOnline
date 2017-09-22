@@ -27,35 +27,6 @@ namespace ChaoticaOnline.GameDBModels
         public bool SpawnsParties { get; set; }
         public int Movement { get; set; }
 
-        public string TradeUnitsString { get; set; }
-        [NotMapped]
-        public List<int> TradeUnits
-        {
-            get
-            {
-                if (TradeUnitsString == "") { return new List<int>(); }
-                return Array.ConvertAll(TradeUnitsString.Split(';'), Int32.Parse).ToList();
-            }
-            set
-            {
-                TradeUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
-            }
-        }
-        public string FightUnitsString { get; set; }
-        [NotMapped]
-        public List<int> FightUnits
-        {
-            get
-            {
-                if (FightUnitsString == "") { return new List<int>(); }
-                return Array.ConvertAll(FightUnitsString.Split(';'), Int32.Parse).ToList();
-            }
-            set
-            {
-                FightUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
-            }
-        }
-
         [ForeignKey("Tile")]
         public int TileId { get; set; }
         public virtual Tile Tile { get; set; }
@@ -80,8 +51,6 @@ namespace ChaoticaOnline.GameDBModels
             this.LeaderID = dw.LeaderID;
             this.SpawnsParties = dw.SpawnsParties;
             this.Movement = dw.Movement;
-            this.TradeUnitsString = dw.TradeUnitsString;
-            this.FightUnitsString = dw.FightUnitsString;
         }
 
 

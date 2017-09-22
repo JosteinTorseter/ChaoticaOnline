@@ -49,7 +49,7 @@
                 Magic power
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;">
-                2
+                @Model.MagicPower
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;"></td>
         </tr>
@@ -73,7 +73,7 @@
                 @Model.Damage
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;">
-                + 4
+                + @Model.MagicDamage
             </td>
         </tr>
         <tr>
@@ -84,7 +84,7 @@
                 @Model.AttackRange
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;">
-                3
+                @Model.MagicRange
             </td>
         </tr>
         <tr>
@@ -92,10 +92,10 @@
                 Resistance
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;">
-                12 %
+                @Model.Resistance %
             </td>
             <td style="text-align:center;text-decoration-color:@tColor;">
-                56 %
+                @Model.MagicResistance %
             </td>
         </tr>
         <tr>

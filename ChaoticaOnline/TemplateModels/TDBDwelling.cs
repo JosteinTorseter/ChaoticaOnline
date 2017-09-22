@@ -27,31 +27,33 @@ namespace ChaoticaOnline.TemplateModels
         public int RaceID { get; set; }
         public string TradeUnitsString { get; set; }
         [NotMapped]
-        public Dictionary<int, KeyValuePair<int, int>> TradeUnits
+        public List<int> TradeUnits
         {
             get
             {
-                return DictionaryHack.GetKVsByString(TradeUnitsString);
+                if (String.IsNullOrEmpty(TradeUnitsString)) { return new List<int>(); }
+                return Array.ConvertAll(TradeUnitsString.Split(';'), Int32.Parse).ToList();
             }
             set
             {
-                TradeUnitsString = DictionaryHack.GetStringByKVs(value);
+                TradeUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
             }
         }
         public string FightUnitsString { get; set; }
         [NotMapped]
-        public Dictionary<int, int> FightUnits
+        public List<int> FightUnits
         {
             get
             {
-                return DictionaryHack.GetIntsByString(TradeUnitsString);
+                if (String.IsNullOrEmpty(TradeUnitsString)) { return new List<int>(); }
+                return Array.ConvertAll(FightUnitsString.Split(';'), Int32.Parse).ToList();
             }
             set
             {
-                FightUnitsString = DictionaryHack.GetStringByInts(value);
+                FightUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
             }
         }
-        
+
         //Public Property LitterBox As Integer
         //Public Property ItemsForSale As List(Of KV_IntStr)
         //Public Property TrainingAvailable As List(Of Training)

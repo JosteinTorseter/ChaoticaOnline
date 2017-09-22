@@ -169,12 +169,12 @@ namespace ChaoticaOnline.Controllers
             Party party = null;
             Party roster = null;
             party = dbG.Parties.Find(p.PartyID);
-            List<Unit> lstParty = party.Units.ToList();
+            List<Unit> lstParty = party.OrderedUnits();
             List<Unit> lstRoster = null;
             if (iFromArmy + iToArmy > 0)
             {
                 roster = dbG.Parties.Find(p.RosterID);
-                lstRoster = roster.Units.ToList();
+                lstRoster = roster.OrderedUnits();
             }
 
             Unit moveUnit = null;
@@ -192,9 +192,10 @@ namespace ChaoticaOnline.Controllers
             if (iToArmy == 0)
             {
                 lstParty.Insert(tid, moveUnit);
-                if (UnitFactory.ActualUnitCount(lstParty) > 7)
+                while (UnitFactory.ActualUnitCount(lstParty) > 7)
                 {
                     moveUnit = lstParty[lstParty.Count - 1];
+                    lstParty.RemoveAt(lstParty.Count - 1);
                     lstRoster.Add(moveUnit);
                 }
             }
@@ -203,10 +204,23 @@ namespace ChaoticaOnline.Controllers
                 lstRoster.Add(moveUnit);
             }
 
+            int iIndex = 0;
+            foreach (Unit u in lstParty)
+            {
+                u.PartyListIndex = iIndex;
+                iIndex += 1;
+            }
+
             party.Units = lstParty;
             dbG.Entry(party).State = EntityState.Modified;
             if (iFromArmy + iToArmy > 0)
             {
+                iIndex = 0;
+                foreach (Unit u in lstRoster)
+                {
+                    u.PartyListIndex = iIndex;
+                    iIndex += 1;
+                }
                 roster.Units = lstRoster;
                 dbG.Entry(roster).State = EntityState.Modified;
             }
@@ -215,7 +229,7 @@ namespace ChaoticaOnline.Controllers
             List<UnitViewModel> res = new List<UnitViewModel>();
             foreach (Unit u in lstParty) { res.Add(new UnitViewModel(u)); }
 
-            return PartialView("_Subs/PartyWindow", res);
+            return PartialView("Subs/_PartyWindow", res);
         }
 
         public ActionResult ClickedAction(int id, int id2)
@@ -231,7 +245,7 @@ namespace ChaoticaOnline.Controllers
             Player p = dbG.Players.Find(iPlayerID);
             Party party = dbG.Parties.Find(p.RosterID);
             List<UnitViewModel> lstRes = new List<UnitViewModel>();
-            foreach (Unit u in party.Units)
+            foreach (Unit u in party.OrderedUnits())
             {
                 lstRes.Add(new UnitViewModel(u));
             }

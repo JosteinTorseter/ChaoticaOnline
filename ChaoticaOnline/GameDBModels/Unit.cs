@@ -21,6 +21,7 @@ namespace ChaoticaOnline.GameDBModels
         public int XP { get; set; }
         public double Attack { get; set; }
         public double Defence { get; set; }
+        public double MagicPower { get; set; }
         public int MaxHP { get; set; }
         public int HP { get; set; }
         public int MaxMana { get; set; }
@@ -29,6 +30,7 @@ namespace ChaoticaOnline.GameDBModels
         public double DamageRoll { get; set; }
         public double Speed { get; set; }
         public int AttackRange { get; set; }
+        public int MagicRange { get; set; }
         public bool Takes2Slots { get; set; }
         public int Line { get; set; }
         public bool IsHero { get; set; }
@@ -36,6 +38,8 @@ namespace ChaoticaOnline.GameDBModels
         public string Image { get; set; }
         public int Difficulty { get; set; }
         public int NextLevelXP { get; set; }
+        public double Resistance { get; set; }
+        public double MagicResistance { get; set; }
 
         [ForeignKey("Party")]
         public int PartyId { get; set; }
@@ -127,6 +131,27 @@ namespace ChaoticaOnline.GameDBModels
                             this.Speed += b.Value;
                             break;
                         }
+                    case BonusType.MagResistance:
+                        {
+                            this.MagicResistance += b.Value;
+                            break;
+                        }
+                    case BonusType.Resistance:
+                        {
+                            this.Resistance += b.Value;
+                            break;
+                        }
+                    case BonusType.MagicRange:
+                        {
+                            this.MagicRange += (int)b.Value;
+                            break;
+                        }
+                    case BonusType.MagicPower:
+                        {
+                            this.MagicPower += b.Value;
+                            break;
+                        }
+
                 }
             }
             this.Level += iLevels;

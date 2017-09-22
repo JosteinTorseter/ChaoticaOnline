@@ -110,8 +110,8 @@ namespace ChaoticaOnline.lib
         //MoveMultiplyer = 47,
         //HitDieChance = 48,
         //DrainPercent = 49,
-        //Resistance = 50,
-        //MagResistance = 51,
+        Resistance = 50,
+        MagResistance = 51,
         //SpellResistance = 52,
         //TwoHanded = 53,
         //Spawn = 54,
@@ -130,7 +130,10 @@ namespace ChaoticaOnline.lib
         //AttributeGain = 67,
         //RandomScroll = 68,
         //PickPocket = 69,
-        //Gamble = 70
+        //Gamble = 70,
+        MagicPower = 71,
+        MagicRange = 72
+
 
     }
 }

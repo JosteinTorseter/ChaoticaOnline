@@ -17,8 +17,10 @@ namespace ChaoticaOnline.TemplateModels
         public bool HeroAllowed { get; set; }
         public double BaseHP { get; set; }
         public double HPBonus { get; set; }
+        public double MagicResistBonus { get; set; }
+        public double ResistBonus { get; set; }
         public Alignment Alignment { get; set; }
-        
+
         //Public Property Bonuses As List(Of LevelUpBonus)
         //Public Property HeroStatBonuses As List(Of LevelUpBonus)
         //Public Property TeamBonus As Bonus

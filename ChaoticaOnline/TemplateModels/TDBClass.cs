@@ -18,13 +18,28 @@ namespace ChaoticaOnline.TemplateModels
         public double MaxDmgBonus { get; set; }
         public double MoveBonus { get; set; }
         public double ManaBonus { get; set; }
+        public double MagicPowerBonus { get; set; }
         public string RangeBonusesString { get; set; }
         [NotMapped]
         public int[] RangeBonuses
         {
             get
             {
-                if (RangeBonusesString == null || RangeBonusesString == "") { return new int[0]; }
+                if (String.IsNullOrEmpty(RangeBonusesString)) { return new int[0]; }
+                return Array.ConvertAll(RangeBonusesString.Split(';'), Int32.Parse);
+            }
+            set
+            {
+                RangeBonusesString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+            }
+        }
+        public string MagicRangeBonusString { get; set; }
+        [NotMapped]
+        public int[] MagicRangeBonus
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(RangeBonusesString)) { return new int[0]; }
                 return Array.ConvertAll(RangeBonusesString.Split(';'), Int32.Parse);
             }
             set

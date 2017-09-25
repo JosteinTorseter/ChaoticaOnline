@@ -1,5 +1,6 @@
 ﻿using ChaoticaOnline.GameDBModels;
 using ChaoticaOnline.GameModels;
+using ChaoticaOnline.lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace ChaoticaOnline.ViewModels
         public int CurrentGold { get; set; }
         public int PartyID { get; set; }
         public int RosterID { get; set; }
+        public Alignment Alignment { get; set; }
+        public string HeroImage { get; set; }
         public PlayerViewModel()
         {
         }
@@ -26,6 +29,8 @@ namespace ChaoticaOnline.ViewModels
             this.RosterID = player.RosterID;
             this.MovePoints = player.MovePointsLeft + " / " + player.MaxMovePoints;
             this.CurrentGold = player.CurrentGold;
+            this.Alignment = player.Alignment;
+            this.HeroImage = player.HeroImage;
         }
         public PlayerViewModel(int iID, string sColor)
         {

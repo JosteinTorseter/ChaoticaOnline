@@ -1,0 +1,22 @@
+﻿@using ChaoticaOnline.ViewModels;
+@model InventoryViewModel
+
+@{
+    int iCount = 0;
+    string divClass = "";
+    if (Model.Items.Count > 32)
+    {
+        divClass = "pre-y-scrollable";
+    }
+}
+
+<div style="width:520px;height:250px;background-color:@Model.AlignmentColor;border-radius:10px;" class="@divClass">
+    <div style="width:500px;padding-left:10px">
+        @foreach (SmallWorldItemViewModel it in Model.Items)
+        {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.Name" 
+              ondblclick="DoubleClickedRosterUnit(this)"  
+              data-unitid="@it.BaseItemID" class="img-inventory" src="~/Data/items/@it.Image" 
+              draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" 
+              ondrop="drop(event)" />iCount += 1;}
+    </div>
+</div>

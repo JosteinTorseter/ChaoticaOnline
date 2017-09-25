@@ -14,12 +14,15 @@ namespace ChaoticaOnline.ViewModels
         private static string sSeperator2 = " - ";
 
         public int ID { get; set; }
+        public int BaseUnitID { get; set; }
         public string Name { get; set; }
         public string RaceClassName { get; set; }
         public string Image { get; set; }
         public Alignment Alignment { get; set; }
         public string Level { get; set; }
-        public string XP { get; set; }
+        public int MaxLevel { get; set; }
+        public int XP { get; set; }
+        public int NextLevelXP { get; set; }
         public int Attack { get; set; }
         public int Defence { get; set; }
         public int MaxHP { get; set; }
@@ -35,6 +38,7 @@ namespace ChaoticaOnline.ViewModels
         public int MagicPower { get; set; }
         public int MagicDamage { get; set; }
         public bool Takes2Slots { get; set; }
+        public string Targets { get; set; }
         public int Line { get; set; }
         public UnitViewModel()
         {
@@ -46,16 +50,17 @@ namespace ChaoticaOnline.ViewModels
             this.RaceClassName = unit.RaceClassName;
             this.Image = unit.Image;
             this.Alignment = unit.Alignment;
+            this.XP = unit.XP;
+            this.NextLevelXP = unit.NextLevelXP;
+            this.MaxLevel = unit.MaxLevel;
 
             if (unit.Level == unit.MaxLevel)
             {
                 this.Level = "";
-                this.XP = "";
             } 
             else
             {
                 this.Level = unit.Level.ToString() + sSeperator + unit.MaxLevel.ToString();
-                this.XP = unit.XP + sSeperator + unit.NextLevelXP;
             }
             
             this.MaxHP = unit.MaxHP;
@@ -76,6 +81,45 @@ namespace ChaoticaOnline.ViewModels
             this.MagicRange = unit.MagicRange;
             this.Takes2Slots = unit.Takes2Slots;
             this.Line = unit.Line;
+
+            string strTargets = Calc.Round(unit.NrOfTargets, -1).ToString() + ", ";
+            switch (Calc.Round(unit.NrOfAttacks, -1))
+            {
+                case 2: { strTargets += "twice"; break; }
+                case 3: { strTargets += "three times"; break; }
+                case 4: { strTargets += "four times"; break; }
+                case 5: { strTargets += "five times"; break; }
+                default: { strTargets += "once"; break; }
+            }
+            this.Targets = strTargets;
+
+        }
+
+        public string HPString()
+        {
+            return this.HP.ToString() + sSeperator + this.MaxHP.ToString();
+        }
+        public string ManaString()
+        {
+            return this.Mana.ToString() + sSeperator + this.MaxMana.ToString();
+        }
+        public string XPString()
+        {
+            return this.XP.ToString() + sSeperator + this.NextLevelXP.ToString();
+        }
+        public int ManaBar(int iMaxWidth)
+        {
+            return Calc.Round(iMaxWidth * (this.Mana / this.MaxMana), -1);
+        }
+        public int HPBar(int iMaxWidth)
+        {
+            return Calc.Round(iMaxWidth * (this.HP / this.MaxHP), -1);
+        }
+        public int XPBar(int iMaxWidth)
+        {
+            return 70;
+            //if (this.Level == "") { return iMaxWidth; }
+            //return Calc.Round(iMaxWidth * (this.XP / this.NextLevelXP), -1);
         }
     }
 }

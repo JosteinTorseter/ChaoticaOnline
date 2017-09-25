@@ -3,112 +3,143 @@
 
 
 @{
-    string clr = (string)Session["PlayerColor"];
     string uColor = Statics.AlignmentColor(Model.Alignment);
     string tColor = Statics.AlignmentInverseColor(Model.Alignment);
 }
 
 <div style="border-radius:10px;width:530px;height:250px;background-color:@uColor">
-    <table width="530" height="250">
+    <table class="nopads" width="530" height="250" 
+           style="color:@tColor;text-align:center;text-decoration-color:@tColor;font-size:11px;">
         <tr>
-            <td colspan="6" height="10px"></td>
-        </tr>
-        <tr>
-            <td width="10px" rowspan="11"></td>
-            <td rowspan="11" class="imagetd" style="background-image:url(../../Data/monsters/@Model.Image);border-radius:10px;"></td>
-            <td colspan="3" width="280px" height="35px" style="text-align:center;text-decoration:underline;text-decoration-color:@tColor;">
-                @Model.Name
+            <td colspan="2" height="10px"></td>
+            <td colspan="5" rowspan="2" width="172px" height="30px" 
+                style="text-decoration:underline solid;">
+                <span style="font-size:16px">@Model.Name</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="font-size:11px">@Model.RaceClassName</span>
             </td>
-            <td width="10px" rowspan="11"></td>
+            <td height="10px"></td>
         </tr>
         <tr>
-            <td colspan="3" width="280px" style="text-align:center;text-decoration-color:@tColor;">
-                @Model.RaceClassName
+            <td width="10px" rowspan="13"></td>
+            <td rowspan="13" class="imagetd" 
+                style="vertical-align:top;background-image:url(../../Data/monsters/@Model.Image);">
+                @if (Model.MaxLevel > 5)
+                {
+                    <img src="~/Data/lvl10.png" data-toggle="tooltip" 
+                         title="This unit can become level @Model.MaxLevel" 
+                         style="width:40px;height:40px;background-size:100%;background-repeat:no-repeat;float:left" />
+                }
             </td>
+            <td width="10px" rowspan="12"></td>
         </tr>
         <tr>
-            <td width="90px" style="text-align:right;text-decoration-color:@tColor;">
+            <td height="10px" style="text-align:right;">
+                @Model.Level
+            </td>
+            <td colspan="2" style="text-align:left;">
+                <div data-toggle="tooltip" title="@Model.XPString()" 
+                     style="margin-left:2px;border-radius:5px;width:@(Model.XPBar(100))px;height:10px;background-color:gold"></div>
+            </td>
+            <td width="54px" rowspan="12"></td>
+            <td width="54px" rowspan="12"></td>
+        </tr>
+        <tr>
+            <td width="80px" height="17px" style="text-align:right;">
                 Attack
             </td>
-            <td width="55px" style="text-align:center;text-decoration-color:@tColor;">
+            <td width="51px">
                 @Model.Attack
             </td>
-            <td width="55px" style="text-align:center;text-decoration-color:@tColor;"></td>
+            <td width="51px"></td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Defence
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.Defence
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;"></td>
+            <td></td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Magic power
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.MagicPower
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;"></td>
+            <td></td>
         </tr>
         <tr>
-            <td colspan="3" width="280px" height="5px"></td>
+            <td colspan="3" height="5px"></td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;"></td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td height="17px"></td>
+            <td>
                 Phys.
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td style="text-align:left;">
                 Magic
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Damage
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.Damage
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td style="text-align:left;">
                 + @Model.MagicDamage
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Range
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.AttackRange
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td style="text-align:left;">
                 @Model.MagicRange
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Resistance
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.Resistance %
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td style="text-align:left;">
                 @Model.MagicResistance %
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;text-decoration-color:@tColor;">
+            <td style="text-align:right;" height="17px">
                 Speed
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;">
+            <td>
                 @Model.Speed
             </td>
-            <td style="text-align:center;text-decoration-color:@tColor;"></td>
+            <td></td>
         </tr>
         <tr>
-            <td colspan="6" height="10px"></td>
+            <td style="text-align:right;" height="17px">
+                Targets
+            </td>
+            <td colspan="2" style="text-align:left;padding-left:15px">
+                @Model.Targets
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" height="30px" style="text-align:left;">
+                <div style="border-radius:7px;width:230px;height:15px;background-color:green;margin-bottom:2px"></div>
+                <div style="border-radius:7px;width:290px;height:15px;background-color:blue"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" height="10px"></td>
         </tr>
     </table>
 </div>

@@ -129,6 +129,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetUnitPanelInfo(int id)
         {
+            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
                 Unit u = dbG.Units.Find(id);
@@ -136,6 +137,24 @@ namespace ChaoticaOnline.Controllers
             }
             else
             {
+                //Player p = dbG.Players.Find(iPlayerID);
+                return new EmptyResult();
+            }
+        }
+
+        public ActionResult GetItemPanelInfo(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            if (id > 0)
+            {
+                Player p = dbG.Players.Find(iPlayerID);
+                WorldItem it = dbG.WorldItems.Find(id);
+                TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
+                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, it.Count, it.ID));
+            }
+            else
+            {
+                //Player p = dbG.Players.Find(iPlayerID);
                 return new EmptyResult();
             }
         }
@@ -192,7 +211,7 @@ namespace ChaoticaOnline.Controllers
             if (iToArmy == 0)
             {
                 lstParty.Insert(tid, moveUnit);
-                while (UnitFactory.ActualUnitCount(lstParty) > 7)
+                while (UnitFactory.ActualUnitCount(lstParty) > 6)
                 {
                     moveUnit = lstParty[lstParty.Count - 1];
                     lstParty.RemoveAt(lstParty.Count - 1);
@@ -203,40 +222,104 @@ namespace ChaoticaOnline.Controllers
             {
                 lstRoster.Add(moveUnit);
             }
-
-            int iIndex = 0;
-            foreach (Unit u in lstParty)
-            {
-                u.PartyListIndex = iIndex;
-                iIndex += 1;
-            }
+            
+            UnitFactory.RearrangeUnits(lstParty);
 
             party.Units = lstParty;
             dbG.Entry(party).State = EntityState.Modified;
             if (iFromArmy + iToArmy > 0)
             {
-                iIndex = 0;
-                foreach (Unit u in lstRoster)
-                {
-                    u.PartyListIndex = iIndex;
-                    iIndex += 1;
-                }
+                UnitFactory.RearrangeUnits(lstRoster);
                 roster.Units = lstRoster;
                 dbG.Entry(roster).State = EntityState.Modified;
             }
             dbG.SaveChanges();
 
-            List<UnitViewModel> res = new List<UnitViewModel>();
-            foreach (Unit u in lstParty) { res.Add(new UnitViewModel(u)); }
+            List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
+            foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
 
             return PartialView("Subs/_PartyWindow", res);
         }
 
-        public ActionResult ClickedAction(int id, int id2)
+        public ActionResult AddUnitToParty(int id)
         {
             int iPlayerID = (int)Session["PlayerID"];
-            
+            Player p = dbG.Players.Find(iPlayerID);
+            Party party = dbG.Parties.Find(p.PartyID);
+            Party roster = dbG.Parties.Find(p.RosterID);
+
+            List<Unit> lstParty = party.OrderedUnits();
+            if (UnitFactory.ActualUnitCount(lstParty) >= 6) { return new EmptyResult(); }
+
+            List<Unit> lstRoster = roster.OrderedUnits();
+            Unit moveUnit = lstRoster[id];
+            if (moveUnit.Takes2Slots && UnitFactory.ActualUnitCount(lstParty) >= 5) { return new EmptyResult(); }
+
+            lstRoster.Remove(moveUnit);
+            lstParty.Add(moveUnit);
+
+            UnitFactory.RearrangeUnits(lstParty);
+            UnitFactory.RearrangeUnits(lstRoster);
+            party.Units = lstParty;
+            roster.Units = lstRoster;
+            dbG.Entry(party).State = EntityState.Modified;
+            dbG.Entry(roster).State = EntityState.Modified;
+            dbG.SaveChanges();
+
+            List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
+            foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
+
+            return PartialView("Subs/_PartyWindow", res);
+        }
+
+        public ActionResult RemoveUnitFromParty(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            Party party = dbG.Parties.Find(p.PartyID);
+            Party roster = dbG.Parties.Find(p.RosterID);
+
+            List<Unit> lstParty = party.OrderedUnits();
+            List<Unit> lstRoster = roster.OrderedUnits();
+            Unit moveUnit = lstParty[id];
+
+            lstParty.Remove(moveUnit);
+            lstRoster.Add(moveUnit);
+
+            UnitFactory.RearrangeUnits(lstParty);
+            UnitFactory.RearrangeUnits(lstRoster);
+            party.Units = lstParty;
+            roster.Units = lstRoster;
+            dbG.Entry(party).State = EntityState.Modified;
+            dbG.Entry(roster).State = EntityState.Modified;
+            dbG.SaveChanges();
+
+            List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
+            foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
+
+            return PartialView("Subs/_PartyWindow", res);
+        }
+
+        public ActionResult ClickedAction(int id, int act, int obj)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            ButtonAction action = (ButtonAction)act;
+            EntityType entity = (EntityType)obj;
+            Object res = GameActions.ApplyAction(p, action, entity, id, dbG, dbT);
+            if (res == null) { return new EmptyResult(); }
+
+            switch (action)
+            {
+                case ButtonAction.Enter:
+                    {
+                        if (entity == EntityType.Dwelling) { return PartialView("Subs/_InsideDwellingWindow", (InsideDwellingViewModel)res); }
+                        break;
+                    }
+            }
+
             return new EmptyResult();
+
         }
 
         public ActionResult GetRoster()
@@ -244,12 +327,91 @@ namespace ChaoticaOnline.Controllers
             int iPlayerID = (int)Session["PlayerID"];
             Player p = dbG.Players.Find(iPlayerID);
             Party party = dbG.Parties.Find(p.RosterID);
-            List<UnitViewModel> lstRes = new List<UnitViewModel>();
+            List<SmallUnitViewModel> lstRes = new List<SmallUnitViewModel>();
             foreach (Unit u in party.OrderedUnits())
             {
-                lstRes.Add(new UnitViewModel(u));
+                lstRes.Add(new SmallUnitViewModel(u));
             }
             return PartialView("Panels/_RosterPanel", lstRes);
+        }
+        public ActionResult GetInventory()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            List<SmallWorldItemViewModel> lstRes = p.GetInventoryItems(dbT);
+            return PartialView("Panels/_InventoryPanel", new InventoryViewModel(lstRes, 
+                Statics.AlignmentColor(p.Alignment)));
+        }
+
+        public ActionResult GetCharSheet()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
+            return PartialView("Panels/_CharSheetPanel", new CharSheetViewModel(p, lstRes[0], lstRes[1]));
+        }
+
+        public ActionResult GetHeroUnit()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            return PartialView("Panels/_UnitPanel", new UnitViewModel(p.GetHeroUnit()));
+        }
+
+        public ActionResult TakeOff(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            WorldItem it = p.WorldItems.Where(wit => wit.ID == id).First();
+            it.Wearing = false;
+            dbG.Entry(it).State = EntityState.Modified;
+            dbG.SaveChanges();
+            return GetCharSheet();
+        }
+
+        public ActionResult PutOn(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            WorldItem it = p.WorldItems.Where(wit => wit.ID == id).First();
+
+            if (p.AlreadyWearingThis(it)) { return new EmptyResult(); }
+
+            TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
+            if (!p.CanWearItem(bit)) { return new EmptyResult(); }
+
+            List<WorldItem> lstItems = null;
+
+            if (it.TypeName == "Scroll" || it.TypeName == "Potion")
+            {
+                lstItems = p.WornItemsByType(it.TypeName);
+                if (lstItems.Count > 1)
+                {
+                    lstItems[1].Wearing = false;
+                    dbG.Entry(lstItems[1]).State = EntityState.Modified;
+                }
+
+            } else if (it.TypeName == "Accessory")
+            {
+                lstItems = p.WornItemsByType(it.TypeName);
+                if (lstItems.Count > 3)
+                {
+                    lstItems[3].Wearing = false;
+                    dbG.Entry(lstItems[3]).State = EntityState.Modified;
+                }
+            } else
+            {
+                WorldItem wornItem = p.WornItemByType(it.TypeName);
+                if (!(wornItem == null))
+                {
+                    wornItem.Wearing = false;
+                    dbG.Entry(wornItem).State = EntityState.Modified;
+                }
+            }
+            it.Wearing = true;
+            dbG.Entry(it).State = EntityState.Modified;
+            dbG.SaveChanges();
+            return GetCharSheet();
         }
 
         public ActionResult PopDown()

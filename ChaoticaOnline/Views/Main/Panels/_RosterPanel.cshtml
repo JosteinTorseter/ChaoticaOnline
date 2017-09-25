@@ -1,5 +1,5 @@
 ﻿@using ChaoticaOnline.ViewModels;
-@model List<UnitViewModel>
+@model List<SmallUnitViewModel>
 
 @{
     int iCount = 0;
@@ -7,7 +7,11 @@
 
 <div style="width:530px;height:250px;background-color:black;">
     <div style="width:510px;padding-left:10px">
-        @foreach (UnitViewModel u in Model)
-        {<img id="roster_@iCount" data-toggle="tooltip" title="@(u.Name) Level @u.Level" onclick="ClickedUnit(this)" data-unitid="@u.ID" class="img-rosterunit" src="~/Data/monsters/@u.Image" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" ondrop="drop(event)" />iCount += 1;}
+        @foreach (SmallUnitViewModel u in Model)
+        {<img id="roster_@iCount" data-toggle="tooltip" title="@u.Tooltip" 
+              ondblclick="DoubleClickedRosterUnit(this)" onclick="ClickedUnit(this)" 
+              data-unitid="@u.ID" class="img-rosterunit" src="~/Data/monsters/@u.Image" 
+              draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" 
+              ondrop="drop(event)" />iCount += 1;}
     </div>
 </div>

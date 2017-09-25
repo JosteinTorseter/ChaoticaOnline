@@ -73,6 +73,34 @@ namespace ChaoticaOnline.TemplateModels
                 MagicRangeBonusesString = String.Join(";", value.Select(p => p.ToString()).ToArray());
             }
         }
+        public string NrOfAttacksString { get; set; }
+        [NotMapped]
+        public int[] NrOfAttacks
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(NrOfAttacksString)) { return new int[0]; }
+                return Array.ConvertAll(NrOfAttacksString.Split(';'), Int32.Parse);
+            }
+            set
+            {
+                NrOfAttacksString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+            }
+        }
+        public string NrOfTargetsString { get; set; }
+        [NotMapped]
+        public int[] NrOfTargets
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(NrOfTargetsString)) { return new int[0]; }
+                return Array.ConvertAll(NrOfTargetsString.Split(';'), Int32.Parse);
+            }
+            set
+            {
+                NrOfTargetsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+            }
+        }
 
         public List<Bonus> LevelUpBonuses (TDBClass c, TDBRace r)
         {
@@ -103,6 +131,14 @@ namespace ChaoticaOnline.TemplateModels
             foreach (int i in this.MagicRangeBonuses)
             {
                 res.Add(new Bonus(BonusType.MagicRange, 1, i));
+            }
+            foreach (int i in this.NrOfAttacks)
+            {
+                res.Add(new Bonus(BonusType.NrOfAttacks, 1, i));
+            }
+            foreach (int i in this.NrOfTargets)
+            {
+                res.Add(new Bonus(BonusType.NrOfTargets, 1, i));
             }
 
             res.Add(new Bonus(BonusType.AttackBonus, c.AttackBonus, 0));

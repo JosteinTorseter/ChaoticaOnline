@@ -40,6 +40,9 @@ namespace ChaoticaOnline.GameDBModels
         public int NextLevelXP { get; set; }
         public double Resistance { get; set; }
         public double MagicResistance { get; set; }
+        public double NrOfAttacks { get; set; }
+        public double NrOfTargets { get; set; }
+        public int CompanionItem { get; set; }
 
         [ForeignKey("Party")]
         public int PartyId { get; set; }
@@ -76,6 +79,9 @@ namespace ChaoticaOnline.GameDBModels
             if (iMaxLvlOverride > 0) { this.MaxLevel = iMaxLvlOverride; }
             this.NextLevelXP = u.Level2XP;
             this.AttackRange = 1;
+            this.MagicRange = 1;
+            this.NrOfAttacks = 1;
+            this.NrOfTargets = 1;
             this.Takes2Slots = u.Takes2Slots;
             this.Line = 1;
             this.IsHero = c.HeroAllowed;
@@ -149,6 +155,16 @@ namespace ChaoticaOnline.GameDBModels
                     case BonusType.MagicPower:
                         {
                             this.MagicPower += b.Value;
+                            break;
+                        }
+                    case BonusType.NrOfAttacks:
+                        {
+                            this.NrOfAttacks += b.Value;
+                            break;
+                        }
+                    case BonusType.NrOfTargets:
+                        {
+                            this.NrOfTargets += b.Value;
                             break;
                         }
 

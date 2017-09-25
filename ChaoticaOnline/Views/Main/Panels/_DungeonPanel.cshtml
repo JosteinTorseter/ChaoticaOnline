@@ -4,15 +4,17 @@
     string clr = (string)Session["PlayerColor"];
 }
 
-<div style="border-radius:10px;width:530px;height:250px;background-color:#B7B8B6">
+<div style="border-radius:10px;width:530px;height:250px;background-color:#595959">
     <table width="530" height="250">
         <tr>
             <td colspan="4" height="10px"></td>
         </tr>
         <tr>
             <td width="10px" rowspan="4"></td>
-            <td rowspan="4" class="imagetd" style="background-image:url(../../Data/places/@Model.Image);border-radius:10px;"></td>
-            <td width="280px" height="35px" style="color:black;text-align:center;text-decoration:underline;">
+            <td rowspan="4" class="imagetd" 
+                style="background-image:url(../../Data/places/@Model.Image);border-radius:10px;"></td>
+            <td width="280px" height="35px" 
+                style="color:black;text-align:center;text-decoration:underline;">
                 @Model.Name
             </td>
             <td width="10px" rowspan="4"></td>

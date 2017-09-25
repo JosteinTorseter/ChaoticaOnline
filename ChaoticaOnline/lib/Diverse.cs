@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChaoticaOnline.GameDBModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -57,7 +58,7 @@ namespace ChaoticaOnline.lib
         public static Dictionary<int, KeyValuePair<int, int>> GetKVsByString(string input)
         {
             Dictionary<int, KeyValuePair<int, int>> res = new Dictionary<int, KeyValuePair<int, int>>();
-            if (input == null || input == "") { return res; }
+            if (String.IsNullOrEmpty(input)) { return res; }
             foreach (string sFull in input.Split('#'))
             {
                 string[] s = sFull.Split(':');
@@ -67,10 +68,23 @@ namespace ChaoticaOnline.lib
             }
             return res;
         }
+        public static List<Bonus> GetBonusesByString(string input)
+        {
+            List<Bonus> res = new List<Bonus>();
+            if (String.IsNullOrEmpty(input)) { return res; }
+            foreach (string sFull in input.Split('#'))
+            {
+                string[] s = sFull.Split(':');
+                int iLast = 0;
+                if (s.Length > 2) { iLast = Int32.Parse(s[2]); }
+                res.Add(new Bonus((BonusType)Int32.Parse(s[0]), Int32.Parse(s[1]), iLast));
+            }
+            return res;
+        }
         public static Dictionary<int, int> GetIntsByString(string input)
         {
             Dictionary<int, int> res = new Dictionary<int, int>();
-            if (input == null || input == "") { return res; }
+            if (String.IsNullOrEmpty(input)) { return res; }
             foreach (string sFull in input.Split('#'))
             {
                 string[] s = sFull.Split(':');
@@ -82,6 +96,7 @@ namespace ChaoticaOnline.lib
         {
 
             string res = "";
+            if (input == null) { return res; }
             foreach (int key in input.Keys)
             {
                 if (res != "")
@@ -95,6 +110,7 @@ namespace ChaoticaOnline.lib
         public static string GetStringByKVs(Dictionary<int, KeyValuePair<int, int>> input)
         {
             string res = "";
+            if (input == null) { return res; }
             foreach (int key in input.Keys)
             {
                 if (res != "")

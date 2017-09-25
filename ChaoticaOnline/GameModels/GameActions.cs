@@ -1,9 +1,13 @@
 ﻿using ChaoticaOnline.DAL;
 using ChaoticaOnline.GameDBModels;
+using ChaoticaOnline.lib;
+using ChaoticaOnline.TemplateModels;
+using ChaoticaOnline.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ChaoticaOnline.GameModels
 {
@@ -74,5 +78,27 @@ namespace ChaoticaOnline.GameModels
             p.MovableTiles = lstMovable;
             p.SetTileListsString();
         }
+
+        public static Object ApplyAction(Player p, ButtonAction action, EntityType entity, int iID, GameContext dbG, TemplateContext dbT)
+        {
+            switch (action)
+            {
+                case ButtonAction.Enter:
+                    {
+                        if (entity == EntityType.Dwelling) { return EnterDwelling(p, iID, dbG, dbT); }
+                        else { return null; }
+                    }
+                default: { return null; }
+            }
+        }
+
+        public static Object EnterDwelling(Player p, int iID, GameContext dbG, TemplateContext dbT)
+        {
+            Dwelling dw = dbG.Dwellings.Find(iID);
+            TDBDwelling dwBase = dbT.TDBDwellings.Find(dw.BaseDwellingID);
+            TDBUnit leader = dbT.TDBUnits.Find(dw.LeaderID);
+            return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT));
+        }
+       
     }
 }

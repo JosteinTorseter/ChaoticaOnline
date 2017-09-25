@@ -211,6 +211,10 @@
     <Compile Include="GameDBModels\Map.cs" />
     <Compile Include="GameDBModels\Unit.cs" />
     <Compile Include="GameDBModels\Bonus.cs" />
+    <Compile Include="GameDBModels\WorldItem.cs" />
+    <Compile Include="ViewModels\CharSheetViewModel.cs" />
+    <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\SmallWorldItemViewModel.cs" />
     <Compile Include="GameModels\GameActions.cs" />
     <Compile Include="GameModels\GameGenerator.cs" />
     <Compile Include="GameModels\ModelCleaner.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="TemplateModels\TDBRace.cs" />
     <Compile Include="TemplateModels\TDBTerrain.cs" />
     <Compile Include="TemplateModels\TDBUnit.cs" />
+    <Compile Include="TemplateModels\TDBWorldItem.cs" />
     <Compile Include="ViewModels\ActionButtonViewModel.cs" />
     <Compile Include="ViewModels\DungeonViewModel.cs" />
     <Compile Include="ViewModels\DwellingViewModel.cs" />
@@ -242,8 +247,10 @@
     <Compile Include="ViewModels\InsideDwellingViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\SmallUnitViewModel.cs" />
     <Compile Include="ViewModels\TileViewModel.cs" />
     <Compile Include="ViewModels\UnitViewModel.cs" />
+    <Compile Include="ViewModels\WorldItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -330,6 +337,10 @@
     <Content Include="Views\Main\Panels\_RosterPanel.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />
     <Content Include="Views\Main\Subs\_InsideDwellingWindow.cshtml" />
+    <Content Include="Views\Main\Panels\_CharSheetPanel.cshtml" />
+    <Content Include="Views\Main\Panels\_InventoryPanel.cshtml" />
+    <Content Include="Views\Main\Panels\_InventoryItemImage.cshtml" />
+    <Content Include="Views\Main\Panels\_WorldItemPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

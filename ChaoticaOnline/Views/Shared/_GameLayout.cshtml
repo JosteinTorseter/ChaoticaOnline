@@ -33,15 +33,71 @@
         ev.dataTransfer.setData("text", ev.target.id);
     }
 
+    function herodrop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        if (s[0] != "charinv") { return; }
+        PutOn(s[1]);
+    }
+
+    function invdrop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        if (s[0] != "heroitem") { return; }
+        TakeOff(s[1]);
+    }
+
     function drop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text");
         var s = data.split('_');
         var data2 = ev.target.id;
         var s2 = data2.split('_');
-        ReArrangePartyAndRoster(s[0], s[1], s2[0], s2[1]);
+
+        if (s[0] == "roster" || s[0] == "party") {
+            ReArrangeUnits(s[0], s[1], s2[0], s2[1]);
+        }
+
+    }
+    function DoubleClickedHeroItem(me) {
+        var s = me.id.split('_');
+        TakeOff(s[1]);
+    }
+    function DoubleClickedHeroInvItem(me) {
+        var s = me.id.split('_');
+        PutOn(s[1]);
     }
 
+    function PutOn(id) {
+        var url = "PutOn/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#InfoPanel1").html(data);
+                    DisplayHeroUnit();
+                }
+            }
+        });
+    }
+    function TakeOff(id) {
+        var url = "TakeOff/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#InfoPanel1").html(data);
+                    DisplayHeroUnit();
+                }
+            }
+        });
+    }
     function ClickedTile(me) {
         var $me = $(me);
         var id = $me.data("tileid");
@@ -50,7 +106,41 @@
         DisplayTileInfoWindow(id);
     }
 
-    function ReArrangePartyAndRoster(strFrom, idFrom, strTo, idTo) {
+    function DoubleClickedPartyUnit(me) {
+        var data = me.id;
+        var id = data.split('_')[1];
+        var url = "RemoveUnitFromParty/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#partytd").html(data);
+                    DisplayRoster();
+                }
+            }
+        });
+    }
+
+    function DoubleClickedRosterUnit(me) {
+        var data = me.id;
+        var id = data.split('_')[1];
+        var url = "AddUnitToParty/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#partytd").html(data);
+                    DisplayRoster();
+                }
+            }
+        });
+    }
+
+    function ReArrangeUnits(strFrom, idFrom, strTo, idTo) {
 
         if (strFrom  == "roster" && strTo == "roster") { return; }
         if (strFrom == "party" && idFrom == 0) { return; }
@@ -93,17 +183,17 @@
         //        UpdateAlertField(data);
         //    }
         //});
-        //var $me = $(me);
-        //var id = $me.data("duid");
-        spider = new SpiderController();
-        //DisplayDungeonInfoWindow(id);
+        //spider = new SpiderController();
+        var $me = $(me);
+        var id = $me.data("duid");
+        DisplayDungeonInfoWindow(id);
     }
 
     function ClickedDwelling(me) {
-        spider.end();
-        //var $me = $(me);
-        //var id = $me.data("dwid");
-        //DisplayDwellingInfoWindow(id);
+        //spider.end();
+        var $me = $(me);
+        var id = $me.data("dwid");
+        DisplayDwellingInfoWindow(id);
     }
 
     function ClickedUnit(me) {
@@ -112,28 +202,42 @@
         DisplayUnitInfoWindow(id);
     }
 
-    function ClickedMainButton(index, id) {
+    function ClickedItem(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayItemInfoWindow(id);
+    }
+    function ClickedMainButton(index) {
         switch (index) {
-            case 2: DisplayRoster();
+            case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
+            case 2: { DisplayRoster(); break; }
+            case 3: { DisplayInventory(); break; }
         }
     }
 
     function ClickedAction(me) {
         var $me = $(me);
         var id = $me.data("ident");
+        var obj = $me.data("obj");
         var act = $me.data("acttype");
         if (act == 1) { 
             MoveToTile(id);
             return;
         }
-        var url = "ClickedAction/" + id + "/" + act;
-        if (id == 0 || act == 0) { return; }
+        var url = "ClickedAction/?id=" + id + "&act=" + act + "&obj=" + obj;
+        if (id == 0 || act == 0 || obj == 0) { return; }
         $.ajax({
             url: url, success: function (data) {
                 if (!$.trim(data)) {
                     // No action
                 }
                 else {
+                    switch (act) {
+                        case 10: {
+                            if (obj == 5) { $("#MapCell").html(data); }
+                            break;
+                        }
+                    }
                     // Switch on action / data
                 }
             }
@@ -146,6 +250,33 @@
             url: url, success: function (data) {
                 $("#InfoPanel1").html(data);
                 $("#InfoPanel2").html("");
+            }
+        });
+    }
+
+    function DisplayHeroUnit() {
+        var url = "GetHeroUnit/";
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+
+    function DisplayInventory() {
+        var url = "GetInventory/";
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel1").html(data);
+                $("#InfoPanel2").html("");
+            }
+        });
+    }
+    function DisplayCharSheet() {
+        var url = "GetCharSheet/";
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel1").html(data);
             }
         });
     }
@@ -182,6 +313,15 @@
     }
     function DisplayUnitInfoWindow(id) {
         var url = "GetUnitPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+    function DisplayItemInfoWindow(id) {
+        var url = "GetItemPanelInfo/" + id;
         if (id == 0) { return; }
         $.ajax({
             url: url, success: function (data) {

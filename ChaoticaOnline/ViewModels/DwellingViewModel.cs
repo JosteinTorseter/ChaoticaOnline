@@ -19,7 +19,6 @@ namespace ChaoticaOnline.ViewModels
         public bool CanBeAttacked { get; set; }
         public int Happiness { get; set; }
         public int Power { get; set; }
-        public bool IsHere { get; set; }
         public List<ActionButtonViewModel> Buttons { get; set; }
         public DwellingViewModel()
         {
@@ -40,9 +39,9 @@ namespace ChaoticaOnline.ViewModels
                 // !!! Base these on player
                 if (p.TileID == dw.TileId)
                 {
-                    this.Buttons.Add(new ActionButtonViewModel("Enter", p.Color, ButtonAction.Enter, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Attack (2)", p.Color, ButtonAction.Attack, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Raid (2)", p.Color, ButtonAction.Raid, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Enter", p.Color, ButtonAction.Enter, EntityType.Dwelling, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Attack (2)", p.Color, ButtonAction.Attack, EntityType.Dwelling, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Raid (2)", p.Color, ButtonAction.Raid, EntityType.Dwelling, this.ID));
                 } 
                 this.CanBeRaided = dw.CanBeRaided;
                 this.CanBeAttacked = dw.CanBeAttacked;

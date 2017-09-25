@@ -35,10 +35,10 @@ namespace ChaoticaOnline.ViewModels
                 this.Buttons = new List<ActionButtonViewModel>();
                 if (player.TileID == du.TileId)
                 {
-                    this.Buttons.Add(new ActionButtonViewModel("Enter", player.Color, ButtonAction.Enter, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Unlock", player.Color, ButtonAction.Unlock, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Crush (1)", player.Color, ButtonAction.Crush, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Lockpick (2)", player.Color, ButtonAction.Lockpick, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Enter", player.Color, ButtonAction.Enter, EntityType.Dungeon, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Unlock", player.Color, ButtonAction.Unlock, EntityType.Dungeon, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Crush (1)", player.Color, ButtonAction.Crush, EntityType.Dungeon, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Lockpick (2)", player.Color, ButtonAction.Lockpick, EntityType.Dungeon, this.ID));
                 }
             }
         }

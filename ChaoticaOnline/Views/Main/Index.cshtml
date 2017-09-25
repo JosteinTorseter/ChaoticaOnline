@@ -3,9 +3,9 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_GameLayout.cshtml";
+    ViewBag.HeroImage = Model.Player.HeroImage;
 }
 
-@*<button onclick="ClickedDungeon(this)" type="button">Hero</button>*@
 <table style="background-color:black">
     <tr>
         <td width="550px" height="950px" style="min-width:550px">
@@ -24,19 +24,19 @@
                 <tr>
                     <td height="35px" width="75px"></td>
                     <td height="35px" width="75px">
-                        <button type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Hero</button>
+                        <button onclick="ClickedMainButton(1)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Hero</button>
                     </td>
                     <td height="35px" width="75px">
-                        <button onclick="ClickedMainButton(2, @Model.Player.RosterID)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Roster</button>
+                        <button onclick="ClickedMainButton(2)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Roster</button>
                     </td>
                     <td height="35px" width="75px">
-                        <button type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Items</button>
+                        <button onclick="ClickedMainButton(3)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Items</button>
                     </td>
                     <td height="35px" width="75px">
-                        <button type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Quests</button>
+                        <button onclick="ClickedMainButton(4)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Quests</button>
                     </td>
                     <td height="35px" width="75px">
-                        <button type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Effects</button>
+                        <button onclick="ClickedMainButton(5)" type="button" class="btn main-button" style="background-color:#@Model.Player.Color;">Effects</button>
                     </td>
                     <td height="35px" width="75px"></td>
                 </tr>
@@ -74,9 +74,6 @@
                 <tr>
                     <td height="160px" colspan="4"></td>
                     <td colspan="3">
-                        <div class="rounded" style="border-radius:10px;width:225px;height:160px;background-color:antiquewhite;opacity: 0.5;filter: alpha(opacity=50);">
-
-                        </div>
                     </td>
                 </tr>
             </table>

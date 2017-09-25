@@ -16,6 +16,7 @@ namespace ChaoticaOnline.lib
         public static int Dungeon1Chance = 90;
         public static int Dungeon2Chance = 30;
         public static int Dungeon3Chance = 10;
+        public static int HeroMaxLevel = 15;
         public static string AlignmentColor(Alignment a)
         {
             string res = "#595959";
@@ -51,6 +52,33 @@ namespace ChaoticaOnline.lib
                     }
             }
             return res;
+        }
+        public static string RarityColor(int rarity, bool isUnique)
+        {
+            if (isUnique) { return "#FFBB00"; }
+            if (rarity > 79)
+            {
+                return "#595959";
+            } else if (rarity > 59)
+            {
+                return "#86AC41";
+            } else if (rarity > 39)
+            {
+                return "#86AC41";
+            } else if (rarity > 19)
+            {
+                return "#68829E";
+            } else if (rarity > 9)
+            {
+                return "#375E97";
+            } else
+            {
+                return "#800080";
+            }
+        }
+        public static string InverseRarityColor(int rarity, bool isUnique)
+        {
+            return "black";
         }
     }
 }

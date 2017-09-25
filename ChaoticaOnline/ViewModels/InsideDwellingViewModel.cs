@@ -1,4 +1,5 @@
 ﻿using ChaoticaOnline.GameDBModels;
+using ChaoticaOnline.TemplateModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +9,19 @@ namespace ChaoticaOnline.ViewModels
 {
     public class InsideDwellingViewModel
     {
-        public string LeaderName { get; set; }
-        public string LeaderImage { get; set; }
+        public SmallUnitViewModel Leader { get; set; }
 
-        public List<UnitViewModel> TradeUnits { get; set; }
+        public List<SmallUnitViewModel> TradeUnits { get; set; }
         public DwellingViewModel Dwelling;
 
         public InsideDwellingViewModel()
         {
         }
-        public InsideDwellingViewModel(Dwelling dw, Player player, string leaderImage, List<Unit> tradeUnits)
+        public InsideDwellingViewModel(Dwelling dw, Player player, TDBUnit leader, List<SmallUnitViewModel> tradeUnits)
         {
             this.Dwelling = new DwellingViewModel(dw, player);
-            this.LeaderImage = leaderImage;
-            this.LeaderName = dw.LeaderName;
-            foreach (Unit u in tradeUnits)
-            {
-                this.TradeUnits.Add(new UnitViewModel(u));
-            }
+            this.Leader = new SmallUnitViewModel(leader, false, 0);
+            this.TradeUnits = tradeUnits;
         }
     }
 }

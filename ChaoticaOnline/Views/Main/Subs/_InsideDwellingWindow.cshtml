@@ -1,2 +1,74 @@
-﻿@model ChaoticaOnline.ViewModels.InsideDwellingViewModel
+﻿@using ChaoticaOnline.lib;
+@using ChaoticaOnline.ViewModels
+@model InsideDwellingViewModel
 
+@{
+    string uColor = Statics.AlignmentColor(Model.Dwelling.Alignment);
+    string tColor = Statics.AlignmentInverseColor(Model.Dwelling.Alignment);
+}
+
+<table height="950" width="950">
+    <tr>
+        <td height="125px" width="125px"></td>
+        <td></td>
+        <td width="125px"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="dwelling-inside" style="background-image:url(../../Data/places/@(Model.Dwelling.Image))">
+            <table height="700" width="700">
+                <tr>
+                    <td colspan="2" id="leaderImage" 
+                        style="vertical-align:top;background-image:url(../../Data/monsters/@Model.Leader.Image);" 
+                        data-toggle="tooltip" title="@Model.Leader.Tooltip" onclick="ClickedUnit(this)" 
+                        data-unitid="@Model.Leader.BaseUnitID" class="leader-image">
+                        <img src="~/Data/lvl10.png" data-toggle="tooltip" title="@Model.Leader.LevelTooltip" 
+                             style="width:40px;height:40px;background-size:100%;background-repeat:no-repeat;float:left" />
+                    </td>
+                    <td width="350px"></td>
+                    <td width="120px"></td>
+                </tr>
+                <tr>
+                    <td height="295px" colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td height="175px" width="100px"></td>
+                    <td colspan="4" style="vertical-align:bottom">
+                        <div style="opacity: 0.85;filter:alpha(opacity=85);border-radius:10px;background-color:@uColor;display:inline-block">
+                            <table
+                                   style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
+                                <tr>
+                                    <td height="25px" style="text-decoration:underline solid;font-size:18px">
+                                        Units for sale
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @foreach (SmallUnitViewModel u in Model.TradeUnits)
+                                        {
+                                            string strClass = "td-unit";
+                                            if (u.Takes2Slots) { strClass = "td-largeunit"; }
+                                            <img id="sale_@u.BaseUnitID" data-toggle="tooltip" 
+                                                 title="@u.Tooltip" onclick="ClickedUnit(this)" 
+                                                 ondblclick="DoubleClickedPartyUnit(this)" 
+                                                 data-unitid="@u.BaseUnitID" class="@strClass" 
+                                                 src="~/Data/monsters/@u.Image" />
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td height="125px"></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>

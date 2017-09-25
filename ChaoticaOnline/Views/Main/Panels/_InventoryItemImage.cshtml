@@ -1,0 +1,13 @@
+﻿@model ChaoticaOnline.ViewModels.SmallWorldItemViewModel
+
+@if (Model == null)
+{
+    <img data-toggle="tooltip" title="@ViewBag.TypeName" class="img-border @ViewBag.ClassName"
+         src="~/Data/@(ViewBag.TypeName).png" />
+}
+else
+{
+    <img id="heroitem_@Model.ID" data-toggle="tooltip" title="@Model.Name" onclick="ClickedItem(this)"
+         ondblclick="DoubleClickedHeroItem(this)" style="border: 2px solid gray" data-itemid="@Model.ID"
+         class="img-border @ViewBag.ClassName" src="~/Data/items/@Model.Image" />
+}

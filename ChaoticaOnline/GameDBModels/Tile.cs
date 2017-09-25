@@ -41,7 +41,7 @@ namespace ChaoticaOnline.GameDBModels
         {
             get
             {
-                if (PlayersString == null || PlayersString == "") { return new List<int>(); }
+                if (String.IsNullOrEmpty(PlayersString)) { return new List<int>(); }
                 return Array.ConvertAll(PlayersString.Split(';'), Int32.Parse).ToList();
             }
             set

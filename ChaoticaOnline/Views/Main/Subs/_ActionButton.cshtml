@@ -1,3 +1,5 @@
 ﻿@model ChaoticaOnline.ViewModels.ActionButtonViewModel
-<button type="button" onclick="ClickedAction(this)" data-ident="@Model.Identifier" data-acttype="@((int)Model.Action)" class="btn action-button" style="background-color:#@Model.Color;">@Model.Text</button>
+<button type="button" onclick="ClickedAction(this)" data-ident="@Model.Identifier" 
+        data-obj="@((int)Model.Entity)" data-acttype="@((int)Model.Action)" 
+        class="btn action-button" style="background-color:#@Model.Color;">@Model.Text</button>
 

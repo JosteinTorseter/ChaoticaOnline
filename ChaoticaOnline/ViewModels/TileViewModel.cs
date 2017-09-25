@@ -74,13 +74,13 @@ namespace ChaoticaOnline.ViewModels
                 // !!! Set from player
                 if (player.TileID == tile.ID)
                 {
-                    this.Buttons.Add(new ActionButtonViewModel("Explore (2)", player.Color, ButtonAction.Explore, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Search (3)", player.Color, ButtonAction.Search, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Tax (12)", player.Color, ButtonAction.Tax, this.ID));
-                    this.Buttons.Add(new ActionButtonViewModel("Rest (1)", player.Color, ButtonAction.Rest, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Explore (2)", player.Color, ButtonAction.Explore, EntityType.Tile, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Search (3)", player.Color, ButtonAction.Search, EntityType.Tile, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Tax (12)", player.Color, ButtonAction.Tax, EntityType.Tile, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Rest (1)", player.Color, ButtonAction.Rest, EntityType.Tile, this.ID));
                 } else if (player.MovableTiles.Contains(tile.ID))
                 {
-                    this.Buttons.Add(new ActionButtonViewModel("Travel (4)", player.Color, ButtonAction.Move, this.ID));
+                    this.Buttons.Add(new ActionButtonViewModel("Travel (4)", player.Color, ButtonAction.Move, EntityType.Tile, this.ID));
                 }
                 //public int MovePoints { get; set; }
                 //public int TaxPoints { get; set; }

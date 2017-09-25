@@ -12,14 +12,18 @@
         </tr>
         <tr>
             <td width="10px" rowspan="4"></td>
-            <td rowspan="4" class="imagetd" style="background-image:url(../../Data/terrain/@Model.Image);border-radius:10px;">
+            <td rowspan="4" class="imagetd" 
+                style="background-image:url(../../Data/terrain/@Model.Image);border-radius:10px;">
                 <table class="nopads" width="230" height="230">
                     <tr>
                         @for (int l = 0; l < 5; l++)
                         {
                             if (Model.Dwellings.Count > l)
                             {
-                                <td class="large-icon-td" onclick="ClickedDwelling(this)" data-dwid="@Model.Dwellings[l].ID" data-toggle="tooltip" title="@Model.Dwellings[l].Name" style="border-radius:10px;background-image:url(../../Data/places/@(Model.Dwellings[l].Image))"></td>
+                                <td class="large-icon-td" onclick="ClickedDwelling(this)"
+                                     data-dwid="@Model.Dwellings[l].ID" data-toggle="tooltip" 
+                                    title="@Model.Dwellings[l].Name" 
+                                    style="border-radius:10px;background-image:url(../../Data/places/@(Model.Dwellings[l].Image))"></td>
                             }
                             else
                             {
@@ -32,7 +36,10 @@
                         {
                             if (Model.Dungeons.Count > l)
                             {
-                                <td class="large-icon-td" onclick="ClickedDungeon(this)" data-duid="@Model.Dungeons[l].ID" data-toggle="tooltip" title="@Model.Dungeons[l].Name" style="border-radius:10px;background-image:url(../../Data/places/@(Model.Dungeons[l].Image))"></td>
+                                <td class="large-icon-td" onclick="ClickedDungeon(this)" 
+                                    data-duid="@Model.Dungeons[l].ID" data-toggle="tooltip"
+                                     title="@Model.Dungeons[l].Name" 
+                                    style="border-radius:10px;background-image:url(../../Data/places/@(Model.Dungeons[l].Image))"></td>
                             }
                             else
                             {
@@ -59,7 +66,8 @@
                         {
                             if (Model.Players.Count > k)
                             {
-                                <td class="large-icon-td" style="border-radius:25px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                                <td class="large-icon-td" 
+                                    style="border-radius:25px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
                             }
                             else
                             {

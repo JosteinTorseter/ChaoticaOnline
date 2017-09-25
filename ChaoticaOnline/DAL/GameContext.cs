@@ -38,6 +38,8 @@ namespace ChaoticaOnline.DAL
         public DbSet<Dwelling> Dwellings { get; set; }
         public DbSet<Dungeon> Dungeons { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Bonus> Bonuses { get; set; }
+        public DbSet<WorldItem> WorldItems { get; set; }
 
     }
 }

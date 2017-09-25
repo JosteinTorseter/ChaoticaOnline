@@ -14,7 +14,7 @@ namespace ChaoticaOnline.ViewModels
         public MapViewModel Map { get; set; }
         public PlayerViewModel Player { get; set; }
         public TileViewModel Tile { get; set; }
-        public List<UnitViewModel> Party { get; set; }
+        public List<SmallUnitViewModel> Party { get; set; }
         public GameViewModel()
         {
         }
@@ -24,10 +24,10 @@ namespace ChaoticaOnline.ViewModels
             this.Map = new MapViewModel(map, dicPlayerColors, tile.ID);
             this.Player = new PlayerViewModel(player);
             this.Tile = new TileViewModel(tile, TileSelectionType.None, dicPlayerColors, player);
-            this.Party = new List<UnitViewModel>();
+            this.Party = new List<SmallUnitViewModel>();
             foreach (Unit u in party.Units)
             {
-                this.Party.Add(new UnitViewModel(u));
+                this.Party.Add(new SmallUnitViewModel(u));
             }
         }
     }

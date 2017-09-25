@@ -1,6 +1,7 @@
 ﻿using ChaoticaOnline.DAL;
 using ChaoticaOnline.GameDBModels;
 using ChaoticaOnline.TemplateModels;
+using ChaoticaOnline.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,28 @@ namespace ChaoticaOnline.GameModels
             }
             return res;
         }
+        public static void RearrangeUnits(List<Unit> lstUnits)
+        {
+            int iIndex = 0;
+            foreach (Unit u in lstUnits)
+            {
+                u.PartyListIndex = iIndex;
+                iIndex++;
+            }
+        }
 
+        public static List<SmallUnitViewModel> GetViewUnitsFromArray(List<int> ids, TemplateContext dbT)
+        {
+            List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
+            List<TDBUnit> baseUnits = dbT.TDBUnits.Where(u => ids.Contains(u.ID)).ToList();
+            foreach (int i in ids)
+            {
+                foreach (TDBUnit bu in baseUnits)
+                {
+                    if (bu.ID == i) { res.Add(new SmallUnitViewModel(bu, true, 150)); }
+                }
+            }
+            return res;
+        }
     }
 }

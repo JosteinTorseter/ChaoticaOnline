@@ -20,6 +20,35 @@ namespace ChaoticaOnline.TemplateModels
         public int TravelTime { get; set; }
         public TileType TileType { get; set; }
 
+        public string ItemDropsString { get; set; }
+        [NotMapped]
+        public Dictionary<int, KeyValuePair<int, int>> ItemDrops
+        {
+            get
+            {
+                return DictionaryHack.GetKVsByString(ItemDropsString);
+            }
+            set
+            {
+                ItemDropsString = DictionaryHack.GetStringByKVs(value);
+            }
+        }
+
+        public string SpecialItemsString { get; set; }
+        [NotMapped]
+        public List<int> SpecialItems
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(SpecialItemsString)) { return new List<int>(); }
+                return Array.ConvertAll(SpecialItemsString.Split(';'), Int32.Parse).ToList();
+            }
+            set
+            {
+                SpecialItemsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+            }
+        }
+
         public string DwellingTypesString { get; set; }
         [NotMapped]
         public Dictionary<int, int> DwellingTypes

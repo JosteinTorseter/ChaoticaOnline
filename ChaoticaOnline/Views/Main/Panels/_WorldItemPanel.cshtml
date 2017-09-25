@@ -1,0 +1,24 @@
+﻿@model ChaoticaOnline.ViewModels.WorldItemViewModel
+
+
+<div style="border-radius:10px;width:530px;height:250px;background-color:@Model.RarityColor">
+    <table class="nopads" width="530" height="250"
+           style="color:@Model.RarityInverseColor;text-align:center;font-size:11px;text-decoration-color:@Model.RarityInverseColor;">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px"></td>
+            <td class="imagetd"
+                style="border-radius:10px;vertical-align:top;background-image:url(../../Data/items/@Model.SubItem.Image);">
+            </td>
+            <td>
+
+            </td>
+            <td width="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+    </table>
+</div>

@@ -35,13 +35,20 @@ namespace ChaoticaOnline.GameModels
 
             List<TDBTerrain> lstTerrain = dbT.TDBTerrain.ToList();
             FillTerrain(game.Map, lstTerrain, calc);
-            GeneratePlayers(game, 3);
+            GeneratePlayers(game, 3, calc);
 
             List<Tile> lst = new List<Tile>();
+            Dictionary<int, TDBWorldItem> baseItems = new Dictionary<int, TDBWorldItem>();
+            foreach (TDBWorldItem bit in dbT.TDBWorldItems)
+            {
+                baseItems.Add(bit.ID, bit);
+            }
             foreach (Player p in game.Players)
             {
                 game.Parties.Add(Test.GenerateTestParty(0, p, dbT));
                 game.Parties.Add(Test.GenerateTestParty(1, p, dbT));
+                p.UsedCommand = 32;
+                Test.GenerateInventory(p, baseItems);
                 lst.Add(PlacePlayerStartPosition(game.Map, p, lst, calc));
                 SetInitialVisibleTiles(game.Map, p);
             }
@@ -70,15 +77,24 @@ namespace ChaoticaOnline.GameModels
             return game;
         }
 
-        private static void GeneratePlayers(Game game, int iCount)
+        private static void GeneratePlayers(Game game, int iCount, Calc calc)
         {
             for (int i = 0; i < iCount; i++)
             {
                 Player p = new Player();
+                p.Name = "Player " + (i + 1).ToString();
                 p.CurrentGold = 200;
                 p.MaxMovePoints = 10;
                 p.MovePointsLeft = 7;
                 p.PlayerNumber = i;
+                p.Alignment = (Alignment)(calc.GetRandom(0, 2) - 1);
+                p.HeroImage = "thedevil.png";
+                p.Strength = 16;
+                p.Dexterity = 15;
+                p.Constitution = 17;
+                p.Wisdom = 12;
+                p.Intelligence = 11;
+                p.Cunning = 13;
                 switch (i)
                 {
                     case 0:

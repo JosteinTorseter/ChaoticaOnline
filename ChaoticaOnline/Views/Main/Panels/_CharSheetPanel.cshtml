@@ -1,0 +1,149 @@
+﻿@using ChaoticaOnline.lib;
+@using ChaoticaOnline.ViewModels;
+@model CharSheetViewModel
+
+
+@{
+    string uColor = Statics.AlignmentColor(Model.Player.Alignment);
+    string tColor = Statics.AlignmentInverseColor(Model.Player.Alignment);
+    int iCount = 0;
+    string divClass = "";
+    if (Model.Inventory.Count > 24)
+    {
+        divClass = "pre-y-scrollable";
+    }
+}
+
+<div style="border-radius:10px;width:530px;height:250px;background-color:@uColor">
+    <table class="nopads" width="530" height="250" 
+           style="color:@tColor;text-align:center;text-decoration-color:@tColor;font-size:16px;">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px"></td>
+            <td id="hero_0" class="imagetd" ondragover="allowDrop(event)" ondrop="herodrop(event)"
+                style="border-radius:10px;background-color:#@Model.Player.Color;background-image:url(../../Data/monsters/@Model.Player.HeroImage);">
+                <table width="230" height="230">
+                    <tr>
+                        <td width="75px" height="70px">                        
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Banner"), new ViewDataDictionary { { "TypeName", "Banner" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                        <td width="80px">
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Helmet"), new ViewDataDictionary { { "TypeName", "Helmet" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                        <td>
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Gloves"), new ViewDataDictionary { { "TypeName", "Gloves" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="90px">
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Weapon"), new ViewDataDictionary { { "TypeName", "Weapon" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                        <td>
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Armor"), new ViewDataDictionary { { "TypeName", "Armor" }, { "ClassName", "img-charsheet-armor" } })
+                        </td>
+                        <td>
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Offhand"), new ViewDataDictionary { { "TypeName", "Offhand" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">
+                            @{
+                                List<SmallWorldItemViewModel> lst = Model.ItemsByType("Accessory");
+                                SmallWorldItemViewModel it = null;
+                            }
+
+                            @for (int i = 0; i < 4; i++)
+                            {
+                                it = null;
+                                if (lst.Count >= i + 1)
+                                {
+                                    it = lst[i];
+                                }
+                                @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", it, new ViewDataDictionary { { "TypeName", "Trinket" }, { "ClassName", "img-charsheet-accessory" } })
+
+                            }
+                        </td>
+                        <td>
+                            @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", Model.ItemByType("Boots"), new ViewDataDictionary { { "TypeName", "Feet" }, { "ClassName", "img-charsheet-item" } })
+                        </td>
+                        <td style="text-align:right;">
+                            @{lst = Model.ItemsByType("Scroll"); }
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                it = null;
+                                if (lst.Count >= i + 1)
+                                {
+                                    it = lst[i];
+                                }
+                                @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", it, new ViewDataDictionary { { "TypeName", "Scroll" }, { "ClassName", "img-charsheet-accessory" } })
+                            }
+
+                            @{lst = Model.ItemsByType("Potion"); }
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                it = null;
+                                if (lst.Count >= i + 1)
+                                {
+                                    it = lst[i];
+                                }
+                                @Html.Partial("~/Views/Main/Panels/_InventoryItemImage.cshtml", it, new ViewDataDictionary { { "TypeName", "Potion" }, { "ClassName", "img-charsheet-accessory" } })
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="120px">
+                <table>
+                    <tr>
+                        <td height="30px" width="50px">Str</td>
+                        <td>@Model.Stats[(int)HeroStat.Strength]</td>
+                    </tr>
+                    <tr>
+                        <td height="30px">Dex</td>
+                        <td>@Model.Stats[(int)HeroStat.Dexterity]</td>
+                    </tr>
+                    <tr>
+                        <td height="30px">Con</td>
+                        <td>@Model.Stats[(int)HeroStat.Constitution]</td>
+                    </tr>
+                    <tr>
+                        <td height="30px">Wis</td>
+                        <td>@Model.Stats[(int)HeroStat.Wisdom]</td>
+                    </tr>
+                    <tr>
+                        <td height="30px">Int</td>
+                        <td>@Model.Stats[(int)HeroStat.Intelligence]</td>
+                    </tr>
+                    <tr>
+                        <td height="30px">Cun</td>
+                        <td>@Model.Stats[(int)HeroStat.Cunning]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Command</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Model.CommandString</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <div style="width:165px;height:230px;" class="@divClass">
+                    <div id="inventory_0" style="width:145px;" ondragover="allowDrop(event)" ondrop="invdrop(event)">
+                        @foreach (SmallWorldItemViewModel itIn in Model.Inventory)
+                        {<img id="charinv_@itIn.ID" data-toggle="tooltip" title="@itIn.Name"
+                              ondblclick="DoubleClickedHeroInvItem(this)" onclick="ClickedItem(this)"
+                              data-itemid="@itIn.ID" class="img-charsheet-item" src="~/Data/items/@itIn.Image"
+                              draggable="true" ondragstart="drag(event)"
+                               />iCount += 1;
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td height="10px" colspan="4"></td>
+        </tr>
+    </table>
+</div>

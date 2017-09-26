@@ -34,10 +34,6 @@ namespace ChaoticaOnline.TemplateModels
                 if (String.IsNullOrEmpty(TradeUnitsString)) { return new List<int>(); }
                 return Array.ConvertAll(TradeUnitsString.Split(';'), Int32.Parse).ToList();
             }
-            set
-            {
-                TradeUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
-            }
         }
         public string FightUnitsString { get; set; }
         [NotMapped]
@@ -48,12 +44,17 @@ namespace ChaoticaOnline.TemplateModels
                 if (String.IsNullOrEmpty(TradeUnitsString)) { return new List<int>(); }
                 return Array.ConvertAll(FightUnitsString.Split(';'), Int32.Parse).ToList();
             }
-            set
-            {
-                FightUnitsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
-            }
         }
 
+        public string TradeItemsString { get; set; }
+        [NotMapped]
+        public List<KeyValuePair<int, int>> TradeItems
+        {
+            get
+            {
+                return DictionaryHack.GetIntListByString(TradeItemsString);
+            }
+        }
         //Public Property LitterBox As Integer
         //Public Property ItemsForSale As List(Of KV_IntStr)
         //Public Property TrainingAvailable As List(Of Training)

@@ -92,9 +92,19 @@ namespace ChaoticaOnline.lib
             }
             return res;
         }
+        public static List<KeyValuePair<int, int>> GetIntListByString(string input)
+        {
+            List<KeyValuePair<int, int>> res = new List<KeyValuePair<int, int>>();
+            if (String.IsNullOrEmpty(input)) { return res; }
+            foreach (string sFull in input.Split('#'))
+            {
+                string[] s = sFull.Split(':');
+                res.Add(new KeyValuePair<int, int>(Int32.Parse(s[0]), Int32.Parse(s[1])));
+            }
+            return res;
+        }
         public static string GetStringByInts(Dictionary<int, int> input)
         {
-
             string res = "";
             if (input == null) { return res; }
             foreach (int key in input.Keys)
@@ -104,6 +114,20 @@ namespace ChaoticaOnline.lib
                     res += "#";
                 }
                 res += key.ToString() + ":" + input[key].ToString();
+            }
+            return res;
+        }
+        public static string GetStringByIntList(List<KeyValuePair<int, int>> input)
+        {
+            string res = "";
+            if (input == null) { return res; }
+            foreach (KeyValuePair<int, int> kv in input)
+            {
+                if (res != "")
+                {
+                    res += "#";
+                }
+                res += kv.Key.ToString() + ":" + kv.Value.ToString();
             }
             return res;
         }

@@ -38,6 +38,10 @@ namespace ChaoticaOnline.ViewModels
             {
                 if (it.TypeName == itemType) { return it; }
             }
+            if (itemType == "Offhand")
+            {
+
+            }
             return null;
         }
         public List<SmallWorldItemViewModel> ItemsByType(string itemType)

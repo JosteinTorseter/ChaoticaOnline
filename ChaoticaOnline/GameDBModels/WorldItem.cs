@@ -41,5 +41,13 @@ namespace ChaoticaOnline.GameDBModels
                 this.Bonuses.Add(b);
             }
         }
+        public bool IsTwoHanded()
+        {
+            foreach (Bonus b in this.Bonuses)
+            {
+                if (b.BonusType == BonusType.TwoHanded) { return true; }
+            }
+            return false;
+        }
     }
 }

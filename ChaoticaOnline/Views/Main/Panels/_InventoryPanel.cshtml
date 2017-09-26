@@ -10,13 +10,16 @@
     }
 }
 
-<div style="width:520px;height:250px;background-color:@Model.AlignmentColor;border-radius:10px;" class="@divClass">
-    <div style="width:500px;padding-left:10px">
-        @foreach (SmallWorldItemViewModel it in Model.Items)
-        {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.Name" 
-              ondblclick="DoubleClickedRosterUnit(this)"  
-              data-unitid="@it.BaseItemID" class="img-inventory" src="~/Data/items/@it.Image" 
-              draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)" 
-              ondrop="drop(event)" />iCount += 1;}
+<div style="width:520px;height:250px;background-color:@Model.AlignmentColor;border-radius:10px;">
+    <div style="width:510px;height:250px;" class="@divClass">
+        <div style="width:490px;padding-left:10px">
+            @foreach (SmallWorldItemViewModel it in Model.Items)
+            {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.Name"
+                  onclick="ClickedItem(this)"
+                  data-itemid="@it.ID" class="img-inventory" src="~/Data/items/@it.Image"
+                  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"
+                  ondrop="drop(event)" />iCount += 1;
+            }
+        </div>
     </div>
 </div>

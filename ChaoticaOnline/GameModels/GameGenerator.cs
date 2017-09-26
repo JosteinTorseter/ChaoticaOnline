@@ -36,6 +36,9 @@ namespace ChaoticaOnline.GameModels
             List<TDBTerrain> lstTerrain = dbT.TDBTerrain.ToList();
             FillTerrain(game.Map, lstTerrain, calc);
             GeneratePlayers(game, 3, calc);
+            
+            dbG.Entry(game).State = EntityState.Modified;
+            dbG.SaveChanges();
 
             List<Tile> lst = new List<Tile>();
             Dictionary<int, TDBWorldItem> baseItems = new Dictionary<int, TDBWorldItem>();
@@ -171,6 +174,11 @@ namespace ChaoticaOnline.GameModels
             player.Y = res.YCoord;
             player.StartTileID = res.ID;
             player.TileID = res.ID;
+
+            List<int> lstPlayers = res.Players;
+            lstPlayers.Add(player.ID);
+            res.Players = lstPlayers;
+
             return res;
         }
 

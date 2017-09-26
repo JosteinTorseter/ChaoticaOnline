@@ -72,7 +72,7 @@ namespace ChaoticaOnline.GameDBModels
         }
         public bool MeetsAttribReq(int stat, int val)
         {
-            return (this.GetStat((HeroStat)stat) < val);
+            return (this.GetStat((HeroStat)stat) >= val);
         }
         public bool AlreadyWearingThis(WorldItem it)
         {
@@ -90,7 +90,7 @@ namespace ChaoticaOnline.GameDBModels
         }
         public List<WorldItem> WornItemsByType(string itemType)
         {
-            return this.WorldItems.Where(wit => wit.Wearing == false && wit.TypeName == itemType).ToList();
+            return this.WorldItems.Where(wit => wit.Wearing == true && wit.TypeName == itemType).ToList();
         }
 
         public int GetPermanentBonus(BonusType bt)
@@ -379,6 +379,7 @@ namespace ChaoticaOnline.GameDBModels
             {
                 this.VisTileString(ref res, i, TileVisibility.Movable);
             }
+            this.TileVisibilityString = res;
         }
 
         private void VisTileString(ref string res, int i, TileVisibility eVis)
@@ -458,6 +459,10 @@ namespace ChaoticaOnline.GameDBModels
                 if (it.Wearing)
                 {
                     res[0].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], 1, it.ID));
+                    if (it.IsTwoHanded())
+                    {
+                        res[0].Add(SmallWorldItemViewModel.GetOffhandPlaceholder(baseItems[it.BaseItemID].Image));
+                    }
                 } else
                 {
                     res[1].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], it.Count, it.ID));

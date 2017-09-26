@@ -46,6 +46,7 @@
         var data = ev.dataTransfer.getData("text");
         var s = data.split('_');
         if (s[0] != "heroitem") { return; }
+        if (s[1] == "0") { return; }
         TakeOff(s[1]);
     }
 
@@ -63,6 +64,7 @@
     }
     function DoubleClickedHeroItem(me) {
         var s = me.id.split('_');
+        if (s[1] == "0") { return; }
         TakeOff(s[1]);
     }
     function DoubleClickedHeroInvItem(me) {
@@ -346,6 +348,7 @@
                 }
                 else {
                     $("#MapCell").html(data);
+                    DisplayTileInfoWindow(id);
                 }
             }
         });

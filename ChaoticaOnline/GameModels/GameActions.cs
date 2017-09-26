@@ -26,8 +26,12 @@ namespace ChaoticaOnline.GameModels
             p.TileID = tile.ID;
             p.X = tile.XCoord;
             p.Y = tile.YCoord;
-            t.Players.Add(p.ID);
-            origTile.Players.Remove(p.ID);
+            List<int> lstPlayers = t.Players;
+            lstPlayers.Add(p.ID);
+            t.Players = lstPlayers;
+            lstPlayers = origTile.Players;
+            lstPlayers.Remove(p.ID);
+            origTile.Players = lstPlayers;
 
             dbG.Entry(p).State = System.Data.Entity.EntityState.Modified;
             dbG.Entry(t).State = System.Data.Entity.EntityState.Modified;

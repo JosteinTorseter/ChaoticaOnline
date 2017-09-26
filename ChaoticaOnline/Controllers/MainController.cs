@@ -164,13 +164,13 @@ namespace ChaoticaOnline.Controllers
             int iPlayerID = (int)Session["PlayerID"];
 
             Player p = dbG.Players.Find(iPlayerID);
-            p.SetTileListsString();
+            p.ArrangeStringToTileLists();
             if (!p.MovableTiles.Contains(id)) { return new EmptyResult(); }
 
             Map map = GameActions.TryMoveToTile(p, id, dbG);
             if (map == null) { return new EmptyResult(); }
 
-            return PartialView("_Map", new MapViewModel(map, GetSessionDic()));
+            return PartialView("_Map", new MapViewModel(map, GetSessionDic(), id));
         }
 
         public ActionResult RearrangeUnits(string sf, int fid, string st, int tid)
@@ -238,6 +238,7 @@ namespace ChaoticaOnline.Controllers
             List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
             foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
 
+            ViewBag.HeroImage = p.HeroImage;
             return PartialView("Subs/_PartyWindow", res);
         }
 
@@ -269,6 +270,7 @@ namespace ChaoticaOnline.Controllers
             List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
             foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
 
+            ViewBag.HeroImage = p.HeroImage;
             return PartialView("Subs/_PartyWindow", res);
         }
 
@@ -297,6 +299,7 @@ namespace ChaoticaOnline.Controllers
             List<SmallUnitViewModel> res = new List<SmallUnitViewModel>();
             foreach (Unit u in lstParty) { res.Add(new SmallUnitViewModel(u)); }
 
+            ViewBag.HeroImage = p.HeroImage;
             return PartialView("Subs/_PartyWindow", res);
         }
 
@@ -381,6 +384,7 @@ namespace ChaoticaOnline.Controllers
             if (!p.CanWearItem(bit)) { return new EmptyResult(); }
 
             List<WorldItem> lstItems = null;
+            WorldItem wornItem = null;
 
             if (it.TypeName == "Scroll" || it.TypeName == "Potion")
             {
@@ -399,13 +403,34 @@ namespace ChaoticaOnline.Controllers
                     lstItems[3].Wearing = false;
                     dbG.Entry(lstItems[3]).State = EntityState.Modified;
                 }
+            }
+            else if (it.TypeName == "Offhand")
+            {
+                wornItem = p.WornItemByType("Weapon");
+                if (!(wornItem == null))
+                {
+                    if (wornItem.IsTwoHanded())
+                    {
+                        wornItem.Wearing = false;
+                        dbG.Entry(wornItem).State = EntityState.Modified;
+                    }
+                }
             } else
             {
-                WorldItem wornItem = p.WornItemByType(it.TypeName);
+                wornItem = p.WornItemByType(it.TypeName);
                 if (!(wornItem == null))
                 {
                     wornItem.Wearing = false;
                     dbG.Entry(wornItem).State = EntityState.Modified;
+                }
+                if (it.IsTwoHanded())
+                {
+                    wornItem = p.WornItemByType("Offhand");
+                    if (!(wornItem == null))
+                    {
+                        wornItem.Wearing = false;
+                        dbG.Entry(wornItem).State = EntityState.Modified;
+                    }
                 }
             }
             it.Wearing = true;

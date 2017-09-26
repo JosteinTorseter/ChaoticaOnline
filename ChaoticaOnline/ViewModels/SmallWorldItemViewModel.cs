@@ -32,5 +32,14 @@ namespace ChaoticaOnline.ViewModels
             this.Count = iCount;
             this.GoldValue = it.GoldValue;
         }
+        public static SmallWorldItemViewModel GetOffhandPlaceholder(string image)
+        {
+            SmallWorldItemViewModel it = new SmallWorldItemViewModel();
+            it.Category = ItemCategory.HeroItem;
+            it.TypeName = "Offhand";
+            it.Image = image;
+            it.Count = 1;
+            return it;
+        }
     }
 }

@@ -29,60 +29,82 @@
                     <td width="120px"></td>
                 </tr>
                 <tr>
-                    <td height="295px" colspan="2"></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td height="175px" width="100px"></td>
-                    <td colspan="4" style="vertical-align:bottom">
-                        <div style="opacity: 0.85;filter:alpha(opacity=85);border-radius:10px;background-color:@uColor;display:inline-block">
-                            <table style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
-                                <tr>
-                                    <td height="25px" style="text-decoration:underline solid;font-size:18px">
-                                        Units for sale
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @foreach (SmallUnitViewModel u in Model.TradeUnits)
-                                        {
-                                            string strClass = "td-unit";
-                                            if (u.Takes2Slots) { strClass = "td-largeunit"; }
-                                            <img id="sale_@u.BaseUnitID" data-toggle="tooltip"
-                                                 title="@u.Tooltip" onclick="ClickedUnit(this)"
-                                                 ondblclick="DoubleClickedPartyUnit(this)"
-                                                 data-unitid="@u.BaseUnitID" class="@strClass"
-                                                 src="~/Data/monsters/@u.Image" />
-                                        }
-                                    </td>
-                                </tr>
-                            </table>
+                    <td colspan="4" style="vertical-align:bottom;text-align:left;">
+                        @if (Model.Training.Count > 0)
+                        {
+                        <div>
+                            <div class="dwelling-sale-div" style="background-color:@uColor;">
+                                <table style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
+                                    <tr></tr>
+                                    <tr>
+                                        <td width="80px" style="font-size:18px">
+                                            Training
+                                        </td>
+                                        <td>
+                                            @foreach (SmallSpecialViewModel s in Model.Training)
+                                            {
+                                                <img id="training_@s.BaseID" data-toggle="tooltip"
+                                                        title="@s.Tooltip" onclick="ClickedTraining(this)"
+                                                        data-specid="@s.BaseID" class="img-inventory"
+                                                        src="~/Data/specs/@s.Image" />
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
                         </div>
-                        <div style="opacity: 0.85;filter:alpha(opacity=85);border-radius:10px;background-color:@uColor;display:inline-block">
-                            <table
-                                   style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
-                                <tr>
-                                    <td height="25px" style="text-decoration:underline solid;font-size:18px">
-                                        Units for sale
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @foreach (SmallUnitViewModel u in Model.TradeUnits)
-                                        {
-                                            string strClass = "td-unit";
-                                            if (u.Takes2Slots) { strClass = "td-largeunit"; }
-                                            <img id="sale_@u.BaseUnitID" data-toggle="tooltip" 
-                                                 title="@u.Tooltip" onclick="ClickedUnit(this)" 
-                                                 ondblclick="DoubleClickedPartyUnit(this)" 
-                                                 data-unitid="@u.BaseUnitID" class="@strClass" 
-                                                 src="~/Data/monsters/@u.Image" />
-                                        }
-                                    </td>
-                                </tr>
-                            </table>
+                        }
+                        @if (Model.TradeItems.Count > 0)
+                        {
+                        <div>
+                            <div class="dwelling-sale-div" style="background-color:@uColor;">
+                                <table style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
+                                    <tr></tr>
+                                    <tr>
+                                        <td width="80px" style="font-size:18px">
+                                            Items for sale
+                                        </td>
+                                        <td>
+                                            @foreach (SmallWorldItemViewModel it in Model.TradeItems)
+                                            {
+                                                <img id="saleitem_@it.BaseItemID" data-toggle="tooltip"
+                                                     title="@it.ToolTip" onclick="ClickedTraining(this)"
+                                                     data-itemid="@it.BaseItemID" class="img-inventory"
+                                                     src="~/Data/items/@it.Image" />
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
+                        }
+                        @if (Model.TradeUnits.Count > 0)
+                        {
+                        <div>
+                            <div class="dwelling-sale-div" style="background-color:@uColor;">
+                                <table style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
+                                    <tr>
+                                        <td width="80px" style="font-size:18px">
+                                            Units for sale
+                                        </td>
+                                        <td>
+                                            @foreach (SmallUnitViewModel u in Model.TradeUnits)
+                                            {
+                                                string strClass = "td-unit";
+                                                if (u.Takes2Slots) { strClass = "td-largeunit"; }
+                                                <img id="saleunit_@u.BaseUnitID" data-toggle="tooltip"
+                                                     title="@u.Tooltip" onclick="ClickedUnit(this)"
+                                                     ondblclick="DoubleClickedPartyUnit(this)"
+                                                     data-unitid="@u.BaseUnitID" class="@strClass"
+                                                     src="~/Data/monsters/@u.Image" />
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        }
                     </td>
                 </tr>
             </table>

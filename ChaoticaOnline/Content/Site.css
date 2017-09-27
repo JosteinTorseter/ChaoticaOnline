@@ -272,3 +272,11 @@ div#alert-container {
     background-size:230px 230px;
     background-repeat:no-repeat;
 }
+
+.dwelling-sale-div {
+    margin-left:3px;
+    opacity:0.80;
+    filter:alpha(opacity=80);
+    border-radius:10px;
+    display:inline-block
+}

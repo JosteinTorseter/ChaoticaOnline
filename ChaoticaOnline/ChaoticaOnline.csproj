@@ -217,6 +217,7 @@
     <Compile Include="TemplateModels\TDBSpecial.cs" />
     <Compile Include="ViewModels\CharSheetViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\SmallSpecialViewModel.cs" />
     <Compile Include="ViewModels\SmallWorldItemViewModel.cs" />
     <Compile Include="GameModels\GameActions.cs" />
     <Compile Include="GameModels\GameGenerator.cs" />

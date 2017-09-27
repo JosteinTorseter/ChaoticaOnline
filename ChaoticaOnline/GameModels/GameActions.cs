@@ -101,7 +101,7 @@ namespace ChaoticaOnline.GameModels
             Dwelling dw = dbG.Dwellings.Find(iID);
             TDBDwelling dwBase = dbT.TDBDwellings.Find(dw.BaseDwellingID);
             TDBUnit leader = dbT.TDBUnits.Find(dw.LeaderID);
-            return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT));
+            return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT), UnitFactory.GetViewItemsFromArray(dwBase.TradeItems, dbT), UnitFactory.GetViewSpecsFromArray(dwBase.Specials, dbT));
         }
        
     }

@@ -50,7 +50,56 @@ namespace ChaoticaOnline.GameModels
             {
                 foreach (TDBUnit bu in baseUnits)
                 {
-                    if (bu.ID == i) { res.Add(new SmallUnitViewModel(bu, true, 150)); }
+                    if (bu.ID == i) { res.Add(new SmallUnitViewModel(bu, true, bu.GoldValue)); }
+                }
+            }
+            return res;
+        }
+        public static List<SmallSpecialViewModel> GetViewSpecsFromArray(List<int> ids, TemplateContext dbT)
+        {
+            List<SmallSpecialViewModel> res = new List<SmallSpecialViewModel>();
+            List<TDBSpecial> baseSpecs = dbT.TDBSpecials.Where(u => ids.Contains(u.ID)).ToList();
+            foreach (int i in ids)
+            {
+                foreach (TDBSpecial bs in baseSpecs)
+                {
+                    if (bs.ID == i) { res.Add(new SmallSpecialViewModel(bs, true, true, bs.GoldValue)); }
+                }
+            }
+            return res;
+        }
+        public static List<SmallSpecialViewModel> GetViewSpecsFromArray(List<KeyValuePair<int, int>> ids, TemplateContext dbT)
+        {
+            List<SmallSpecialViewModel> res = new List<SmallSpecialViewModel>();
+            List<int> idTrim = new List<int>();
+            foreach (KeyValuePair<int, int> kv in ids)
+            {
+                idTrim.Add(kv.Key);
+            }
+            List<TDBSpecial> baseSpecs = dbT.TDBSpecials.Where(u => idTrim.Contains(u.ID)).ToList();
+            foreach (KeyValuePair<int, int> kv in ids)
+            {
+                foreach (TDBSpecial bs in baseSpecs)
+                {
+                    if (bs.ID == kv.Key) { res.Add(new SmallSpecialViewModel(bs, true, true, bs.GoldValue)); }
+                }
+            }
+            return res;
+        }
+        public static List<SmallWorldItemViewModel> GetViewItemsFromArray(List<KeyValuePair<int, int>> ids, TemplateContext dbT)
+        {
+            List<SmallWorldItemViewModel> res = new List<SmallWorldItemViewModel>();
+            List<int> idTrim = new List<int>();
+            foreach (KeyValuePair<int, int> kv in ids)
+            {
+                idTrim.Add(kv.Key);
+            }
+            List<TDBWorldItem> baseItems = dbT.TDBWorldItems.Where(u => idTrim.Contains(u.ID)).ToList();
+            foreach (KeyValuePair<int, int> kv in ids)
+            {
+                foreach (TDBWorldItem bi in baseItems)
+                {
+                    if (bi.ID == kv.Key) { res.Add(new SmallWorldItemViewModel(bi, true, true, bi.GoldValue)); }
                 }
             }
             return res;

@@ -21,7 +21,7 @@ namespace ChaoticaOnline.ViewModels
         }
         public WorldItemViewModel(Player p, TDBWorldItem bit, int iCount, int iID = 0)
         {
-            this.SubItem = new SmallWorldItemViewModel(bit, iCount, iID);
+            this.SubItem = new SmallWorldItemViewModel(bit, false, false, iCount, iID);
             this.RarityColor = Statics.RarityColor(bit.Rarity, bit.IsUnique);
             this.RarityInverseColor = Statics.InverseRarityColor(bit.Rarity, bit.IsUnique);
             this.Description = bit.Description;

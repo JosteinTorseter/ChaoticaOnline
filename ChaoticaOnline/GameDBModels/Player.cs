@@ -458,14 +458,14 @@ namespace ChaoticaOnline.GameDBModels
             {
                 if (it.Wearing)
                 {
-                    res[0].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], 1, it.ID));
+                    res[0].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], false, false, 1, it.ID));
                     if (it.IsTwoHanded())
                     {
                         res[0].Add(SmallWorldItemViewModel.GetOffhandPlaceholder(baseItems[it.BaseItemID].Image));
                     }
                 } else
                 {
-                    res[1].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], it.Count, it.ID));
+                    res[1].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], false, false, it.Count, it.ID));
                 }
             }
             return res;
@@ -486,7 +486,7 @@ namespace ChaoticaOnline.GameDBModels
             }
             foreach (WorldItem it in this.WorldItems.Where(wit => wit.Wearing == false))
             {
-                res.Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], it.Count, it.ID));
+                res.Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], false, false, it.Count, it.ID));
             }
             return res;
         }

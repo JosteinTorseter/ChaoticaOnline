@@ -14,7 +14,7 @@
     <div style="width:510px;height:250px;" class="@divClass">
         <div style="width:490px;padding-left:10px">
             @foreach (SmallWorldItemViewModel it in Model.Items)
-            {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.Name"
+            {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.ToolTip"
                   onclick="ClickedItem(this)"
                   data-itemid="@it.ID" class="img-inventory" src="~/Data/items/@it.Image"
                   draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"

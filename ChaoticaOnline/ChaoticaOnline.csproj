@@ -204,14 +204,17 @@
     <Compile Include="DAL\TemplateContext.cs" />
     <Compile Include="GameDBModels\Dungeon.cs" />
     <Compile Include="GameDBModels\Dwelling.cs" />
+    <Compile Include="GameDBModels\Effect.cs" />
     <Compile Include="GameDBModels\Game.cs" />
     <Compile Include="GameDBModels\Party.cs" />
     <Compile Include="GameDBModels\Player.cs" />
+    <Compile Include="GameDBModels\Special.cs" />
     <Compile Include="GameDBModels\Tile.cs" />
     <Compile Include="GameDBModels\Map.cs" />
     <Compile Include="GameDBModels\Unit.cs" />
     <Compile Include="GameDBModels\Bonus.cs" />
     <Compile Include="GameDBModels\WorldItem.cs" />
+    <Compile Include="TemplateModels\TDBSpecial.cs" />
     <Compile Include="ViewModels\CharSheetViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
     <Compile Include="ViewModels\SmallWorldItemViewModel.cs" />

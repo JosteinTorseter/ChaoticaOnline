@@ -5,6 +5,49 @@ using System.Web;
 
 namespace ChaoticaOnline.lib
 {
+
+    public enum ActionRangeType
+    {
+        None = 0,
+        HTH = 1,
+        Ranged = 2
+    }
+    public enum TargetType
+    {
+        None = 0,
+        Self = 1,
+        SingleAlly = 2,
+        MultipleAlly = 3,
+        AllAlly = 4,
+        SingleEnemy = 5,
+        MultipleEnemy = 6,
+        AllEnemy = 7,
+        All = 8,
+        AllyRow = 9,
+        EnemyRow = 10,
+        DeadUnit = 11,
+        FreeSpace = 12
+    }
+    public enum SpecialCategory
+    {
+        None = 0,
+        Spell = 1,
+        Ability = 2,
+        Innate = 3,
+        AfterCombat = 4,
+        Skill = 5
+    }
+    public enum EffectCategory
+    {
+        None = 0,
+        Damage = 1,
+        Enchant = 2,
+        Bonus = 3,
+        Heal = 4,
+        Summon = 5,
+        Resurrect = 6,
+        MapAction = 7
+    }
     public enum HeroStat
     {
         None = 0,

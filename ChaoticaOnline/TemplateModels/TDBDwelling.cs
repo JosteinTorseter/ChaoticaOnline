@@ -55,6 +55,15 @@ namespace ChaoticaOnline.TemplateModels
                 return DictionaryHack.GetIntListByString(TradeItemsString);
             }
         }
+        public string SpecialsString { get; set; }
+        [NotMapped]
+        public List<KeyValuePair<int, int>> Specials
+        {
+            get
+            {
+                return DictionaryHack.GetIntListByString(SpecialsString);
+            }
+        }
         //Public Property LitterBox As Integer
         //Public Property ItemsForSale As List(Of KV_IntStr)
         //Public Property TrainingAvailable As List(Of Training)

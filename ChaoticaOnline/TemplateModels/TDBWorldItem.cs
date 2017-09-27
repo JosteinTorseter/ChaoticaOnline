@@ -41,5 +41,14 @@ namespace ChaoticaOnline.TemplateModels
                 return DictionaryHack.GetIntsByString(RequiredStatsString);
             }
         }
+        public string SpecialsString { get; set; }
+        [NotMapped]
+        public Dictionary<int, int> Specials
+        {
+            get
+            {
+                return DictionaryHack.GetIntsByString(SpecialsString);
+            }
+        }
     }
 }

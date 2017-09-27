@@ -103,6 +103,42 @@ namespace ChaoticaOnline.lib
             }
             return res;
         }
+        public static List<Effect> GetEffectsByString(string input)
+        {
+            if (String.IsNullOrEmpty(input)) { return new List<Effect>(); }
+            List<Effect> res = new List<Effect>();
+            foreach (string sFull in input.Split('#'))
+            {
+                Effect e = new Effect();
+                string[] sPart = sFull.Split('@');
+                string[] sTime = sPart[0].Split(':');
+                e.Category = (EffectCategory)Int32.Parse(sTime[0]);
+                if (sTime.Length > 1) {
+                    string[] sDur = sTime[1].Split('?');
+                    e.Duration = Int32.Parse(sDur[0]);
+                    if (sDur.Length > 1)
+                    {
+                        e.DurationPerPower = Int32.Parse(sDur[1]);
+                    }
+                }
+                
+                foreach (string s in sPart[1].Split(','))
+                {
+                    Bonus b = new Bonus();
+                    string[] sBon = s.Split(':');
+                    b.BonusType = (BonusType)Int32.Parse(sBon[0]);
+                    string[] sVal = sBon[1].Split('?');
+                    b.Value = Int32.Parse(sVal[0]);
+                    if (sVal.Length > 1)
+                    {
+                        b.Trigger = Int32.Parse(sVal[1]);
+                    }
+                    e.Bonuses.Add(b);
+                }
+                res.Add(e);
+            }
+            return res;
+        }
         public static string GetStringByInts(Dictionary<int, int> input)
         {
             string res = "";

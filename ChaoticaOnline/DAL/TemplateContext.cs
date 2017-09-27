@@ -27,5 +27,6 @@ namespace ChaoticaOnline.DAL
         public DbSet<TDBUnit> TDBUnits { get; set; }
         public DbSet<TDBClass> TDBClasses { get; set; }
         public DbSet<TDBWorldItem> TDBWorldItems { get; set; }
+        public DbSet<TDBSpecial> TDBSpecials { get; set; }
     }
 }

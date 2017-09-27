@@ -11,6 +11,7 @@ namespace ChaoticaOnline.TemplateModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public Alignment Alignment { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
         public string LeaderName { get; set; }

@@ -75,33 +75,31 @@ namespace ChaoticaOnline.TemplateModels
         }
         public string NrOfAttacksString { get; set; }
         [NotMapped]
-        public int[] NrOfAttacks
+        public List<KeyValuePair<int, int>> NrOfAttacks
         {
             get
             {
-                if (String.IsNullOrEmpty(NrOfAttacksString)) { return new int[0]; }
-                return Array.ConvertAll(NrOfAttacksString.Split(';'), Int32.Parse);
-            }
-            set
-            {
-                NrOfAttacksString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+                return DictionaryHack.GetIntListByString(NrOfAttacksString);
             }
         }
         public string NrOfTargetsString { get; set; }
         [NotMapped]
-        public int[] NrOfTargets
+        public List<KeyValuePair<int, int>> NrOfTargets
         {
             get
             {
-                if (String.IsNullOrEmpty(NrOfTargetsString)) { return new int[0]; }
-                return Array.ConvertAll(NrOfTargetsString.Split(';'), Int32.Parse);
-            }
-            set
-            {
-                NrOfTargetsString = String.Join(";", value.Select(p => p.ToString()).ToArray());
+                return DictionaryHack.GetIntListByString(NrOfTargetsString);
             }
         }
-
+        public string SpecialsString { get; set; }
+        [NotMapped]
+        public List<KeyValuePair<int, int>> Specials
+        {
+            get
+            {
+                return DictionaryHack.GetIntListByString(SpecialsString);
+            }
+        }
         public List<Bonus> LevelUpBonuses (TDBClass c, TDBRace r)
         {
             List<Bonus> res = new List<Bonus>();
@@ -132,13 +130,13 @@ namespace ChaoticaOnline.TemplateModels
             {
                 res.Add(new Bonus(BonusType.MagicRange, 1, i));
             }
-            foreach (int i in this.NrOfAttacks)
+            foreach (KeyValuePair<int, int> kv in this.NrOfAttacks)
             {
-                res.Add(new Bonus(BonusType.NrOfAttacks, 1, i));
+                res.Add(new Bonus(BonusType.NrOfAttacks, kv.Value, kv.Key));
             }
-            foreach (int i in this.NrOfTargets)
+            foreach (KeyValuePair<int, int> kv in this.NrOfTargets)
             {
-                res.Add(new Bonus(BonusType.NrOfTargets, 1, i));
+                res.Add(new Bonus(BonusType.NrOfTargets, kv.Value, kv.Key));
             }
 
             res.Add(new Bonus(BonusType.AttackBonus, c.AttackBonus, 0));

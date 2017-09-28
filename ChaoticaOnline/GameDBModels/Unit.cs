@@ -48,6 +48,20 @@ namespace ChaoticaOnline.GameDBModels
         public int PartyId { get; set; }
         public virtual Party Party { get; set; }
 
+        public string SpecialsString { get; set; }
+        [NotMapped]
+        public List<Special> Specials
+        {
+            get
+            {
+                return Special.ListFromString(SpecialsString);
+            }
+            set
+            {
+                SpecialsString = Special.ListToString(value);
+            }
+        }
+
         public Unit()
         {
         }
@@ -165,6 +179,25 @@ namespace ChaoticaOnline.GameDBModels
                     case BonusType.NrOfTargets:
                         {
                             this.NrOfTargets += b.Value;
+                            break;
+                        }
+                    case BonusType.AddAbility:
+                        {
+                            List<Special> lst = this.Specials;
+                            bool bFound = false;
+                            foreach (Special spec in lst)
+                            {
+                                if (spec.BaseID == b.Value)
+                                {
+                                    spec.Count++;
+                                    bFound = true;
+                                    break;
+                                }
+                            }
+                            if (!bFound)
+                            {
+                                lst.Add(new Special((int)(b.Value), 1));
+                            }
                             break;
                         }
 

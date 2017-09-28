@@ -46,6 +46,20 @@ namespace ChaoticaOnline.GameDBModels
 
         public virtual ICollection<Bonus> PermanentBonuses { get; set; } = new List<Bonus>();
 
+        public string SpecialsString { get; set; }
+        [NotMapped]
+        public List<Special> Specials
+        {
+            get
+            {
+                return Special.ListFromString(SpecialsString);
+            }
+            set
+            {
+                SpecialsString = Special.ListToString(value);
+            }
+        }
+
         public bool CanWearItem(TDBWorldItem it)
         {
             if ((int)it.RequiredAlignment < 2 && this.Alignment != it.RequiredAlignment)
@@ -198,6 +212,7 @@ namespace ChaoticaOnline.GameDBModels
             res.Image = this.HeroImage;
             res.ID = 0;
             res.IsHero = true;
+            res.Specials = this.Specials;
             return res;
         }
 

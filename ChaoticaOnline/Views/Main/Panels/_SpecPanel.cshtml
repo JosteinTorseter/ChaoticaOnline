@@ -1,0 +1,43 @@
+﻿@using ChaoticaOnline.lib
+@model ChaoticaOnline.ViewModels.SpecialViewModel
+
+
+<div style="border-radius:10px;width:530px;height:250px;background-color:@Statics.AlignmentInverseColor(Alignment.Neutral)">
+    <table class="nopads" width="530" height="250"
+           style="text-align:center;font-size:11px;">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px"></td>
+            <td class="imagetd">
+                <img src="~/Data/specs/@Model.SubItem.Image" style="width:50px;height:50px;"  />
+            </td>
+            <td>
+                <table width="280" height="230">
+                    <tr>
+                        <td colspan="2" height="40px" style="text-decoration:underline solid;">
+                            <span style="font-size:16px">@Model.SubItem.Name</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="font-size:11px">@Model.ActionType</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;" height="190px">
+                            @foreach (KeyValuePair<string, string> kv in Model.Restrictions)
+                            {
+                                <span style="font-size:11px;color:@kv.Value;text-decoration-color:@kv.Value">@kv.Key</span><br />
+                            }
+                        </td>
+                        <td style="vertical-align:top;">
+                            @Model.Effects
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+    </table>
+</div>

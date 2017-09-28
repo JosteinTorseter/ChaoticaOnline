@@ -175,6 +175,54 @@ namespace ChaoticaOnline.Controllers
             }
         }
 
+        public ActionResult GetBaseUnitPanelInfo(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            if (id > 0)
+            {
+                Player p = dbG.Players.Find(iPlayerID);
+                return PartialView("Panels/_UnitPanel", new UnitViewModel(UnitFactory.CreateUnit(dbT, id, 1)));
+            }
+            else
+            {
+                //Player p = dbG.Players.Find(iPlayerID);
+                return new EmptyResult();
+            }
+        }
+
+        public ActionResult GetBaseSpecPanelInfo(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            if (id > 0)
+            {
+                Player p = dbG.Players.Find(iPlayerID);
+                TDBSpecial bit = dbT.TDBSpecials.Find(id);
+                return PartialView("Panels/_SpecPanel", new WorldItemViewModel(p, bit, 1, 0));
+            }
+            else
+            {
+                //Player p = dbG.Players.Find(iPlayerID);
+                return new EmptyResult();
+            }
+        }
+
+        public ActionResult GetSpecPanelInfo(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            if (id > 0)
+            {
+                Player p = dbG.Players.Find(iPlayerID);
+                WorldItem it = dbG.WorldItems.Find(id);
+                TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
+                return PartialView("Panels/_SpecPanel", new WorldItemViewModel(p, bit, it.Count, it.ID));
+            }
+            else
+            {
+                //Player p = dbG.Players.Find(iPlayerID);
+                return new EmptyResult();
+            }
+        }
+
         public ActionResult TryMoveToTile(int id)
         {
             int iPlayerID = (int)Session["PlayerID"];

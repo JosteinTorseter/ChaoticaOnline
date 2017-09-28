@@ -25,43 +25,95 @@
 
     var spider;
 
-    function allowDrop(ev) {
-        ev.preventDefault();
+    function ClickedTile(me) {
+        var $me = $(me);
+        var id = $me.data("tileid");
+        RemoveBorders();
+        SetTileBorder(id, "terrain-div-active");
+        DisplayTileInfoWindow(id);
     }
 
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
+    function ClickedDungeon(me) {
+        //spider = new SpiderController();
+        var $me = $(me);
+        var id = $me.data("duid");
+        DisplayDungeonInfoWindow(id);
     }
 
-    function herodrop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        var s = data.split('_');
-        if (s[0] != "charinv") { return; }
-        PutOn(s[1]);
+    function ClickedDwelling(me) {
+        //spider.end();
+        var $me = $(me);
+        var id = $me.data("dwid");
+        DisplayDwellingInfoWindow(id);
     }
 
-    function invdrop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        var s = data.split('_');
-        if (s[0] != "heroitem") { return; }
-        if (s[1] == "0") { return; }
-        TakeOff(s[1]);
+    function ClickedUnit(me) {
+        var $me = $(me);
+        var id = $me.data("unitid");
+        DisplayUnitInfoWindow(id);
     }
 
-    function drop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        var s = data.split('_');
-        var data2 = ev.target.id;
-        var s2 = data2.split('_');
+    function ClickedItem(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayItemInfoWindow(id);
+    }
 
-        if (s[0] == "roster" || s[0] == "party") {
-            ReArrangeUnits(s[0], s[1], s2[0], s2[1]);
+    function ClickedBuyItem(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayBaseItemInfoWindow(id);
+    }
+
+    function ClickedBuyUnit(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayBaseUnitInfoWindow(id);
+    }
+
+    function ClickedTraining(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayBaseSpecInfoWindow(id);
+    }
+
+    function ClickedMainButton(index) {
+        switch (index) {
+            case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
+            case 2: { DisplayRoster(); break; }
+            case 3: { DisplayInventory(); break; }
         }
-
     }
+
+    function ClickedAction(me) {
+        var $me = $(me);
+        var id = $me.data("ident");
+        var obj = $me.data("obj");
+        var act = $me.data("acttype");
+        if (act == 1) {
+            MoveToTile(id);
+            return;
+        }
+        var url = "ClickedAction/?id=" + id + "&act=" + act + "&obj=" + obj;
+        if (id == 0 || act == 0 || obj == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    switch (act) {
+                        case 10: {
+                            if (obj == 5) { $("#MapCell").html(data); }
+                            break;
+                        }
+                    }
+                    // Switch on action / data
+                }
+            }
+        });
+    }
+
     function DoubleClickedHeroItem(me) {
         var s = me.id.split('_');
         if (s[1] == "0") { return; }
@@ -70,42 +122,6 @@
     function DoubleClickedHeroInvItem(me) {
         var s = me.id.split('_');
         PutOn(s[1]);
-    }
-
-    function PutOn(id) {
-        var url = "PutOn/" + id;
-        $.ajax({
-            url: url, success: function (data) {
-                if (!$.trim(data)) {
-                    // No action
-                }
-                else {
-                    $("#InfoPanel1").html(data);
-                    DisplayHeroUnit();
-                }
-            }
-        });
-    }
-    function TakeOff(id) {
-        var url = "TakeOff/" + id;
-        $.ajax({
-            url: url, success: function (data) {
-                if (!$.trim(data)) {
-                    // No action
-                }
-                else {
-                    $("#InfoPanel1").html(data);
-                    DisplayHeroUnit();
-                }
-            }
-        });
-    }
-    function ClickedTile(me) {
-        var $me = $(me);
-        var id = $me.data("tileid");
-        RemoveBorders();
-        SetTileBorder(id, "terrain-div-active");
-        DisplayTileInfoWindow(id);
     }
 
     function DoubleClickedPartyUnit(me) {
@@ -142,115 +158,48 @@
         });
     }
 
-    function ReArrangeUnits(strFrom, idFrom, strTo, idTo) {
-
-        if (strFrom  == "roster" && strTo == "roster") { return; }
-        if (strFrom == "party" && idFrom == 0) { return; }
-        if (strTo == "party" && idTo == 0) { return; }
-        var url = "RearrangeUnits/?sf=" + strFrom + "&fid=" + idFrom + "&st=" + strTo + "&tid=" + idTo;
-        $.ajax({
-            url: url, success: function (data) {
-                if (!$.trim(data)) {
-                    // No action
-                }
-                else {
-                    $("#partytd").html(data);
-                    if (strFrom == "roster" || strTo == "roster") {
-                        DisplayRoster();
-                    }
-                }
-            }
-        });
+    function DoubleClickedTile(me) {
+        var $me = $(me);
+        var id = $me.data("tileid");
+        MoveToTile(id);
     }
 
-    function RemoveBorders() {
-        $("#maptable div.tile-div").removeAttr("class").addClass("tile-div");
+    function allowDrop(ev) {
+        ev.preventDefault();
     }
 
-    function SetTileBorder(id, classname) {
-        var tileID = "#tilediv" + id;
-        if (id == 0) { return; }
-        $tile = $(tileID);
-        if (classname != "") {
-            $tile.addClass(classname);
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function herodrop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        if (s[0] != "charinv") { return; }
+        PutOn(s[1]);
+    }
+
+    function invdrop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        if (s[0] != "heroitem") { return; }
+        if (s[1] == "0") { return; }
+        TakeOff(s[1]);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var s = data.split('_');
+        var data2 = ev.target.id;
+        var s2 = data2.split('_');
+
+        if (s[0] == "roster" || s[0] == "party") {
+            ReArrangeUnits(s[0], s[1], s2[0], s2[1]);
         }
-    }
-    function ClickedDungeon(me) {
-        //var url = "PopDown";
-        //$.ajax({
-        //    url: url,
-        //    type: 'POST',
-        //    contentType: 'application/json; charset=utf-8',
-        //    success: function (data, textStatus, xhr) {
-        //        UpdateAlertField(data);
-        //    }
-        //});
-        //spider = new SpiderController();
-        var $me = $(me);
-        var id = $me.data("duid");
-        DisplayDungeonInfoWindow(id);
-    }
 
-    function ClickedDwelling(me) {
-        //spider.end();
-        var $me = $(me);
-        var id = $me.data("dwid");
-        DisplayDwellingInfoWindow(id);
-    }
-
-    function ClickedUnit(me) {
-        var $me = $(me);
-        var id = $me.data("unitid");
-        DisplayUnitInfoWindow(id);
-    }
-
-    function ClickedItem(me) {
-        var $me = $(me);
-        var id = $me.data("itemid");
-        DisplayItemInfoWindow(id);
-    }
-
-    function ClickedBuyItem(me) {
-        var $me = $(me);
-        var id = $me.data("itemid");
-        DisplayBaseItemInfoWindow(id);
-    }
-
-    function ClickedMainButton(index) {
-        switch (index) {
-            case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
-            case 2: { DisplayRoster(); break; }
-            case 3: { DisplayInventory(); break; }
-        }
-    }
-
-    function ClickedAction(me) {
-        var $me = $(me);
-        var id = $me.data("ident");
-        var obj = $me.data("obj");
-        var act = $me.data("acttype");
-        if (act == 1) { 
-            MoveToTile(id);
-            return;
-        }
-        var url = "ClickedAction/?id=" + id + "&act=" + act + "&obj=" + obj;
-        if (id == 0 || act == 0 || obj == 0) { return; }
-        $.ajax({
-            url: url, success: function (data) {
-                if (!$.trim(data)) {
-                    // No action
-                }
-                else {
-                    switch (act) {
-                        case 10: {
-                            if (obj == 5) { $("#MapCell").html(data); }
-                            break;
-                        }
-                    }
-                    // Switch on action / data
-                }
-            }
-        });
     }
 
     function DisplayRoster() {
@@ -338,6 +287,7 @@
             }
         });
     }
+
     function DisplayBaseItemInfoWindow(id) {
         var url = "GetBaseItemPanelInfo/" + id;
         if (id == 0) { return; }
@@ -348,12 +298,77 @@
         });
     }
 
-    function DoubleClickedTile(me) {
-        var $me = $(me);
-        var id = $me.data("tileid");
-        MoveToTile(id);
+    function DisplayBaseUnitInfoWindow(id) {
+        var url = "GetBaseUnitPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
     }
-        
+
+    function DisplayBaseSpecInfoWindow(id) {
+        var url = "GetBaseSpecPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+
+    function PutOn(id) {
+        var url = "PutOn/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#InfoPanel1").html(data);
+                    DisplayHeroUnit();
+                }
+            }
+        });
+    }
+
+    function TakeOff(id) {
+        var url = "TakeOff/" + id;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#InfoPanel1").html(data);
+                    DisplayHeroUnit();
+                }
+            }
+        });
+    }
+
+    function ReArrangeUnits(strFrom, idFrom, strTo, idTo) {
+
+        if (strFrom  == "roster" && strTo == "roster") { return; }
+        if (strFrom == "party" && idFrom == 0) { return; }
+        if (strTo == "party" && idTo == 0) { return; }
+        var url = "RearrangeUnits/?sf=" + strFrom + "&fid=" + idFrom + "&st=" + strTo + "&tid=" + idTo;
+        $.ajax({
+            url: url, success: function (data) {
+                if (!$.trim(data)) {
+                    // No action
+                }
+                else {
+                    $("#partytd").html(data);
+                    if (strFrom == "roster" || strTo == "roster") {
+                        DisplayRoster();
+                    }
+                }
+            }
+        });
+    }
+
     function MoveToTile(id) {
         if (id < 1) { return; }
         var url = "TryMoveToTile/" + id;
@@ -368,6 +383,19 @@
                 }
             }
         });
+    }
+
+    function SetTileBorder(id, classname) {
+        var tileID = "#tilediv" + id;
+        if (id == 0) { return; }
+        $tile = $(tileID);
+        if (classname != "") {
+            $tile.addClass(classname);
+        }
+    }
+
+    function RemoveBorders() {
+        $("#maptable div.tile-div").removeAttr("class").addClass("tile-div");
     }
 
     function UpdateAlertField(data) {

@@ -138,6 +138,10 @@ namespace ChaoticaOnline.TemplateModels
             {
                 res.Add(new Bonus(BonusType.NrOfTargets, kv.Value, kv.Key));
             }
+            foreach (KeyValuePair<int, int> kv in this.Specials)
+            {
+                res.Add(new Bonus(BonusType.AddAbility, kv.Value, kv.Key));
+            }
 
             res.Add(new Bonus(BonusType.AttackBonus, c.AttackBonus, 0));
             res.Add(new Bonus(BonusType.DMGBonus, c.DamageBonus, 0));

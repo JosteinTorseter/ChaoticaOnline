@@ -55,7 +55,7 @@
                                         <td>
                                             @foreach (SmallSpecialViewModel s in Model.Training)
                                             {
-                                                <label style="width:55px">@s.GoldValue</label>
+                                                <label style="width:55px;">@s.GoldValue</label>
                                             }
                                         </td>
                                     </tr>
@@ -112,8 +112,7 @@
                                                 string strClass = "td-unit";
                                                 if (u.Takes2Slots) { strClass = "td-largeunit"; }
                                                 <img id="saleunit_@u.BaseUnitID" data-toggle="tooltip"
-                                                     title="@u.Tooltip" onclick="ClickedUnit(this)"
-                                                     ondblclick="DoubleClickedPartyUnit(this)"
+                                                     title="@u.Tooltip" onclick="ClickedBuyUnit(this)"
                                                      data-unitid="@u.BaseUnitID" class="@strClass"
                                                      src="~/Data/monsters/@u.Image" />
                                             }

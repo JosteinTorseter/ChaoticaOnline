@@ -209,6 +209,13 @@
         var id = $me.data("itemid");
         DisplayItemInfoWindow(id);
     }
+
+    function ClickedBuyItem(me) {
+        var $me = $(me);
+        var id = $me.data("itemid");
+        DisplayBaseItemInfoWindow(id);
+    }
+
     function ClickedMainButton(index) {
         switch (index) {
             case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
@@ -324,6 +331,15 @@
     }
     function DisplayItemInfoWindow(id) {
         var url = "GetItemPanelInfo/" + id;
+        if (id == 0) { return; }
+        $.ajax({
+            url: url, success: function (data) {
+                $("#InfoPanel2").html(data);
+            }
+        });
+    }
+    function DisplayBaseItemInfoWindow(id) {
+        var url = "GetBaseItemPanelInfo/" + id;
         if (id == 0) { return; }
         $.ajax({
             url: url, success: function (data) {

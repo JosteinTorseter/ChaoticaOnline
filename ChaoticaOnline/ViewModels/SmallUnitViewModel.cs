@@ -20,7 +20,8 @@ namespace ChaoticaOnline.ViewModels
         public int HPPercent { get; set; }
         public int ManaPercent { get; set; }
         public bool Takes2Slots { get; set; }
-        
+        public int GoldValue { get; set; }
+
         public SmallUnitViewModel()
         {
         }
@@ -29,6 +30,7 @@ namespace ChaoticaOnline.ViewModels
             this.BaseUnitID = baseUnit.ID;
             this.Image = baseUnit.Image;
             this.Takes2Slots = baseUnit.Takes2Slots;
+            this.GoldValue = baseUnit.GoldValue;
             if (canBuy) { this.Tooltip = baseUnit.Name + " - " + buyPriceOrPowerReq.ToString() + " gold"; }
             else if (isLeader) { this.Tooltip = baseUnit.Name + " - Level " + iLevel; }
             else { this.Tooltip = baseUnit.Name + " - at " + buyPriceOrPowerReq.ToString(); }

@@ -12,6 +12,7 @@ namespace ChaoticaOnline.ViewModels
     {
         public int ID { get; set; }
         public int BaseItemID { get; set; }
+        public int GoldValue { get; set; }
         public string Image { get; set; }
         public string TypeName { get; set; }
         public ItemCategory Category { get; set; }
@@ -27,6 +28,7 @@ namespace ChaoticaOnline.ViewModels
             this.Image = it.Image;
             this.TypeName = it.TypeName;
             this.Category = it.Category;
+            this.GoldValue = it.GoldValue;
         }
         public static SmallWorldItemViewModel GetOffhandPlaceholder(string image)
         {

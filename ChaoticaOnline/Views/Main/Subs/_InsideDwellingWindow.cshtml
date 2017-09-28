@@ -50,6 +50,15 @@
                                             }
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @foreach (SmallSpecialViewModel s in Model.Training)
+                                            {
+                                                <label style="width:55px">@s.GoldValue</label>
+                                            }
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
 
@@ -60,7 +69,6 @@
                         <div>
                             <div class="dwelling-sale-div" style="background-color:@uColor;">
                                 <table style="color:@tColor;text-align:center;text-decoration-color:@tColor;">
-                                    <tr></tr>
                                     <tr>
                                         <td width="80px" style="font-size:18px">
                                             Items for sale
@@ -69,9 +77,19 @@
                                             @foreach (SmallWorldItemViewModel it in Model.TradeItems)
                                             {
                                                 <img id="saleitem_@it.BaseItemID" data-toggle="tooltip"
-                                                     title="@it.ToolTip" onclick="ClickedTraining(this)"
+                                                     title="@it.ToolTip" onclick="ClickedBuyItem(this)"
                                                      data-itemid="@it.BaseItemID" class="img-inventory"
                                                      src="~/Data/items/@it.Image" />
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+
+                                            @foreach (SmallWorldItemViewModel it in Model.TradeItems)
+                                            {
+                                                <label style="width:55px">@it.GoldValue</label>
                                             }
                                         </td>
                                     </tr>
@@ -98,6 +116,18 @@
                                                      ondblclick="DoubleClickedPartyUnit(this)"
                                                      data-unitid="@u.BaseUnitID" class="@strClass"
                                                      src="~/Data/monsters/@u.Image" />
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+
+                                            @foreach (SmallUnitViewModel u in Model.TradeUnits)
+                                            {
+                                                int iWidth = 72;
+                                                if (u.Takes2Slots) { iWidth = 144; }
+                                                <label style="width:@(iWidth)px">@u.GoldValue</label>
                                             }
                                         </td>
                                     </tr>

@@ -159,6 +159,22 @@ namespace ChaoticaOnline.Controllers
             }
         }
 
+        public ActionResult GetBaseItemPanelInfo(int id)
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            if (id > 0)
+            {
+                Player p = dbG.Players.Find(iPlayerID);
+                TDBWorldItem bit = dbT.TDBWorldItems.Find(id);
+                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, 1, 0));
+            }
+            else
+            {
+                //Player p = dbG.Players.Find(iPlayerID);
+                return new EmptyResult();
+            }
+        }
+
         public ActionResult TryMoveToTile(int id)
         {
             int iPlayerID = (int)Session["PlayerID"];

@@ -23,6 +23,7 @@ namespace ChaoticaOnline.ViewModels
             this.BaseID = spec.ID;
             this.Image = spec.Image;
             this.Category = spec.Category;
+            this.GoldValue = spec.GoldValue;
             if (!isBuy)
             {
                 this.Tooltip = spec.Name + " (" + buyPriceOrPowerReqOrCount.ToString() + ")";

@@ -14,6 +14,7 @@ namespace ChaoticaOnline.ViewModels
         public Dictionary<string, string> Restrictions { get; set; } = new Dictionary<string, string>();
         public string RarityColor { get; set; }
         public string RarityInverseColor { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public List<Bonus> Bonuses { get; set; }
         public WorldItemViewModel()
@@ -25,6 +26,7 @@ namespace ChaoticaOnline.ViewModels
             this.RarityColor = Statics.RarityColor(bit.Rarity, bit.IsUnique);
             this.RarityInverseColor = Statics.InverseRarityColor(bit.Rarity, bit.IsUnique);
             this.Description = bit.Description;
+            this.Name = bit.Name;
             this.Bonuses = bit.Bonuses;
             string sRes = "";
             string sCol = "";

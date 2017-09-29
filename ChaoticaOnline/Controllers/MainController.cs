@@ -132,8 +132,9 @@ namespace ChaoticaOnline.Controllers
             int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
+                Player p = dbG.Players.Find(iPlayerID);
                 Unit u = dbG.Units.Find(id);
-                return PartialView("Panels/_UnitPanel", new UnitViewModel(u));
+                return PartialView("Panels/_UnitPanel", new UnitViewModel(u, false, false, 0, p.Color));
             }
             else
             {
@@ -150,7 +151,7 @@ namespace ChaoticaOnline.Controllers
                 Player p = dbG.Players.Find(iPlayerID);
                 WorldItem it = dbG.WorldItems.Find(id);
                 TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
-                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, it.Count, it.ID));
+                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, it.Count, false, false, 0, it.ID));
             }
             else
             {
@@ -166,7 +167,7 @@ namespace ChaoticaOnline.Controllers
             {
                 Player p = dbG.Players.Find(iPlayerID);
                 TDBWorldItem bit = dbT.TDBWorldItems.Find(id);
-                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, 1, 0));
+                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, 1, true, true, bit.GoldValue, 0));
             }
             else
             {
@@ -181,7 +182,7 @@ namespace ChaoticaOnline.Controllers
             if (id > 0)
             {
                 Player p = dbG.Players.Find(iPlayerID);
-                return PartialView("Panels/_UnitPanel", new UnitViewModel(UnitFactory.CreateUnit(dbT, id, 1)));
+                return PartialView("Panels/_UnitPanel", new UnitViewModel(UnitFactory.CreateUnit(dbT, id, 1), true, true, 0, p.Color));
             }
             else
             {
@@ -196,8 +197,8 @@ namespace ChaoticaOnline.Controllers
             if (id > 0)
             {
                 Player p = dbG.Players.Find(iPlayerID);
-                TDBSpecial bit = dbT.TDBSpecials.Find(id);
-                return PartialView("Panels/_SpecPanel", new WorldItemViewModel(p, bit, 1, 0));
+                TDBSpecial spec = dbT.TDBSpecials.Find(id);
+                return PartialView("Panels/_SpecPanel", new SpecialViewModel(spec, true, true, spec.GoldValue, p.Color));
             }
             else
             {
@@ -212,9 +213,8 @@ namespace ChaoticaOnline.Controllers
             if (id > 0)
             {
                 Player p = dbG.Players.Find(iPlayerID);
-                WorldItem it = dbG.WorldItems.Find(id);
-                TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
-                return PartialView("Panels/_SpecPanel", new WorldItemViewModel(p, bit, it.Count, it.ID));
+                TDBSpecial spec = dbT.TDBSpecials.Find(id);
+                return PartialView("Panels/_SpecPanel", new SpecialViewModel(spec, false, false, 0, p.Color));
             }
             else
             {
@@ -422,7 +422,7 @@ namespace ChaoticaOnline.Controllers
         {
             int iPlayerID = (int)Session["PlayerID"];
             Player p = dbG.Players.Find(iPlayerID);
-            return PartialView("Panels/_UnitPanel", new UnitViewModel(p.GetHeroUnit()));
+            return PartialView("Panels/_UnitPanel", new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color));
         }
 
         public ActionResult TakeOff(int id)

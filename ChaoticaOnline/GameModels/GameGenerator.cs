@@ -450,7 +450,7 @@ namespace ChaoticaOnline.GameModels
         {
 
             List<Tile> OrigTiles = new List<Tile>();
-            List<Tile> TempTiles;
+            //List<Tile> TempTiles;
             Map map = new Map(iX, iY);
             Choice choice = new Choice();
             if (calc == null) { calc = new Calc(); }

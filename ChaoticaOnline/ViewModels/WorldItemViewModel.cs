@@ -17,10 +17,11 @@ namespace ChaoticaOnline.ViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Bonus> Bonuses { get; set; }
+        public List<ActionButtonViewModel> Buttons { get; set; }
         public WorldItemViewModel()
         {
         }
-        public WorldItemViewModel(Player p, TDBWorldItem bit, int iCount, int iID = 0)
+        public WorldItemViewModel(Player p, TDBWorldItem bit, int iCount, bool isBuy, bool canBuy, int buyPriceOrPowerReq, int iID = 0)
         {
             this.SubItem = new SmallWorldItemViewModel(bit, false, false, iCount, iID);
             this.RarityColor = Statics.RarityColor(bit.Rarity, bit.IsUnique);
@@ -44,6 +45,12 @@ namespace ChaoticaOnline.ViewModels
                 if (!p.MeetsAttribReq(kv.Key, kv.Value)) { sCol = "red"; }
                 this.Restrictions.Add(sRes, sCol);
             }
+            this.Buttons = new List<ActionButtonViewModel>();
+            if (isBuy && canBuy)
+            {
+                this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", p.Color, ButtonAction.Buy, EntityType.WorldItem, this.SubItem.ID));
+            }
         }
-    }
+        
+}
 }

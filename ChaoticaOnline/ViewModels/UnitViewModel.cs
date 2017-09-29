@@ -40,10 +40,11 @@ namespace ChaoticaOnline.ViewModels
         public bool Takes2Slots { get; set; }
         public string Targets { get; set; }
         public int Line { get; set; }
+        public List<ActionButtonViewModel> Buttons { get; set; }
         public UnitViewModel()
         {
         }
-        public UnitViewModel(Unit unit)
+        public UnitViewModel(Unit unit, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor)
         {
             this.ID = unit.ID;
             this.Name = unit.Name;
@@ -93,6 +94,11 @@ namespace ChaoticaOnline.ViewModels
             }
             this.Targets = strTargets;
 
+            this.Buttons = new List<ActionButtonViewModel>();
+            if (isBuy && canBuy)
+            {
+                this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", pColor, ButtonAction.Buy, EntityType.Unit, this.ID));
+            }
         }
 
         public string HPString()

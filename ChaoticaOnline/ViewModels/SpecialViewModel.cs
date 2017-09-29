@@ -26,26 +26,16 @@ namespace ChaoticaOnline.ViewModels
         public SpecialViewModel()
         {
         }
-        public SpecialViewModel(TDBSpecial spec, bool isBuy, bool canBuy, int buyPriceOrPowerReq)
+        public SpecialViewModel(TDBSpecial spec, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor)
         {
             this.SubItem = new SmallSpecialViewModel(spec, isBuy, canBuy, buyPriceOrPowerReq);
             this.Description = spec.Description;
             this.GoldValue = spec.GoldValue;
             this.ManaCost = spec.ManaCost;
-            if (!isBuy)
+            this.Buttons = new List<ActionButtonViewModel>();
+            if (isBuy && canBuy)
             {
-                this.Tooltip = spec.Name + " (" + buyPriceOrPowerReqOrCount.ToString() + ")";
-            }
-            else
-            {
-                if (canBuy)
-                {
-                    this.Tooltip = spec.Name + " - " + buyPriceOrPowerReqOrCount.ToString() + " Gold";
-                }
-                else
-                {
-                    this.Tooltip = spec.Name + " - at " + buyPriceOrPowerReqOrCount.ToString();
-                }
+                this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", pColor, ButtonAction.Buy, EntityType.SpecialAction, this.SubItem.BaseID));
             }
         }
     }

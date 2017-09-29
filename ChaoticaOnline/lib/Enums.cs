@@ -79,7 +79,8 @@ namespace ChaoticaOnline.lib
         Dungeon = 6,
         Unit = 7,
         SpecialAction = 8,
-        Attribute = 9
+        Attribute = 9,
+        WorldItem = 10
     }
     public enum ButtonAction
     {

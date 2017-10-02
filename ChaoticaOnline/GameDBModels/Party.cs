@@ -15,8 +15,15 @@ namespace ChaoticaOnline.GameDBModels
         public int PlayerIndex { get; set; }
         public int Ident { get; set; }
         public Alignment Alignment { get; set; }
-        public int GameID { get; set; }
-    
+
+        [ForeignKey("Game")]
+        public int GameId { get; set; }
+        public virtual Game Game { get; set; }
+
+        [ForeignKey("Tile")]
+        public int TileId { get; set; }
+        public virtual Tile Tile { get; set; }
+
         public virtual ICollection<Unit> Units { get; set; } = new List<Unit>();
 
         public Party()

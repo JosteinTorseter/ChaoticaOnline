@@ -13,10 +13,12 @@ namespace ChaoticaOnline.ViewModels
         public int ID { get; set; }
         public int BaseItemID { get; set; }
         public int GoldValue { get; set; }
+        public int Rarity { get; set; }
         public string Image { get; set; }
         public string TypeName { get; set; }
         public ItemCategory Category { get; set; }
         public string ToolTip { get; set; }
+        public string BGColor { get; set; }
 
         public SmallWorldItemViewModel()
         {
@@ -29,14 +31,17 @@ namespace ChaoticaOnline.ViewModels
             this.TypeName = it.TypeName;
             this.Category = it.Category;
             this.GoldValue = it.GoldValue;
+            this.Rarity = it.Rarity;
+            this.BGColor = Statics.RarityColor(it.Rarity, it.IsUnique);
         }
-        public static SmallWorldItemViewModel GetOffhandPlaceholder(string image)
+        public static SmallWorldItemViewModel GetOffhandPlaceholder(string image, int rarity)
         {
             SmallWorldItemViewModel it = new SmallWorldItemViewModel();
             it.Category = ItemCategory.HeroItem;
             it.TypeName = "Offhand";
             it.Image = image;
             it.ToolTip = "Offhand";
+            it.Rarity = rarity;
             return it;
         }
     }

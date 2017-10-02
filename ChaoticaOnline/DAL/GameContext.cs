@@ -27,6 +27,16 @@ namespace ChaoticaOnline.DAL
                      .WithMany(t => t.Dungeons)
                      .HasForeignKey(d => d.TileId)
                      .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Party>()
+                     .HasOptional(p => p.Tile)
+                     .WithMany(t => t.Parties)
+                     .HasForeignKey(p => p.TileId)
+                     .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Party>()
+                     .HasOptional(p => p.Game)
+                     .WithMany(g => g.Parties)
+                     .HasForeignKey(p => p.GameId)
+                     .WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
         }
 

@@ -1,0 +1,119 @@
+﻿@model ChaoticaOnline.ViewModels.TileViewModel
+
+<td class="terrain" id="tile@(Model.ID)"
+    data-tileid="@( Model.Image == "tile.jpg" ? "-1" : Model.ID.ToString() )"
+    style="border-radius:10px;background-image:url(../../Data/terrain/@Model.Image);"
+    onclick="ClickedTile(this)" ondblclick="DoubleClickedTile(this)">
+    <div id="tilediv@(Model.ID)" class="@Model.SelectionClass">
+        @if (Model.Image != "tile.jpg")
+        {
+            <table class="nopads">
+                <tr>
+                    @for (int l = 0; l < 5; l++)
+                    {
+                        if (Model.Dwellings.Count > l)
+                        {
+                            if (l == 4)
+                            {
+                                <td class="icon-td-last" data-toggle="tooltip"
+                                    title="@Model.Dwellings[l].Name"
+                                    style="border-radius:5px;background-image:url(../../Data/places/@(Model.Dwellings[l].Image))"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td" data-toggle="tooltip"
+                                    title="@Model.Dwellings[l].Name"
+                                    style="border-radius:5px;background-image:url(../../Data/places/@(Model.Dwellings[l].Image))"></td>
+                            }
+                        }
+                        else
+                        {
+                            if (l == 4)
+                            {
+                                <td class="icon-td-last"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td"></td>
+                            }
+                        }
+                    }
+                </tr>
+                <tr>
+                    @for (int l = 0; l < 5; l++)
+                    {
+                        if (Model.Dungeons.Count > l)
+                        {
+                            if (l == 4)
+                            {
+                                <td class="icon-td-last" data-toggle="tooltip"
+                                    title="@Model.Dungeons[l].Name"
+                                    style="border-radius:5px;background-image:url(../../Data/places/@(Model.Dungeons[l].Image))"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td" data-toggle="tooltip"
+                                    title="@Model.Dungeons[l].Name"
+                                    style="border-radius:5px;background-image:url(../../Data/places/@(Model.Dungeons[l].Image))"></td>
+                            }
+                        }
+                        else
+                        {
+                            if (l == 4)
+                            {
+                                <td class="icon-td-last"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td"></td>
+                            }
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td-last"></td>
+                </tr>
+                <tr>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td"></td>
+                    <td class="icon-td-last"></td>
+                </tr>
+                <tr>
+                    @for (int k = 0; k < 5; k++)
+                    {
+                        if (Model.Players.Count > k)
+                        {
+                            if (k == 4)
+                            {
+                                <td class="icon-td-lastcorner"
+                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td-bot"
+                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                            }
+                        }
+                        else
+                        {
+                            if (k == 4)
+                            {
+                                <td class="icon-td-lastcorner"></td>
+                            }
+                            else
+                            {
+                                <td class="icon-td-bot"></td>
+                            }
+                        }
+                    }
+                </tr>
+            </table>
+        }
+    </div>
+</td>

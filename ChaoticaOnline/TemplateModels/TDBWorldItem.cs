@@ -50,5 +50,19 @@ namespace ChaoticaOnline.TemplateModels
                 return DictionaryHack.GetIntsByString(SpecialsString);
             }
         }
+
+        public int GetPrice(bool isBuy, int iPercent)
+        {
+            double dbl = 0;
+            if (!isBuy)
+            {
+                dbl = (100 + iPercent) / 100;
+                dbl = dbl * Statics.BaseSellPercent;
+            } else
+            {
+                dbl = (Statics.BaseBuyPercent - iPercent) / 100;
+            }
+            return Calc.Round(this.GoldValue * dbl, -1);
+        }
     }
 }

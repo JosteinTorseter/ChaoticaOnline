@@ -48,7 +48,10 @@ namespace ChaoticaOnline.ViewModels
             this.Buttons = new List<ActionButtonViewModel>();
             if (isBuy && canBuy)
             {
-                this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", p.Color, ButtonAction.Buy, EntityType.WorldItem, this.SubItem.ID));
+                this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + ")", p.Color, ButtonAction.Buy, EntityType.WorldItem, this.SubItem.ID));
+            } else if (!isBuy)
+            {
+                this.Buttons.Add(new ActionButtonViewModel("Sell (" + buyPriceOrPowerReq + ")", p.Color, ButtonAction.Buy, EntityType.WorldItem, this.SubItem.ID));
             }
         }
         

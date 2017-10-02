@@ -132,10 +132,10 @@
                 <div style="width:165px;height:230px;" class="@divClass">
                     <div id="inventory_0" style="width:145px;" ondragover="allowDrop(event)" ondrop="invdrop(event)">
                         @foreach (SmallWorldItemViewModel itIn in Model.Inventory)
-                        {<img id="charinv_@itIn.ID" data-toggle="tooltip" title="@itIn.Name"
+                        {<img id="charinv_@itIn.ID" data-toggle="tooltip" title="@itIn.ToolTip"
                               ondblclick="DoubleClickedHeroInvItem(this)" onclick="ClickedItem(this)"
-                              data-itemid="@itIn.ID" class="img-charsheet-item" src="~/Data/items/@itIn.Image"
-                              draggable="true" ondragstart="drag(event)"
+                              data-itemid="@itIn.ID" class="img-charsheet-item" src="~/Data/items/tiny/@itIn.Image"
+                              draggable="true" ondragstart="drag(event)" style="background-color:@itIn.BGColor"
                                />iCount += 1;
                         }
                     </div>

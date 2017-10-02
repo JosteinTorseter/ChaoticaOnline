@@ -81,6 +81,7 @@
     function ClickedMainButton(index) {
         switch (index) {
             case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
+            //case 1: { DisplayCharSheet2(); break; }
             case 2: { DisplayRoster(); break; }
             case 3: { DisplayInventory(); break; }
         }
@@ -175,6 +176,14 @@
             }
         });
     }
+    function DisplayInfo() {
+        var url = "RefreshInfoPanel/";
+        $.ajax({
+            url: url, success: function (data) {
+                $("#infotd").html(data);
+            }
+        });
+    }
 
     function DisplayHeroUnit() {
         var url = "GetHeroUnit/";
@@ -198,11 +207,22 @@
         var url = "GetCharSheet/";
         $.ajax({
             url: url, success: function (data) {
+                console.log(data);
                 $("#InfoPanel1").html(data);
             }
         });
     }
 
+    function DisplayCharSheet2() {
+        var url = "GetCharSheet2/";
+        $.ajax({
+            url: url, success: function (data) {
+                var s = data.split("#####");
+                $("#InfoPanel1").html(s[0]);
+                $("#InfoPanel2").html(s[1]);
+            }
+        });
+    }
     function DisplayTileInfoWindow(id) {
         var url = "GetTilePanelInfo/" + id;
         if (id == 0) { return; }

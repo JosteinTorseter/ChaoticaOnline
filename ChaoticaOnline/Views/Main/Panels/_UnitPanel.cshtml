@@ -22,13 +22,24 @@
         <tr>
             <td width="10px" rowspan="13"></td>
             <td rowspan="13" class="imagetd" 
-                style="vertical-align:top;background-image:url(../../Data/monsters/@Model.Image);">
-                @if (Model.MaxLevel > 5)
-                {
-                    <img src="~/Data/lvl10.png" data-toggle="tooltip" 
-                         title="This unit can become level @Model.MaxLevel" 
-                         style="width:40px;height:40px;background-size:100%;background-repeat:no-repeat;float:left" />
-                }
+                style="background-image:url(../../Data/monsters/@Model.Image);">
+                <div style="width:230px;height:40px;vertical-align:top">
+                    @if (Model.MaxLevel > 5)
+                    {
+                        <img src="~/Data/lvl10.png" data-toggle="tooltip"
+                             title="This unit can become level @Model.MaxLevel"
+                             style="width:40px;height:40px;background-size:100%;background-repeat:no-repeat;float:left" />
+                    }
+                </div>
+                <div style="width:230px;height:190px;vertical-align:bottom">
+                    @foreach ()
+                    @if (Model.MaxLevel > 5)
+                    {
+                        <img src="~/Data/lvl10.png" data-toggle="tooltip"
+                             title="This unit can become level @Model.MaxLevel"
+                             style="width:40px;height:40px;background-size:100%;background-repeat:no-repeat;float:left" />
+                    }
+                </div>
             </td>
             <td width="10px" rowspan="12"></td>
         </tr>

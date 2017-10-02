@@ -92,12 +92,12 @@ namespace ChaoticaOnline.GameModels
                 p.PlayerNumber = i;
                 p.Alignment = (Alignment)(calc.GetRandom(0, 2) - 1);
                 p.HeroImage = "thedevil.png";
-                p.Strength = 16;
-                p.Dexterity = 15;
-                p.Constitution = 17;
-                p.Wisdom = 12;
-                p.Intelligence = 11;
-                p.Cunning = 13;
+                p.Strength = 25;
+                p.Dexterity = 25;
+                p.Constitution = 25;
+                p.Wisdom = 25;
+                p.Intelligence = 25;
+                p.Cunning = 25;
                 switch (i)
                 {
                     case 0:

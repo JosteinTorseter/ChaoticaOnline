@@ -12,6 +12,7 @@ namespace ChaoticaOnline.ViewModels
     {
         public int ID { get; set; }
         public string Color { get; set; }
+        public string Name { get; set; }
         public string MovePoints { get; set; }
         public int CurrentGold { get; set; }
         public int PartyID { get; set; }
@@ -25,6 +26,7 @@ namespace ChaoticaOnline.ViewModels
         {
             this.ID = player.ID;
             this.Color = player.Color;
+            this.Name = player.Name;
             this.PartyID = player.PartyID;
             this.RosterID = player.RosterID;
             this.MovePoints = player.MovePointsLeft + " / " + player.MaxMovePoints;

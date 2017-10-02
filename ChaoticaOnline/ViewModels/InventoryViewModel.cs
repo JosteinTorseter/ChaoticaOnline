@@ -14,7 +14,7 @@ namespace ChaoticaOnline.ViewModels
         }
         public InventoryViewModel(List<SmallWorldItemViewModel> items, string strColor)
         {
-            this.Items = items;
+            this.Items = items.OrderBy(it => it.Rarity).ToList();
             this.AlignmentColor = strColor;
         }
     }

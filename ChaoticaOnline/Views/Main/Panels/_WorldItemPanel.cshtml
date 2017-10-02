@@ -21,7 +21,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="vertical-align:top;" height="190px">
+                        <td style="vertical-align:top;" height="160px">
                             @foreach (KeyValuePair<string, string> kv in Model.Restrictions)
                             {
                                 <span style="font-size:11px;color:@kv.Value;text-decoration-color:@kv.Value">@kv.Key</span><br />
@@ -31,6 +31,17 @@
                             @foreach (ChaoticaOnline.GameDBModels.Bonus b in Model.Bonuses)
                             {
                                 <span style="font-size:11px">@b.Text()</span><br />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" height="30px">
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                if (Model.Buttons.Count > i)
+                                {
+                                    @Html.Partial("~/Views/Main/Subs/_ActionButton.cshtml", Model.Buttons[i])
+                                }
                             }
                         </td>
                     </tr>

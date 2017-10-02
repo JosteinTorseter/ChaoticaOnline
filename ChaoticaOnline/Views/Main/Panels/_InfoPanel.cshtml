@@ -1,0 +1,28 @@
+﻿@model ChaoticaOnline.ViewModels.PlayerViewModel
+
+
+<div style="width:550px;height:40px">
+    <table width="550" height="40"
+           style="text-align:center;font-size:22px;color:#@Model.Color;text-decoration-color:#@Model.Color;">
+        <tr>
+            <td width="170px" style="text-align:left;padding-left:10px">
+                @Model.Name
+            </td>
+            <td width="105px" style="color:gold;text-decoration-color:gold;text-align:right;">
+                @Model.CurrentGold
+            </td>
+            <td width="40px" height="40px">
+                <img width="25" height="25" src="~/Data/gold.png" />
+            </td>
+            <td width="75px" style="text-align:right;">
+                @Model.MovePoints
+            </td>
+            <td width="40px" height="40px">
+                <img width="25" height="25" src="~/Data/move.png" style="background-color:#@Model.Color;" />
+            </td>
+            <td width="100px" style="text-align:right;">
+                <button onclick="ClickedMainButton(6)" type="button" class="btn" style="background-color:#@Model.Color;">END TURN</button>
+            </td>
+        </tr>
+    </table>
+</div>

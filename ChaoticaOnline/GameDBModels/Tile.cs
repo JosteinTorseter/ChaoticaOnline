@@ -35,6 +35,12 @@ namespace ChaoticaOnline.GameDBModels
         [NotMapped]
         public int ListIndex { get; set; }
 
+        public virtual ICollection<Dwelling> Dwellings { get; set; } = new List<Dwelling>();
+        public virtual ICollection<Dungeon> Dungeons { get; set; } = new List<Dungeon>();
+        public virtual ICollection<WorldObject> WorldObjects { get; set; } = new List<WorldObject>();
+        public virtual ICollection<Party> Parties { get; set; } = new List<Party>();
+        public virtual ICollection<TileCard> Cards { get; set; } = new List<TileCard>();
+
         public string PlayersString { get; set; }
         [NotMapped]
         public List<int> Players
@@ -50,8 +56,6 @@ namespace ChaoticaOnline.GameDBModels
             }
         }
         
-        public virtual ICollection<Dwelling> Dwellings { get; set; } = new List<Dwelling>();
-        public virtual ICollection<Dungeon> Dungeons { get; set; } = new List<Dungeon>();
 
         public Tile()
         {
@@ -60,6 +64,74 @@ namespace ChaoticaOnline.GameDBModels
         {
             this.XCoord = iX;
             this.YCoord = iY;
+        }
+
+        public List<TileCard> GetCards(Player player)
+        {
+            List<TileCard> res = new List<TileCard>();
+            int i = -1;
+            foreach (Dwelling dw in this.Dwellings)
+            {
+                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)TileCardType.Dwelling, dw.ID)))
+                {
+                    res.Add(new TileCard(TileCardType.Dwelling, dw.ID, i));
+                    i--;
+                }
+            }
+            foreach (Dungeon du in this.Dungeons)
+            {
+                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)TileCardType.Dungeon, du.ID)))
+                {
+                    res.Add(new TileCard(TileCardType.Dungeon, du.ID, i));
+                    i--;
+                }
+            }
+            foreach (WorldObject obj in this.WorldObjects)
+            {
+                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)TileCardType.Object, obj.ID)))
+                {
+                    res.Add(new TileCard(TileCardType.Object, obj.ID, i));
+                    i--;
+                }
+            }
+            foreach (Party p in this.Parties)
+            {
+                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)TileCardType.Army, p.ID)))
+                {
+                    res.Add(new TileCard(TileCardType.Army, p.ID, i));
+                    i--;
+                }
+            }
+            foreach (TileCard c in this.Cards)
+            {
+                if (c.PlayerOnlyID == 0 && c.PlayerOnlyID == player.ID)
+                {
+                    res.Add(c);
+                }
+            }
+            return res;
+        }
+
+        public TileCard DrawCard(Player player, Calc calc = null)
+        {
+            List<TileCard> lst = GetCards(player);
+            if (lst.Count == 0) { return null; }
+            List<TileCard> lstTemp = lst.Where(c => c.Weight > 0).OrderBy(c => c.Weight).ToList();
+            if (lstTemp.Count > 0) { return lstTemp[0]; }
+            lstTemp = lst.Where(c => c.Weight == 0).ToList();
+            if (lstTemp.Count > 0)
+            {
+                if (calc == null) { calc = new Calc(); }
+                Choice oCh = new Choice();
+                foreach (TileCard card in lstTemp)
+                {
+                    oCh.Add(card.ID, 1);
+                }
+                return lst.Find(c => c.ID == oCh.Make(calc).ID);
+            }
+            lstTemp = lst.Where(c => c.Weight < 0).OrderByDescending(c => c.Weight).ToList();
+            if (lstTemp.Count > 0) { return lstTemp[0]; }
+            return null;
         }
 
         public bool IsNeighbour(int iX, int iY)

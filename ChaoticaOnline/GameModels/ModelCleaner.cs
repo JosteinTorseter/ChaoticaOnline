@@ -1,5 +1,7 @@
-﻿using ChaoticaOnline.GameDBModels;
+﻿using ChaoticaOnline.DAL;
+using ChaoticaOnline.GameDBModels;
 using ChaoticaOnline.lib;
+using ChaoticaOnline.TemplateModels;
 using ChaoticaOnline.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,16 @@ namespace ChaoticaOnline.GameModels
             }
 
             return res;
+        }
+
+        public static GetSpecialsDictionary(TemplateContext dbT, List<Special> specs)
+        {
+            List<int> lst = new List<int>();
+            foreach (Special s in specs)
+            {
+                lst.Add(s.BaseID);
+            }
+            List<TDBSpecial> res = dbT.TDBSpecials.Where(sp => lst.co)
         }
     }
 }

@@ -41,6 +41,7 @@ namespace ChaoticaOnline.ViewModels
         public string Targets { get; set; }
         public int Line { get; set; }
         public List<ActionButtonViewModel> Buttons { get; set; }
+        public List<SmallSpecialViewModel> Specials { get; set; }
         public UnitViewModel()
         {
         }
@@ -98,6 +99,12 @@ namespace ChaoticaOnline.ViewModels
             if (isBuy && canBuy)
             {
                 this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", pColor, ButtonAction.Buy, EntityType.Unit, this.ID));
+            }
+
+            this.Specials = new List<SmallSpecialViewModel>();
+            foreach (Special spec in unit.Specials)
+            {
+                this.Specials.Add(new SmallSpecialViewModel(spec.,))
             }
         }
 

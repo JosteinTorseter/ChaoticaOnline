@@ -211,9 +211,11 @@
     <Compile Include="GameDBModels\Special.cs" />
     <Compile Include="GameDBModels\Tile.cs" />
     <Compile Include="GameDBModels\Map.cs" />
+    <Compile Include="GameDBModels\TileCard.cs" />
     <Compile Include="GameDBModels\Unit.cs" />
     <Compile Include="GameDBModels\Bonus.cs" />
     <Compile Include="GameDBModels\WorldItem.cs" />
+    <Compile Include="GameDBModels\WorldObject.cs" />
     <Compile Include="TemplateModels\TDBSpecial.cs" />
     <Compile Include="ViewModels\CharSheetViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
@@ -347,6 +349,9 @@
     <Content Include="Views\Main\Panels\_InventoryItemImage.cshtml" />
     <Content Include="Views\Main\Panels\_WorldItemPanel.cshtml" />
     <Content Include="Views\Main\Panels\_SpecPanel.cshtml" />
+    <Content Include="Views\Main\Panels\_test.cshtml" />
+    <Content Include="Views\Main\Subs\_Tile.cshtml" />
+    <Content Include="Views\Main\Panels\_InfoPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

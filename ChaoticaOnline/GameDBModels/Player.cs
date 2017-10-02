@@ -46,6 +46,27 @@ namespace ChaoticaOnline.GameDBModels
 
         public virtual ICollection<Bonus> PermanentBonuses { get; set; } = new List<Bonus>();
 
+        [ForeignKey("Game")]
+        public int GameId { get; set; }
+        public virtual Game Game { get; set; }
+
+        public virtual ICollection<WorldItem> WorldItems { get; set; } = new List<WorldItem>();
+
+        public string TileVisibilityString { get; set; }
+        [NotMapped]
+        public List<int> VisibleTiles { get; set; }
+        [NotMapped]
+        public List<int> FoggedTiles { get; set; }
+        [NotMapped]
+        public List<int> VisitedTiles { get; set; }
+        [NotMapped]
+        public List<int> MovableTiles { get; set; }
+
+        public string VisibleObjectsString { get; set; }
+
+        [NotMapped]
+        public List<KeyValuePair<int, int>> VisibleObjects { get; set; }
+
         public string SpecialsString { get; set; }
         [NotMapped]
         public List<Special> Specials
@@ -58,6 +79,111 @@ namespace ChaoticaOnline.GameDBModels
             {
                 SpecialsString = Special.ListToString(value);
             }
+        }
+
+        public Player()
+        {
+        }
+
+        public void SetVisObjString()
+        {
+            string res = "";
+            foreach (KeyValuePair<int, int> kv in VisibleObjects)
+            {
+                this.VisString(ref res, kv.Key, kv.Value);
+            }
+            VisibleObjectsString = res;
+        }
+
+        public void ArrangeStringToVisObjects()
+        {
+            VisibleObjects = new List<KeyValuePair<int, int>>();
+            if (String.IsNullOrEmpty(VisibleObjectsString)) { return; }
+            foreach (string sFull in VisibleObjectsString.Split('#'))
+            {
+                string[] s = sFull.Split(':');
+                VisibleObjects.Add(new KeyValuePair<int, int>(Int32.Parse(s[0]), Int32.Parse(s[1])));
+            }
+        }
+
+        public void SetTileListsString()
+        {
+            string res = "";
+            foreach (int i in VisibleTiles)
+            {
+                this.VisString(ref res, i, (int)TileVisibility.Visible);
+            }
+            foreach (int i in FoggedTiles)
+            {
+                this.VisString(ref res, i, (int)TileVisibility.Fogged);
+            }
+            foreach (int i in VisitedTiles)
+            {
+                this.VisString(ref res, i, (int)TileVisibility.Visited);
+            }
+            foreach (int i in MovableTiles)
+            {
+                this.VisString(ref res, i, (int)TileVisibility.Movable);
+            }
+            this.TileVisibilityString = res;
+        }
+
+        private void VisString(ref string res, int i, int j)
+        {
+            if (res != "")
+            {
+                res += "#";
+            }
+            res += i.ToString() + ":" + j.ToString();
+        }
+
+        public void ArrangeStringToTileLists()
+        {
+            VisibleTiles = new List<int>();
+            FoggedTiles = new List<int>();
+            VisitedTiles = new List<int>();
+            MovableTiles = new List<int>();
+            if (TileVisibilityString == null || TileVisibilityString == "") { return; }
+            foreach (string sFull in TileVisibilityString.Split('#'))
+            {
+                string[] s = sFull.Split(':');
+                switch ((TileVisibility)Int32.Parse(s[1]))
+                {
+                    case TileVisibility.Visible:
+                        {
+                            VisibleTiles.Add(Int32.Parse(s[0]));
+                            break;
+                        }
+                    case TileVisibility.Fogged:
+                        {
+                            FoggedTiles.Add(Int32.Parse(s[0]));
+                            break;
+                        }
+                    case TileVisibility.Visited:
+                        {
+                            VisitedTiles.Add(Int32.Parse(s[0]));
+                            break;
+                        }
+                    case TileVisibility.Movable:
+                        {
+                            MovableTiles.Add(Int32.Parse(s[0]));
+                            break;
+                        }
+                }
+            }
+
+        }
+
+        public TileVisibility TileVisible(int tileID)
+        {
+            if (this.VisibleTiles.Contains(tileID)) { return TileVisibility.Visible; }
+            if (this.FoggedTiles.Contains(tileID)) { return TileVisibility.Fogged; }
+            return TileVisibility.None;
+        }
+
+        public bool ObjectVisible(WorldObjectType objType, int objID)
+        {
+            return VisibleObjects.Contains(new KeyValuePair<int, int>((int)objType, objID));
         }
 
         public bool CanWearItem(TDBWorldItem it)
@@ -359,100 +485,7 @@ namespace ChaoticaOnline.GameDBModels
             return iRes;
         }
 
-        [ForeignKey("Game")]
-        public int GameId { get; set; }
-        public virtual Game Game { get; set; }
 
-        public virtual ICollection<WorldItem> WorldItems { get; set; } = new List<WorldItem>();
-
-        public string TileVisibilityString { get; set; }
-        [NotMapped]
-        public List<int> VisibleTiles { get; set; }
-        [NotMapped]
-        public List<int> FoggedTiles { get; set; }
-        [NotMapped]
-        public List<int> VisitedTiles { get; set; }
-        [NotMapped]
-        public List<int> MovableTiles { get; set; }
-
-        public void SetTileListsString()
-        {
-            string res = "";
-            foreach (int i in VisibleTiles)
-            {
-                this.VisTileString(ref res, i, TileVisibility.Visible);
-            }
-            foreach (int i in FoggedTiles)
-            {
-                this.VisTileString(ref res, i, TileVisibility.Fogged);
-            }
-            foreach (int i in VisitedTiles)
-            {
-                this.VisTileString(ref res, i, TileVisibility.Visited);
-            }
-            foreach (int i in MovableTiles)
-            {
-                this.VisTileString(ref res, i, TileVisibility.Movable);
-            }
-            this.TileVisibilityString = res;
-        }
-
-        private void VisTileString(ref string res, int i, TileVisibility eVis)
-        {
-            if (res != "")
-            {
-                res += "#";
-            }
-            res += i.ToString() + ":" + ((int)eVis).ToString();
-        }
-
-        public void ArrangeStringToTileLists()
-        {
-            VisibleTiles = new List<int>();
-            FoggedTiles = new List<int>();
-            VisitedTiles = new List<int>();
-            MovableTiles = new List<int>();
-            if (TileVisibilityString == null || TileVisibilityString == "") { return; }
-            foreach (string sFull in TileVisibilityString.Split('#'))
-            {
-                string[] s = sFull.Split(':');
-                switch ((TileVisibility)Int32.Parse(s[1]))
-                {
-                    case TileVisibility.Visible:
-                        {
-                            VisibleTiles.Add(Int32.Parse(s[0]));
-                            break;
-                        }
-                    case TileVisibility.Fogged:
-                        {
-                            FoggedTiles.Add(Int32.Parse(s[0]));
-                            break;
-                        }
-                    case TileVisibility.Visited:
-                        {
-                            VisitedTiles.Add(Int32.Parse(s[0]));
-                            break;
-                        }
-                    case TileVisibility.Movable:
-                        {
-                            MovableTiles.Add(Int32.Parse(s[0]));
-                            break;
-                        }
-                }
-            }
-
-        }
-
-        public Player()
-        {
-        }
-
-        public TileVisibility TileVisible(int tileID)
-        {
-            if (this.VisibleTiles.Contains(tileID)) { return TileVisibility.Visible; }
-            if (this.FoggedTiles.Contains(tileID)) { return TileVisibility.Fogged; }
-            return TileVisibility.None;
-        }
 
         public List<List<SmallWorldItemViewModel>> GetHeroItems(TemplateContext dbT)
         {
@@ -476,7 +509,7 @@ namespace ChaoticaOnline.GameDBModels
                     res[0].Add(new SmallWorldItemViewModel(baseItems[it.BaseItemID], false, false, 1, it.ID));
                     if (it.IsTwoHanded())
                     {
-                        res[0].Add(SmallWorldItemViewModel.GetOffhandPlaceholder(baseItems[it.BaseItemID].Image));
+                        res[0].Add(SmallWorldItemViewModel.GetOffhandPlaceholder(baseItems[it.BaseItemID].Image, baseItems[it.BaseItemID].Rarity));
                     }
                 } else
                 {

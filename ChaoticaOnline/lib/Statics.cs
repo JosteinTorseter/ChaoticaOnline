@@ -17,6 +17,17 @@ namespace ChaoticaOnline.lib
         public static int Dungeon2Chance = 30;
         public static int Dungeon3Chance = 10;
         public static int HeroMaxLevel = 15;
+        public static double BaseSellPercent = 0.3;
+        public static int BaseBuyPercent = 275;
+
+        public static int DrawChance_Army = 10;
+        public static int DrawChance_Reward = 10;
+        public static int DrawChance_Unit = 10;
+        public static int DrawChance_Army = 10;
+        public static int DrawChance_Army = 10;
+        public static int DrawChance_Army = 10;
+        public static int DrawChance_Army = 10;
+
         public static string AlignmentColor(Alignment a)
         {
             string res = "#595959";
@@ -56,19 +67,13 @@ namespace ChaoticaOnline.lib
         public static string RarityColor(int rarity, bool isUnique)
         {
             if (isUnique) { return "#FFBB00"; }
-            if (rarity > 79)
+            if (rarity > 75)
             {
                 return "#595959";
-            } else if (rarity > 59)
+            } else if (rarity > 49)
             {
-                return "#86AC41";
-            } else if (rarity > 39)
-            {
-                return "#86AC41";
-            } else if (rarity > 19)
-            {
-                return "#68829E";
-            } else if (rarity > 9)
+                return "#3F6813";
+            } else if (rarity > 29)
             {
                 return "#375E97";
             } else

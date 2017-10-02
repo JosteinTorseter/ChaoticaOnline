@@ -25,7 +25,7 @@ namespace ChaoticaOnline.GameModels
             //p.WorldItems.Add(new WorldItem(baseItems[158], 1, true));
             //p.WorldItems.Add(new WorldItem(baseItems[110], 1, true));
             Dictionary<int, int> res = new Dictionary<int, int>();
-            for (int i = 1; i < 44; i++)
+            for (int i = 1; i < 166; i++)
             {
                 p.WorldItems.Add(new WorldItem(baseItems[i], 1, false));
             }

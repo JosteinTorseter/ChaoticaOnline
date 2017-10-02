@@ -22,6 +22,7 @@ namespace ChaoticaOnline.ViewModels
         {
             this.BaseID = spec.ID;
             this.Image = spec.Image;
+            this.Name = spec.Name;
             this.Category = spec.Category;
             this.GoldValue = spec.GoldValue;
             if (!isBuy)

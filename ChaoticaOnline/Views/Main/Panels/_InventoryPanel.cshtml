@@ -15,7 +15,7 @@
         <div style="width:490px;padding-left:10px">
             @foreach (SmallWorldItemViewModel it in Model.Items)
             {<img id="inventory_@iCount" data-toggle="tooltip" title="@it.ToolTip"
-                  onclick="ClickedItem(this)"
+                  onclick="ClickedItem(this)" style="background-color:@it.BGColor"
                   data-itemid="@it.ID" class="img-inventory" src="~/Data/items/@it.Image"
                   draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"
                   ondrop="drop(event)" />iCount += 1;

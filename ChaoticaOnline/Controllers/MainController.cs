@@ -97,6 +97,15 @@ namespace ChaoticaOnline.Controllers
             return PartialView("Panels/_TilePanel", new TileViewModel(tile, TileSelectionType.None, GetSessionDic(), player));
         }
 
+        public ActionResult RefreshTile(int id)
+        {
+            if (id == 0) { return new EmptyResult(); }
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            Tile tile = dbG.Tiles.Find(id);
+            return PartialView("Subs/_Tile", new TileViewModel(tile, TileSelectionType.None, GetSessionDic(), p));
+        }
+
         public ActionResult GetDwellingPanelInfo(int id)
         {
             int iPlayerID = (int)Session["PlayerID"];
@@ -151,7 +160,13 @@ namespace ChaoticaOnline.Controllers
                 Player p = dbG.Players.Find(iPlayerID);
                 WorldItem it = dbG.WorldItems.Find(id);
                 TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
-                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, it.Count, false, false, 0, it.ID));
+                int iPrice = bit.GoldValue;
+                double dbl = (100 + p.GetAttributeValue(BonusType.SalePrice)) / 100;
+                dbl = dbl * Statics.BaseSellPercent;
+                iPrice = Calc.Round(iPrice * dbl, -1);
+                return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, 
+                    it.Count, false, false, bit.GetPrice(false, p.GetAttributeValue(BonusType.SalePrice)), 
+                    it.ID));
             }
             else
             {
@@ -417,6 +432,29 @@ namespace ChaoticaOnline.Controllers
             List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
             return PartialView("Panels/_CharSheetPanel", new CharSheetViewModel(p, lstRes[0], lstRes[1]));
         }
+        public ActionResult RefreshInfoPanel()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            return PartialView("Panels/_InfoPanel", new PlayerViewModel(p));
+        }
+
+        public string GetCharSheet2()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player p = dbG.Players.Find(iPlayerID);
+            List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
+            ViewDataDictionary vdd = new ViewDataDictionary();
+            //vdd.Add("Model", new CharSheetViewModel(p, lstRes[0], lstRes[1]));
+            ViewBag.Model = new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color);
+            string res = this.ToHtml("Panels/_test", vdd);
+            res += "#####";
+            vdd = new ViewDataDictionary();
+            //vdd.Add("Model", new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color));
+            res += this.ToHtml("Panels/_test", vdd);
+            return res;
+        }
+
 
         public ActionResult GetHeroUnit()
         {

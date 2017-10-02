@@ -6,6 +6,23 @@ using System.Web;
 namespace ChaoticaOnline.lib
 {
 
+    public enum WorldObjectType
+    {
+        None = 0,
+        Door = 1,
+        Chest = 2,
+        Special = 3
+    }
+    public enum TileCardType
+    {
+        None = 0,
+        Dungeon = 1,
+        Dwelling = 2,
+        Army = 3,
+        Reward = 4,
+        Object = 5,
+        Unit = 6
+    }
     public enum ActionRangeType
     {
         None = 0,
@@ -220,6 +237,7 @@ namespace ChaoticaOnline.lib
         MagicPower = 75,
         MagicRange = 76,
         MagicDamage = 77,
-        EffectNrOfTurns = 78
+        EffectNrOfTurns = 78,
+        SalePrice = 79
     }
 }

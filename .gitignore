@@ -72,4 +72,4 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-ChaoticaOnline/.vs/config/applicationhost.config
+.vs/config/applicationhost.config

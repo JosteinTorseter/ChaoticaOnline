@@ -23,10 +23,9 @@ namespace ChaoticaOnline.lib
         public static int DrawChance_Army = 10;
         public static int DrawChance_Reward = 10;
         public static int DrawChance_Unit = 10;
-        public static int DrawChance_Army = 10;
-        public static int DrawChance_Army = 10;
-        public static int DrawChance_Army = 10;
-        public static int DrawChance_Army = 10;
+        public static int DrawChance_Object = 10;
+        public static int DrawChance_Dwelling = 10;
+        public static int DrawChance_Dungeon = 10;
 
         public static string AlignmentColor(Alignment a)
         {

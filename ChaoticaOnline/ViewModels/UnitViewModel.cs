@@ -1,6 +1,7 @@
 ﻿using ChaoticaOnline.GameDBModels;
 using ChaoticaOnline.GameModels;
 using ChaoticaOnline.lib;
+using ChaoticaOnline.TemplateModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace ChaoticaOnline.ViewModels
         public UnitViewModel()
         {
         }
-        public UnitViewModel(Unit unit, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor)
+        public UnitViewModel(Unit unit, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor, Dictionary<int, TDBSpecial> specs = null)
         {
             this.ID = unit.ID;
             this.Name = unit.Name;
@@ -101,10 +102,14 @@ namespace ChaoticaOnline.ViewModels
                 this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", pColor, ButtonAction.Buy, EntityType.Unit, this.ID));
             }
 
-            this.Specials = new List<SmallSpecialViewModel>();
-            foreach (Special spec in unit.Specials)
+            if (specs != null)
             {
-                this.Specials.Add(new SmallSpecialViewModel(spec.,))
+                this.Specials = new List<SmallSpecialViewModel>();
+                foreach (Special spec in unit.Specials)
+                {
+                    this.Specials.Add(new SmallSpecialViewModel(specs[spec.BaseID], false, false, spec.Count));
+                }
+
             }
         }
 

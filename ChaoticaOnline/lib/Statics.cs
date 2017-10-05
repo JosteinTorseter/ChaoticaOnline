@@ -20,12 +20,21 @@ namespace ChaoticaOnline.lib
         public static double BaseSellPercent = 0.3;
         public static int BaseBuyPercent = 275;
 
-        public static int DrawChance_Army = 10;
+        public static int DrawChance_Army = 100;
         public static int DrawChance_Reward = 10;
-        public static int DrawChance_Unit = 10;
-        public static int DrawChance_Object = 10;
-        public static int DrawChance_Dwelling = 10;
-        public static int DrawChance_Dungeon = 10;
+        public static int DrawChance_Unit = 5;
+        public static int DrawChance_Object = 20;
+        public static int DrawChance_Dwelling = 105;
+        public static int DrawChance_Dungeon = 105;
+
+        public static int DrawReduction_Army = 8;
+        public static int DrawReduction_Reward = 2;
+        public static int DrawReduction_Unit = 1;
+        public static int DrawReduction_Object = 2;
+        public static int DrawReduction_Dwelling = 50;
+        public static int DrawReduction_Dungeon = 50;
+
+        public static int CardsPerTile = 7;
 
         public static string AlignmentColor(Alignment a)
         {

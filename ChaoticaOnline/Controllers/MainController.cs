@@ -249,7 +249,7 @@ namespace ChaoticaOnline.Controllers
             Map map = GameActions.TryMoveToTile(p, id, dbG);
             if (map == null) { return new EmptyResult(); }
 
-            return PartialView("_Map", new MapViewModel(map, GetSessionDic(), id));
+            return PartialView("_Map", new MapViewModel(map, p, GetSessionDic(), id));
         }
 
         public ActionResult RearrangeUnits(string sf, int fid, string st, int tid)
@@ -439,20 +439,15 @@ namespace ChaoticaOnline.Controllers
             return PartialView("Panels/_InfoPanel", new PlayerViewModel(p));
         }
 
-        public string GetCharSheet2()
+        public ActionResult GetCharSheet2()
         {
             int iPlayerID = (int)Session["PlayerID"];
             Player p = dbG.Players.Find(iPlayerID);
             List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
-            ViewDataDictionary vdd = new ViewDataDictionary();
-            //vdd.Add("Model", new CharSheetViewModel(p, lstRes[0], lstRes[1]));
-            ViewBag.Model = new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color);
-            string res = this.ToHtml("Panels/_test", vdd);
-            res += "#####";
-            vdd = new ViewDataDictionary();
-            //vdd.Add("Model", new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color));
-            res += this.ToHtml("Panels/_test", vdd);
-            return res;
+            MulipleViewReturnViewModel model = new MulipleViewReturnViewModel();
+            model.CharSheet = new CharSheetViewModel(p, lstRes[0], lstRes[1]);
+            model.Unit = new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color);
+            return PartialView("_MultipleViewReturn", model);
         }
 
 

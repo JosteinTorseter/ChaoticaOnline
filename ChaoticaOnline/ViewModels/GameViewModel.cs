@@ -21,7 +21,7 @@ namespace ChaoticaOnline.ViewModels
         public GameViewModel(int iID, Map map, Player player, Tile tile, Party party, Dictionary<int, string> dicPlayerColors)
         {
             this.ID = iID;
-            this.Map = new MapViewModel(map, dicPlayerColors, tile.ID);
+            this.Map = new MapViewModel(map, player, dicPlayerColors, tile.ID);
             this.Player = new PlayerViewModel(player);
             this.Tile = new TileViewModel(tile, TileSelectionType.None, dicPlayerColors, player);
             this.Party = new List<SmallUnitViewModel>();

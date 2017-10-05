@@ -43,14 +43,19 @@ namespace ChaoticaOnline.GameModels
             return res;
         }
 
-        public static GetSpecialsDictionary(TemplateContext dbT, List<Special> specs)
+        public static Dictionary<int, TDBSpecial> GetSpecialsDictionary(TemplateContext dbT, List<Special> specs)
         {
             List<int> lst = new List<int>();
             foreach (Special s in specs)
             {
                 lst.Add(s.BaseID);
             }
-            List<TDBSpecial> res = dbT.TDBSpecials.Where(sp => lst.co)
+            Dictionary<int, TDBSpecial> res = new Dictionary<int, TDBSpecial>();
+            foreach (TDBSpecial spec in dbT.TDBSpecials.Where(sp => lst.Contains(sp.ID)).ToList())
+            {
+                res.Add(spec.ID, spec);
+            }
+            return res;
         }
     }
 }

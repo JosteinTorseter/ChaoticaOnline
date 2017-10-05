@@ -71,8 +71,9 @@ namespace ChaoticaOnline.GameModels
                 }
             }
 
-            FillDwellings(game.Map, dbT.TDBDwellings.ToList(), lstTerrain, calc);
-            FillDungeons(game.Map, dbT.TDBDungeons.ToList(), lstTerrain, calc);
+            game.Map.FillTileCards(calc);
+            //FillDwellings(game.Map, dbT.TDBDwellings.ToList(), lstTerrain, calc);
+            //FillDungeons(game.Map, dbT.TDBDungeons.ToList(), lstTerrain, calc);
 
             dbG.Entry(game).State = EntityState.Modified;
             dbG.SaveChanges();

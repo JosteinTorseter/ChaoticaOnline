@@ -104,12 +104,56 @@ namespace ChaoticaOnline.GameDBModels
             }
             foreach (TileCard c in this.Cards)
             {
-                if (c.PlayerOnlyID == 0 && c.PlayerOnlyID == player.ID)
+                if (c.PlayerOnlyID == 0 || c.PlayerOnlyID == player.ID)
                 {
                     res.Add(c);
                 }
             }
             return res;
+        }
+
+        public void FillTileCards(Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            for (int i = 0; i < (Statics.CardsPerTile + this.Difficulty); i++)
+            {
+                this.Cards.Add(this.CreateCard(calc));
+            }
+        }
+
+        public TileCard CreateCard(Calc calc = null)
+        {
+            int iChance = 0;
+            if (calc == null) { calc = new Calc(); }
+            Choice oCh = new Choice();
+
+            iChance = Statics.DrawChance_Dwelling - (this.Dwellings.Count * Statics.DrawReduction_Dwelling);
+            iChance -= (this.Cards.Where(c => c.CardType == TileCardType.Dwelling).ToList().Count * Statics.DrawReduction_Dwelling);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Dwelling, iChance); }
+
+            iChance = Statics.DrawChance_Dungeon - (this.Dungeons.Count * Statics.DrawReduction_Dungeon);
+            iChance -= (this.Cards.Where(c => c.CardType == TileCardType.Dungeon).ToList().Count * Statics.DrawReduction_Dungeon);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Dungeon, iChance); }
+
+            iChance = Statics.DrawChance_Army - (this.Parties.Count * Statics.DrawReduction_Army);
+            iChance -= (this.Cards.Where(c => c.CardType == TileCardType.Army).ToList().Count * Statics.DrawReduction_Army);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Army, iChance); }
+
+            iChance = Statics.DrawChance_Unit - (this.Cards.Where(c => c.CardType == TileCardType.Unit).ToList().Count * Statics.DrawReduction_Unit);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Unit, iChance); }
+
+            iChance = Statics.DrawChance_Reward - (this.Cards.Where(c => c.CardType == TileCardType.Reward).ToList().Count * Statics.DrawReduction_Reward);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Reward, iChance); }
+
+            iChance = Statics.DrawChance_Object - (this.WorldObjects.Count * Statics.DrawReduction_Object);
+            iChance -= (this.Cards.Where(c => c.CardType == TileCardType.Object).ToList().Count * Statics.DrawReduction_Object);
+            if (iChance > 0) { oCh.Add((int)TileCardType.Object, iChance); }
+
+            if (oCh.Alternatives.Count > 0)
+            {
+                return new TileCard((TileCardType)oCh.Make(calc).ID, 0, 0);
+            }
+            return null;
         }
 
         public TileCard DrawCard(Player player, Calc calc = null)

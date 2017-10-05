@@ -219,6 +219,7 @@
     <Compile Include="TemplateModels\TDBSpecial.cs" />
     <Compile Include="ViewModels\CharSheetViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\MulipleViewReturnViewModel.cs" />
     <Compile Include="ViewModels\SmallSpecialViewModel.cs" />
     <Compile Include="ViewModels\SmallWorldItemViewModel.cs" />
     <Compile Include="GameModels\GameActions.cs" />
@@ -352,6 +353,7 @@
     <Content Include="Views\Main\Panels\_test.cshtml" />
     <Content Include="Views\Main\Subs\_Tile.cshtml" />
     <Content Include="Views\Main\Panels\_InfoPanel.cshtml" />
+    <Content Include="Views\Main\_MultipleViewReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

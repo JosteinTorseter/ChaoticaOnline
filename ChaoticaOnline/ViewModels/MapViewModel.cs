@@ -20,21 +20,21 @@ namespace ChaoticaOnline.ViewModels
         public MapViewModel()
         {
         }
-        public MapViewModel(Map m, Dictionary<int, string> dicPlayerColors, int sTileID = 0, int qoTileID = 0, int qtTileID = 0)
+        public MapViewModel(Map m, Player p, Dictionary<int, string> dicPlayerColors, int sTileID = 0, int qoTileID = 0, int qtTileID = 0)
         {
             this.Name = "Chaotica";
             SelectedTileID = sTileID;
             QuestOriginTileID = qoTileID;
             QuestTargetTileID = qtTileID;
-            this.SetTiles(m.Tiles.ToList(), dicPlayerColors);
+            this.SetTiles(m.Tiles.ToList(), dicPlayerColors, p);
         }
-        public MapViewModel(Dungeon d, Dictionary<int, string> dicPlayerColors, int sTileID = 0)
+        public MapViewModel(Dungeon d, Player p, Dictionary<int, string> dicPlayerColors, int sTileID = 0)
         {
             this.Name = d.Name;
             SelectedTileID = sTileID;
-            this.SetTiles(d.Tiles.ToList(), dicPlayerColors);
+            this.SetTiles(d.Tiles.ToList(), dicPlayerColors, p);
         }
-        private void SetTiles(List<Tile> lst, Dictionary<int, string> dicPlayerColors)
+        private void SetTiles(List<Tile> lst, Dictionary<int, string> dicPlayerColors, Player p)
         {
             foreach (Tile t in lst)
             {
@@ -44,7 +44,7 @@ namespace ChaoticaOnline.ViewModels
                 if (SelectedTileID == t.ID) { sSelect = TileSelectionType.Selected; }
                 if (QuestOriginTileID == t.ID) { sSelect = TileSelectionType.QuestOrigin; }
                 if (QuestTargetTileID == t.ID) { sSelect = TileSelectionType.QuestTarget; }
-                this.Tiles.Add(new TileViewModel(t, sSelect, dicPlayerColors));
+                this.Tiles.Add(new TileViewModel(t, sSelect, dicPlayerColors, p));
             }
         }
         public TileViewModel GetTile(int X, int Y)

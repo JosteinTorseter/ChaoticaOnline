@@ -23,6 +23,7 @@ namespace ChaoticaOnline.ViewModels
         public int TaxPoints { get; set; }
         public int SearchPoints { get; set; }
         public int ExplorePoints { get; set; }
+        public int CardCount { get; set; }
         public bool CanSearch { get; set; }
         public bool CanTax { get; set; }
         public bool CanExplore { get; set; }
@@ -46,6 +47,7 @@ namespace ChaoticaOnline.ViewModels
             this.Image = tile.Image;
             this.BGColor = tile.BGColor;
             this.SelectionClass = "tile-div";
+            if (player != null) { this.CardCount = tile.GetCards(player).Count; }
             switch (eSelect)
             {
                 case TileSelectionType.Selected:

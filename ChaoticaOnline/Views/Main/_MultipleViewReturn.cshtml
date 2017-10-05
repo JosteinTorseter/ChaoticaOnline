@@ -1,0 +1,68 @@
+﻿@using ChaoticaOnline.ViewModels
+@model MulipleViewReturnViewModel
+
+@if (Model.Tiles.Count > 0)
+{
+    foreach (TileViewModel tile in Model.Tiles)
+    {
+        <div class="holder" data-targetid="tile@(tile.ID)">
+            @Html.Partial("~/Views/Main/Subs/_Tile.cshtml", tile)
+        </div>
+    }
+}
+
+@if (Model.Party.Count > 0)
+{
+    <div class="holder" data-targetid="partytd">
+        @Html.Partial("~/Views/Main/Subs/_PartyWindow.cshtml", Model.Party)
+    </div>
+}
+
+@if (Model.Roster.Count > 0)
+{
+    <div class="holder" data-targetid="InfoPanel1">
+        @Html.Partial("~/Views/Main/Panels/_RosterPanel.cshtml", Model.Roster)
+    </div>
+}
+
+@if (Model.Inventory.Count > 0)
+{
+    <div class="holder" data-targetid="InfoPanel1">
+        @Html.Partial("~/Views/Main/Panels/_InventoryPanel.cshtml", Model.Inventory)
+    </div>
+}
+
+@if (Model.Map != null)
+{
+    <div class="holder" data-targetid="MapCell">
+        @Html.Partial("~/Views/Main/_Map.cshtml", Model.Map)
+    </div>
+}
+
+@if (Model.Tile != null)
+{
+    <div class="holder" data-targetid="InfoPanel1">
+        @Html.Partial("~/Views/Main/_Tile.cshtml", Model.Tile)
+    </div>
+}
+
+@if (Model.InfoPlayer != null)
+{
+    <div class="holder" data-targetid="infotd">
+        @Html.Partial("~/Views/Main/Panels/_InfoPanel.cshtml", Model.InfoPlayer)
+    </div>
+}
+
+@if (Model.CharSheet != null)
+{
+    <div class="holder" data-targetid="InfoPanel1">
+        @Html.Partial("~/Views/Main/Panels/_CharSheetPanel.cshtml", Model.CharSheet)
+    </div>
+}
+
+@if (Model.Unit != null)
+{
+    <div class="holder" data-targetid="InfoPanel2">
+        @Html.Partial("~/Views/Main/Panels/_UnitPanel.cshtml", Model.Unit)
+    </div>
+}

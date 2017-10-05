@@ -31,5 +31,13 @@ namespace ChaoticaOnline.GameDBModels
             this.YCount = iY;
         }
 
+        public void FillTileCards(Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            foreach (Tile t in this.Tiles)
+            {
+                t.FillTileCards(calc);
+            }
+        }
     }
 }

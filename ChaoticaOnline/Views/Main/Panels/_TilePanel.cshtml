@@ -16,7 +16,7 @@
                 style="background-image:url(../../Data/terrain/@Model.Image);border-radius:10px;">
                 <table class="nopads" width="230" height="230">
                     <tr>
-                        @for (int l = 0; l < 5; l++)
+                        @for (int l = 0; l < 4; l++)
                         {
                             if (Model.Dwellings.Count > l)
                             {
@@ -30,9 +30,12 @@
                                 <td class="large-icon-td"></td>
                             }
                         }
+                        <td class="large-icon-td" style="text-decoration-color:white;color:white;font-size:30px;text-align:center;vertical-align:middle;">
+                            @Model.CardCount
+                        </td>
                     </tr>
                     <tr>
-                        @for (int l = 0; l < 5; l++)
+                        @for (int l = 0; l < 4; l++)
                         {
                             if (Model.Dungeons.Count > l)
                             {

@@ -25,6 +25,19 @@
 
     var spider;
 
+    function FillGUI(data) {
+        //console.log("A");
+        var x = $(data).filter(".holder");
+        //console.log(x);
+        //console.log(data);
+        $.each(x, function (i, val) {
+            var $t = $(val);
+            var targetID = $t.data("targetid");
+            //console.log($t.html());
+            $("#" + targetID).html($t.html());
+        })
+    }
+
     function ClickedTile(me) {
         var $me = $(me);
         var id = $me.data("tileid");
@@ -68,7 +81,6 @@
     function ClickedBuyUnit(me) {
         var $me = $(me);
         var id = $me.data("unitid");
-        console.log(id);
         DisplayBaseUnitInfoWindow(id);
     }
 
@@ -80,8 +92,8 @@
 
     function ClickedMainButton(index) {
         switch (index) {
-            case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
-            //case 1: { DisplayCharSheet2(); break; }
+            //case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
+            case 1: { DisplayCharSheet2(); break; }
             case 2: { DisplayRoster(); break; }
             case 3: { DisplayInventory(); break; }
         }
@@ -207,7 +219,6 @@
         var url = "GetCharSheet/";
         $.ajax({
             url: url, success: function (data) {
-                console.log(data);
                 $("#InfoPanel1").html(data);
             }
         });
@@ -217,12 +228,11 @@
         var url = "GetCharSheet2/";
         $.ajax({
             url: url, success: function (data) {
-                var s = data.split("#####");
-                $("#InfoPanel1").html(s[0]);
-                $("#InfoPanel2").html(s[1]);
+                FillGUI(data);
             }
         });
     }
+
     function DisplayTileInfoWindow(id) {
         var url = "GetTilePanelInfo/" + id;
         if (id == 0) { return; }
@@ -285,12 +295,9 @@
     function DisplayBaseUnitInfoWindow(id) {
         var url = "GetBaseUnitPanelInfo/" + id;
         if (id == 0) { return; }
-        console.log(id);
         $.ajax({
             url: url, success: function (data) {
-                console.log("Close");
                 $("#InfoPanel2").html(data);
-                console.log("Done");
             }
         });
     }

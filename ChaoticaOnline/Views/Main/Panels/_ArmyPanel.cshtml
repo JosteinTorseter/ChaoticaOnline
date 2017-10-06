@@ -1,0 +1,34 @@
+﻿@using ChaoticaOnline.lib;
+@model ChaoticaOnline.ViewModels.ArmyViewModel
+
+
+@{
+    string uColor = Statics.AlignmentColor(Model.Alignment);
+    string tColor = Statics.AlignmentInverseColor(Model.Alignment);
+}
+<div style="border-radius:10px;width:530px;height:250px;background-color:@uColor">
+    <table class="nopads" width="530" height="250"
+           style="color:@tColor;text-align:center;text-decoration-color:@tColor;font-size:11px;">
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+        <tr>
+            <td width="10px" rowspan="2"></td>
+            <td class="imagetd" rowspan="2"
+                style="background-image:url(../../Data/monsters/@Model.Image);">
+            </td>
+            <td>
+                @Model.Name
+            </td>
+            <td width="10px" rowspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" height="10px"></td>
+        </tr>
+    </table>
+</div>

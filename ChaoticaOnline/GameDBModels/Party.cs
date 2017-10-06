@@ -12,6 +12,8 @@ namespace ChaoticaOnline.GameDBModels
     public class Party
     {
         public int ID { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
         public int PlayerIndex { get; set; }
         public int Ident { get; set; }
         public Alignment Alignment { get; set; }

@@ -92,6 +92,11 @@ namespace ChaoticaOnline.GameModels
                         if (entity == EntityType.Dwelling) { return EnterDwelling(p, iID, dbG, dbT); }
                         else { return null; }
                     }
+                case ButtonAction.Explore:
+                    {
+                        if (entity == EntityType.Dwelling) { return EnterDwelling(p, iID, dbG, dbT); }
+                        else { return null; }
+                    }
                 default: { return null; }
             }
         }
@@ -103,6 +108,18 @@ namespace ChaoticaOnline.GameModels
             TDBUnit leader = dbT.TDBUnits.Find(dw.LeaderID);
             return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT), UnitFactory.GetViewItemsFromArray(dwBase.TradeItems, dbT), UnitFactory.GetViewSpecsFromArray(dwBase.Specials, dbT));
         }
-       
+
+        public static Object DrawExploreCard(Player p, int iID, GameContext dbG, TemplateContext dbT, Calc calc = null)
+        {
+            Tile tile = dbG.Tiles.Find(iID);
+            if (calc == null) { calc = new Calc(); }
+            TileCard c = tile.DrawCard(p, calc);
+            if (c.ID > 0)
+            {
+
+            }
+
+            return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT), UnitFactory.GetViewItemsFromArray(dwBase.TradeItems, dbT), UnitFactory.GetViewSpecsFromArray(dwBase.Specials, dbT));
+        }
     }
 }

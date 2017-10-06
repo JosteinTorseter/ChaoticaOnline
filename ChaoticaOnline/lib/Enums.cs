@@ -97,7 +97,8 @@ namespace ChaoticaOnline.lib
         Unit = 7,
         SpecialAction = 8,
         Attribute = 9,
-        WorldItem = 10
+        WorldItem = 10,
+        Army = 11
     }
     public enum ButtonAction
     {

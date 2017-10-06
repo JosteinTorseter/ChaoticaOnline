@@ -1,4 +1,9 @@
-﻿@model ChaoticaOnline.ViewModels.TileViewModel
+﻿@using ChaoticaOnline.lib
+@model ChaoticaOnline.ViewModels.TileViewModel
+
+@{ 
+    string strClass = "";
+}
 
 <td class="terrain" id="tile@(Model.ID)"
     data-tileid="@( Model.Image == "tile.jpg" ? "-1" : Model.ID.ToString() )"
@@ -80,37 +85,49 @@
                     <td class="icon-td-last"></td>
                 </tr>
                 <tr>
-                    <td class="icon-td"></td>
-                    <td class="icon-td"></td>
-                    <td class="icon-td"></td>
-                    <td class="icon-td"></td>
-                    <td class="icon-td-last"></td>
+                    @for (int k = 5; k < 10; k++)
+                    {
+                        strClass = "icon-td";
+                        if (k == 9) { strClass = "icon-td-last"; }
+                        if (Model.Players.Count > k)
+                        {
+                            <td class="@strClass"
+                                style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                        }
+                        else
+                        {
+                            if (Model.Armies.Count + Model.Players.Count > k)
+                            {
+                                <td class="@strClass"
+                                    style="border-radius:10px;background-image:url(../../Data/monsters/@(Model.Armies[k - Model.Players.Count].Image));background-color:@(Statics.AlignmentColor(Model.Armies[k - Model.Players.Count].Alignment))"></td>
+                            }
+                            else
+                            {
+                                <td class="@strClass"></td>
+                            }
+                        }
+                    }
                 </tr>
                 <tr>
                     @for (int k = 0; k < 5; k++)
                     {
+                        strClass = "icon-td-bot";
+                        if (k == 4) { strClass = "icon-td-lastcorner"; }
                         if (Model.Players.Count > k)
                         {
-                            if (k == 4)
-                            {
-                                <td class="icon-td-lastcorner"
-                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
-                            }
-                            else
-                            {
-                                <td class="icon-td-bot"
-                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
-                            }
+                            <td class="@strClass"
+                                style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
                         }
                         else
                         {
-                            if (k == 4)
+                            if (Model.Armies.Count + Model.Players.Count > k)
                             {
-                                <td class="icon-td-lastcorner"></td>
+                                <td class="@strClass"
+                                    style="border-radius:10px;background-image:url(../../Data/monsters/@(Model.Armies[k - Model.Players.Count].Image));background-color:@(Statics.AlignmentColor(Model.Armies[k - Model.Players.Count].Alignment))"></td>
                             }
                             else
                             {
-                                <td class="icon-td-bot"></td>
+                                <td class="@strClass"></td>
                             }
                         }
                     }

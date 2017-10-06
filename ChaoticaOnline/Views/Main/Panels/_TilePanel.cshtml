@@ -1,4 +1,5 @@
-﻿@model ChaoticaOnline.ViewModels.TileViewModel
+﻿@using ChaoticaOnline.lib
+@model ChaoticaOnline.ViewModels.TileViewModel
 
 
 @{
@@ -58,23 +59,46 @@
                         <td class="large-icon-td"></td>
                     </tr>
                     <tr>
-                        <td class="large-icon-td"></td>
-                        <td class="large-icon-td"></td>
-                        <td class="large-icon-td"></td>
-                        <td class="large-icon-td"></td>
-                        <td class="large-icon-td"></td>
+                        @for (int k = 5; k < 10; k++)
+                        {
+                            if (Model.Players.Count > k)
+                            {
+                                <td class="large-icon-td"
+                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                            }
+                            else
+                            {
+                                if (Model.Armies.Count + Model.Players.Count > k)
+                                {
+                                    <td class="large-icon-td"
+                                        style="border-radius:10px;background-image:url(../../Data/@(Model.Armies[k - Model.Players.Count].Image));background-color:@(Statics.AlignmentColor(Model.Armies[k - Model.Players.Count].Alignment))"></td>
+                                }
+                                else
+                                {
+                                    <td class="large-icon-td"></td>
+                                }
+                            }
+                        }
                     </tr>
                     <tr>
                         @for (int k = 0; k < 5; k++)
                         {
                             if (Model.Players.Count > k)
                             {
-                                <td class="large-icon-td" 
-                                    style="border-radius:25px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
+                                <td class="large-icon-td"
+                                    style="border-radius:10px;background-image:url(../../Data/@(Model.Players[k].Color).png)"></td>
                             }
                             else
                             {
-                                <td class="large-icon-td"></td>
+                                if (Model.Armies.Count + Model.Players.Count > k)
+                                {
+                                    <td class="large-icon-td"
+                                        style="border-radius:10px;background-image:url(../../Data/@(Model.Armies[k - Model.Players.Count].Image));background-color:@(Statics.AlignmentColor(Model.Armies[k - Model.Players.Count].Alignment))"></td>
+                                }
+                                else
+                                {
+                                    <td class="large-icon-td"></td>
+                                }
                             }
                         }
                     </tr>

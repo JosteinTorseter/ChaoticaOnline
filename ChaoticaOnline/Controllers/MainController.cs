@@ -398,6 +398,10 @@ namespace ChaoticaOnline.Controllers
                         if (entity == EntityType.Dwelling) { return PartialView("Subs/_InsideDwellingWindow", (InsideDwellingViewModel)res); }
                         break;
                     }
+                case ButtonAction.Explore:
+                    {
+                        return PartialView("Subs/_InsideDwellingWindow", (DrawResultViewModel)res); 
+                    }
             }
 
             return new EmptyResult();

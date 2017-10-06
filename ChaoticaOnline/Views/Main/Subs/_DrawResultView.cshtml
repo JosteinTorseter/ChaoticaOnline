@@ -1,0 +1,20 @@
+﻿@model ChaoticaOnline.ViewModels.DrawResultViewModel
+
+<div style="text-align:center;vertical-align:middle;">
+    @if (Model.Army != null)
+    {
+        @Html.Partial("~/Views/Main/Panels/_ArmyPanel.cshtml", Model.Army)
+    }
+    else if (Model.Dungeon != null)
+    {
+        @Html.Partial("~/Views/Main/Panels/_DungeonPanel.cshtml", Model.Dungeon)
+    }
+    else if (Model.Dwelling != null)
+    {
+        @Html.Partial("~/Views/Main/Panels/_DwellingPanel.cshtml", Model.Dwelling)
+    }
+    else if (Model.Unit != null)
+    {
+        @Html.Partial("~/Views/Main/Panels/_UnitPanel.cshtml", Model.Unit)
+    }
+</div>

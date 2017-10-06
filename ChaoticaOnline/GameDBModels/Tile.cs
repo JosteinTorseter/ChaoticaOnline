@@ -155,7 +155,7 @@ namespace ChaoticaOnline.GameDBModels
             }
             return null;
         }
-
+        
         public TileCard DrawCard(Player player, Calc calc = null)
         {
             List<TileCard> lst = GetCards(player);

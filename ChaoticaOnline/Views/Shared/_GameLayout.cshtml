@@ -26,14 +26,10 @@
     var spider;
 
     function FillGUI(data) {
-        //console.log("A");
         var x = $(data).filter(".holder");
-        //console.log(x);
-        //console.log(data);
         $.each(x, function (i, val) {
             var $t = $(val);
             var targetID = $t.data("targetid");
-            //console.log($t.html());
             $("#" + targetID).html($t.html());
         })
     }
@@ -92,7 +88,6 @@
 
     function ClickedMainButton(index) {
         switch (index) {
-            //case 1: { DisplayCharSheet(); DisplayHeroUnit(); break; }
             case 1: { DisplayCharSheet2(); break; }
             case 2: { DisplayRoster(); break; }
             case 3: { DisplayInventory(); break; }
@@ -117,8 +112,12 @@
                 }
                 else {
                     switch (act) {
-                        case 10: {
+                        case 2: {
                             if (obj == 5) { $("#MapCell").html(data); }
+                            break;
+                        }
+                        case 10: {
+                            $("#MapCell").html(data);
                             break;
                         }
                     }

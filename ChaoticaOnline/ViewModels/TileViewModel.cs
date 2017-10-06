@@ -32,6 +32,7 @@ namespace ChaoticaOnline.ViewModels
         public List<PlayerViewModel> Players { get; set; } = new List<PlayerViewModel>();
         public List<DwellingViewModel> Dwellings { get; set; } = new List<DwellingViewModel>();
         public List<DungeonViewModel> Dungeons { get; set; } = new List<DungeonViewModel>();
+        public List<ArmyViewModel> Armies { get; set; } = new List<ArmyViewModel>();
         public List<ActionButtonViewModel> Buttons { get; set; }
         public TileViewModel()
         {
@@ -76,7 +77,7 @@ namespace ChaoticaOnline.ViewModels
                 // !!! Set from player
                 if (player.TileID == tile.ID)
                 {
-                    this.Buttons.Add(new ActionButtonViewModel("Explore (2)", player.Color, ButtonAction.Explore, EntityType.Tile, this.ID));
+                    if (this.CardCount > 0) { this.Buttons.Add(new ActionButtonViewModel("Explore (2)", player.Color, ButtonAction.Explore, EntityType.Tile, this.ID)); }
                     this.Buttons.Add(new ActionButtonViewModel("Search (3)", player.Color, ButtonAction.Search, EntityType.Tile, this.ID));
                     this.Buttons.Add(new ActionButtonViewModel("Tax (12)", player.Color, ButtonAction.Tax, EntityType.Tile, this.ID));
                     this.Buttons.Add(new ActionButtonViewModel("Rest (1)", player.Color, ButtonAction.Rest, EntityType.Tile, this.ID));

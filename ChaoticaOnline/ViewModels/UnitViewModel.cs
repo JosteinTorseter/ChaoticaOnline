@@ -46,7 +46,7 @@ namespace ChaoticaOnline.ViewModels
         public UnitViewModel()
         {
         }
-        public UnitViewModel(Unit unit, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor, Dictionary<int, TDBSpecial> specs = null)
+        public UnitViewModel(Unit unit, bool isBuy, bool canBuy, int buyPriceOrPowerReq, string pColor = "", Dictionary<int, TDBSpecial> specs = null)
         {
             this.ID = unit.ID;
             this.Name = unit.Name;
@@ -97,7 +97,7 @@ namespace ChaoticaOnline.ViewModels
             this.Targets = strTargets;
 
             this.Buttons = new List<ActionButtonViewModel>();
-            if (isBuy && canBuy)
+            if (isBuy && canBuy && pColor != "")
             {
                 this.Buttons.Add(new ActionButtonViewModel("Buy (" + buyPriceOrPowerReq + " Gold)", pColor, ButtonAction.Buy, EntityType.Unit, this.ID));
             }

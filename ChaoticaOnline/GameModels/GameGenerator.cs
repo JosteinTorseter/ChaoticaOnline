@@ -51,8 +51,18 @@ namespace ChaoticaOnline.GameModels
                 game.Parties.Add(Test.GenerateTestParty(0, p, dbT));
                 game.Parties.Add(Test.GenerateTestParty(1, p, dbT));
                 p.UsedCommand = 32;
+                p.RaceID = 1;
                 Test.GenerateInventory(p, baseItems);
                 lst.Add(PlacePlayerStartPosition(game.Map, p, lst, calc));
+                TDBRace race = dbT.TDBRaces.Find(p.RaceID);
+                TDBDwelling startDwelling = dbT.TDBDwellings.Find(race.StartDwellingID);
+                Tile tile = game.Map.Tiles.First(t => t.ID == p.StartTileID);
+                Dwelling dw = new Dwelling(startDwelling);
+                tile.Dwellings.Add(dw);
+                dbG.Dwellings.Add(dw);
+                dbG.SaveChanges();
+                p.VisibleObjectsString = ((int)EntityType.Dwelling).ToString() + ":" + dw.ID;
+                p.ArrangeStringToVisObjects();
                 SetInitialVisibleTiles(game.Map, p);
             }
 

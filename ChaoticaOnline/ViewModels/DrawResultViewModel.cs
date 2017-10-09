@@ -13,34 +13,48 @@ namespace ChaoticaOnline.ViewModels
         public DungeonViewModel Dungeon { get; set; }
         public ArmyViewModel Army { get; set; }
         public UnitViewModel Unit { get; set; }
+        public string Header { get; set; }
+        public string Footer { get; set; }
+        public List<ActionButtonViewModel> Buttons { get; set; }
         public DrawResultViewModel()
         {
         }
-        public DrawResultViewModel(EntityType type, Object obj, Player p)
+        public DrawResultViewModel(TileCardType type, Object obj, Player p, string sHeader = "")
         {
+            this.Buttons = new List<ActionButtonViewModel>();
             switch (type)
             {
-                case EntityType.Dungeon:
+                case TileCardType.Dungeon:
                     {
+                        this.Header = "You have found a dungeon!";
+                        this.Buttons.Add(new ActionButtonViewModel("OK", p.Color, ButtonAction.Close, EntityType.None, 0));
                         this.Dungeon = new DungeonViewModel((Dungeon)obj);
                         break;
                     }
-                case EntityType.Dwelling:
+                case TileCardType.Dwelling:
                     {
+                        this.Header = "Someone lives here!";
+                        this.Buttons.Add(new ActionButtonViewModel("OK", p.Color, ButtonAction.Close, EntityType.None, 0));
                         this.Dwelling = new DwellingViewModel((Dwelling)obj);
                         break;
                     }
-                case EntityType.Army:
+                case TileCardType.Army:
                     {
+                        this.Header = "You have encountered a party!";
+                        this.Buttons.Add(new ActionButtonViewModel("OK", p.Color, ButtonAction.Close, EntityType.None, 0));
                         this.Army = new ArmyViewModel((Party)obj);
                         break;
                     }
-                case EntityType.Unit:
+                case TileCardType.Unit:
                     {
+                        this.Header = "A likeminded individual asks to join you army.";
+                        this.Footer = "Do you accept?";
+                        this.Buttons.Add(new ActionButtonViewModel("Yes", p.Color, ButtonAction.AcceptUnit, EntityType.Unit, ((Unit)obj).BaseUnitID));
                         this.Unit = new UnitViewModel((Unit)obj, false, false, 0, p.Color);
                         break;
                     }
             }
+            if (sHeader != "") { this.Header = sHeader; }
         }
     }
 }

@@ -20,6 +20,7 @@ namespace ChaoticaOnline.GameDBModels
         public int StartTileID { get; set; }
         public int TileID { get; set; }
         public int PartyID { get; set; }
+        public int RaceID { get; set; }
         public int RosterID { get; set; }
         public int X { get; set; }
         public int Y { get; set; }

@@ -44,7 +44,6 @@ namespace ChaoticaOnline.GameDBModels
             this.CanBeRaided = dw.CanBeRaided;
             this.CanBeAttacked = dw.CanBeAttacked;
             this.HasStrength = dw.HasStrength;
-            this.BaseDwellingID = dw.ID;
             this.Power = dw.StartPower;
             this.QuestLevel = dw.BaseQuestLevel;
             this.BaseDwellingID = dw.ID;

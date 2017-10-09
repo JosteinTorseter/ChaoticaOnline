@@ -14,6 +14,11 @@
         </div>
         <div class="body-content">
             @RenderBody()
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" id="modalDiv">
+
+                </div>
+            </div>
         </div>
     </div>
 
@@ -95,6 +100,7 @@
     }
 
     function ClickedAction(me) {
+        console.log("CCCCCC");
         var $me = $(me);
         var id = $me.data("ident");
         var obj = $me.data("obj");
@@ -104,20 +110,30 @@
             return;
         }
         var url = "ClickedAction/?id=" + id + "&act=" + act + "&obj=" + obj;
-        if (id == 0 || act == 0 || obj == 0) { return; }
+        if (act == 0) { return; }
+        console.log(id);
+        console.log(act);
+        console.log(obj);
         $.ajax({
             url: url, success: function (data) {
                 if (!$.trim(data)) {
+                    console.log("BBBBBB");
                     // No action
                 }
                 else {
                     switch (act) {
-                        case 2: {
-                            if (obj == 5) { $("#MapCell").html(data); }
-                            break;
-                        }
                         case 10: {
                             $("#MapCell").html(data);
+                            break;
+                        }
+                        case 2: {
+                            $("#modalDiv").html(data);
+                            $('#myModal').modal('show');
+                            break;
+                        }
+                        default: {
+                            console.log("AAAAAA");
+                            FillGUI(data);
                             break;
                         }
                     }

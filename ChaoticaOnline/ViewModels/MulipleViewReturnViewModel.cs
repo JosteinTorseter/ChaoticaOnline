@@ -16,5 +16,8 @@ namespace ChaoticaOnline.ViewModels
         public PlayerViewModel InfoPlayer { get; set; }
         public CharSheetViewModel CharSheet { get; set; }
         public UnitViewModel Unit { get; set; }
+        public DrawResultViewModel CardResult { get; set; }
+        public DungeonViewModel Dungeon { get; set; }
+        public DwellingViewModel Dwelling { get; set; }
     }
 }

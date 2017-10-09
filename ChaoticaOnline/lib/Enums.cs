@@ -98,7 +98,8 @@ namespace ChaoticaOnline.lib
         SpecialAction = 8,
         Attribute = 9,
         WorldItem = 10,
-        Army = 11
+        Army = 11,
+        Reward = 12
     }
     public enum ButtonAction
     {
@@ -118,7 +119,10 @@ namespace ChaoticaOnline.lib
         Buy = 13,
         GetQuest = 14,
         AcceptQuest = 15,
-        Bribe = 16
+        Bribe = 16,
+        Close = 17,
+        AcceptUnit = 18,
+        AcceptReward = 19
     }
 
     public enum TileVisibility

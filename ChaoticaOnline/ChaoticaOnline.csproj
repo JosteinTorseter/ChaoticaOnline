@@ -358,6 +358,7 @@
     <Content Include="Views\Main\_MultipleViewReturn.cshtml" />
     <Content Include="Views\Main\Panels\_ArmyPanel.cshtml" />
     <Content Include="Views\Main\Subs\_DrawResultView.cshtml" />
+    <Content Include="Views\Main\PopUps\_DrawResultPopUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

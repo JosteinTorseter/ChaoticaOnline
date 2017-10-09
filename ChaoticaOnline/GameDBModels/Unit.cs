@@ -101,7 +101,7 @@ namespace ChaoticaOnline.GameDBModels
             this.IsHero = c.HeroAllowed;
         }
 
-        public void LevelUp(List<Bonus> LevelUpBonuses, int iLevel2XP, int iLevels = 1)
+        public void LevelUp(List<Bonus> LevelUpBonuses, int iLevel2XP, int iDiffPerLevel, int iLevels = 1)
         {
             int iTotalLvl = this.Level + iLevels;
 
@@ -205,6 +205,7 @@ namespace ChaoticaOnline.GameDBModels
             }
             this.Level += iLevels;
             this.NextLevelXP = iLevel2XP;
+            this.Difficulty += iDiffPerLevel;
             if (this.Level > 1)
             {
                 this.NextLevelXP = (int)Math.Round(this.NextLevelXP * Math.Pow(1.6, this.Level - 1));

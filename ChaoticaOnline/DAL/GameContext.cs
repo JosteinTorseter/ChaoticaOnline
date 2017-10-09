@@ -50,6 +50,7 @@ namespace ChaoticaOnline.DAL
         public DbSet<Unit> Units { get; set; }
         public DbSet<Bonus> Bonuses { get; set; }
         public DbSet<WorldItem> WorldItems { get; set; }
+        public DbSet<TileCard> TileCards { get; set; }
 
     }
 }

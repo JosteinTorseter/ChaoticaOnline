@@ -30,9 +30,9 @@ namespace ChaoticaOnline.ViewModels
             this.IsOpen = du.IsOpen;
             this.Difficulty = du.Difficulty;
             this.Name = du.Name;
+            this.Buttons = new List<ActionButtonViewModel>();
             if (player != null)
             {
-                this.Buttons = new List<ActionButtonViewModel>();
                 if (player.TileID == du.TileId)
                 {
                     this.Buttons.Add(new ActionButtonViewModel("Enter", player.Color, ButtonAction.Enter, EntityType.Dungeon, this.ID));

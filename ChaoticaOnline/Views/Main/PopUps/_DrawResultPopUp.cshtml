@@ -1,0 +1,38 @@
+﻿@using ChaoticaOnline.ViewModels;
+@model DrawResultViewModel
+
+@{
+    string clr = "#" + (string)Session["PlayerColor"];
+}
+
+<!-- Modal content-->
+<div class="modal-content" style="background-color:@clr">
+    <div class="modal-header">
+        @Model.Header
+    </div>
+    <div class="modal-body">
+        @if (Model.Army != null)
+        {
+            @Html.Partial("~/Views/Main/Panels/_ArmyPanel.cshtml", Model.Army)
+        }
+        else if (Model.Dungeon != null)
+        {
+            @Html.Partial("~/Views/Main/Panels/_DungeonPanel.cshtml", Model.Dungeon)
+        }
+        else if (Model.Dwelling != null)
+        {
+            @Html.Partial("~/Views/Main/Panels/_DwellingPanel.cshtml", Model.Dwelling)
+        }
+        else if (Model.Unit != null)
+        {
+            @Html.Partial("~/Views/Main/Panels/_UnitPanel.cshtml", Model.Unit)
+        }
+    </div>
+    <div class="modal-footer">
+        @Model.Footer
+        @foreach (ActionButtonViewModel btn in Model.Buttons)
+        {
+            @Html.Partial("~/Views/Main/Subs/_ActionButton.cshtml", btn)
+        }
+    </div>
+</div>

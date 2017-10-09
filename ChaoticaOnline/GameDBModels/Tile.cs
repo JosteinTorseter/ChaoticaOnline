@@ -1,4 +1,5 @@
-﻿using ChaoticaOnline.GameModels;
+﻿using ChaoticaOnline.DAL;
+using ChaoticaOnline.GameModels;
 using ChaoticaOnline.lib;
 using ChaoticaOnline.TemplateModels;
 using System;
@@ -72,7 +73,7 @@ namespace ChaoticaOnline.GameDBModels
             int i = -1;
             foreach (Dwelling dw in this.Dwellings)
             {
-                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)TileCardType.Dwelling, dw.ID)))
+                if (!player.VisibleObjects.Contains(new KeyValuePair<int, int>((int)EntityType.Dwelling, dw.ID)))
                 {
                     res.Add(new TileCard(TileCardType.Dwelling, dw.ID, i));
                     i--;
@@ -156,6 +157,87 @@ namespace ChaoticaOnline.GameDBModels
             return null;
         }
         
+        public object GenerateCardEntity(TileCardType ent, TemplateContext dbT, GameContext dbG, Calc calc = null)
+        {
+            TDBTerrain terr = dbT.TDBTerrain.Find(this.TerrainID);
+            if (calc == null) { calc = new Calc(); }
+            switch (ent)
+            {
+                case TileCardType.Army:
+                    {
+                        Party p = this.CreateParty(dbT, terr, calc);
+                        p.Tile = this;
+                        dbG.Parties.Add(p);
+                        return p;
+                    }
+                case TileCardType.Dwelling:
+                    {
+                        Dwelling d = this.CreateDwelling(dbT, terr, calc);
+                        d.Tile = this;
+                        dbG.Dwellings.Add(d);
+                        return d;
+                    }
+                case TileCardType.Dungeon:
+                    {
+                        Dungeon d = this.CreateDungeon(dbT, terr, calc);
+                        d.Tile = this;
+                        dbG.Dungeons.Add(d);
+                        return d;
+                    }
+            }
+            return null;
+        }
+
+        public Dwelling CreateDwelling(TemplateContext dbT, TDBTerrain terr, Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            Choice choice = new Choice();
+            foreach (KeyValuePair<int, int> kv in terr.DwellingTypes)
+            {
+                if (this.Dwellings.Where(d => d.BaseDwellingID == kv.Key).Count() == 0)
+                {
+                    choice.Add(kv.Key, kv.Value);
+                }
+            }
+            return new Dwelling(dbT.TDBDwellings.Find(choice.Make(calc).ID));
+        }
+
+        public Dungeon CreateDungeon(TemplateContext dbT, TDBTerrain terr, Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            Choice choice = new Choice();
+            foreach (KeyValuePair<int, int> kv in terr.DungeonTypes)
+            {
+                if (this.Dungeons.Where(d => d.BaseDungeonID == kv.Key).Count() == 0)
+                {
+                    choice.Add(kv.Key, kv.Value);
+                }
+            }
+            return new Dungeon(dbT.TDBDungeons.Find(choice.Make(calc).ID));
+        }
+        public Party CreateParty(TemplateContext dbT, TDBTerrain terr, Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            return UnitFactory.CreateParty(dbT, this.DrawRace(terr, calc), Statics.GetDifficulty(this.Difficulty, calc), calc);
+        }
+        public Unit CreateRandomUnit(TemplateContext dbT, Calc calc = null, Alignment overrideAlign = Alignment.Inherited)
+        {
+            if (calc == null) { calc = new Calc(); }
+            TDBTerrain terr = dbT.TDBTerrain.Find(this.TerrainID);
+            return UnitFactory.CreateRandomUnit(dbT, Calc.Round(this.Difficulty * Statics.RewardUnitDifficultyMultiplier), this.DrawRace(terr, calc), 0, 1, overrideAlign, calc);
+        }
+
+        public int DrawRace(TDBTerrain terr, Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            Choice choice = new Choice();
+            foreach (KeyValuePair<int, int> kv in terr.RaceTypes)
+            {
+                choice.Add(kv.Key, kv.Value);
+            }
+            return choice.Make(calc).ID;
+        }
+
         public TileCard DrawCard(Player player, Calc calc = null)
         {
             List<TileCard> lst = GetCards(player);
@@ -171,7 +253,8 @@ namespace ChaoticaOnline.GameDBModels
                 {
                     oCh.Add(card.ID, 1);
                 }
-                return lst.Find(c => c.ID == oCh.Make(calc).ID);
+                int iRes = oCh.Make(calc).ID;
+                return lst.Find(c => c.ID == iRes);
             }
             lstTemp = lst.Where(c => c.Weight < 0).OrderByDescending(c => c.Weight).ToList();
             if (lstTemp.Count > 0) { return lstTemp[0]; }

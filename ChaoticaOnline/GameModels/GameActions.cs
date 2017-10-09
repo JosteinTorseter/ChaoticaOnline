@@ -5,6 +5,7 @@ using ChaoticaOnline.TemplateModels;
 using ChaoticaOnline.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -83,8 +84,10 @@ namespace ChaoticaOnline.GameModels
             p.SetTileListsString();
         }
 
-        public static Object ApplyAction(Player p, ButtonAction action, EntityType entity, int iID, GameContext dbG, TemplateContext dbT)
+        public static Object ApplyAction(Player p, ButtonAction action, EntityType entity, int iID, 
+                GameContext dbG, TemplateContext dbT, Calc calc = null)
         {
+            if (calc == null) { calc = new Calc(); }
             switch (action)
             {
                 case ButtonAction.Enter:
@@ -94,8 +97,11 @@ namespace ChaoticaOnline.GameModels
                     }
                 case ButtonAction.Explore:
                     {
-                        if (entity == EntityType.Dwelling) { return EnterDwelling(p, iID, dbG, dbT); }
-                        else { return null; }
+                        return DrawExploreCard(p, iID, dbG, dbT, calc);
+                    }
+                case ButtonAction.Close:
+                    {
+                        return 0;
                     }
                 default: { return null; }
             }
@@ -109,17 +115,62 @@ namespace ChaoticaOnline.GameModels
             return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT), UnitFactory.GetViewItemsFromArray(dwBase.TradeItems, dbT), UnitFactory.GetViewSpecsFromArray(dwBase.Specials, dbT));
         }
 
-        public static Object DrawExploreCard(Player p, int iID, GameContext dbG, TemplateContext dbT, Calc calc = null)
+        public static DrawResultViewModel DrawExploreCard(Player p, int iID, GameContext dbG, TemplateContext dbT, Calc calc = null)
         {
             Tile tile = dbG.Tiles.Find(iID);
             if (calc == null) { calc = new Calc(); }
             TileCard c = tile.DrawCard(p, calc);
-            if (c.ID > 0)
-            {
+            Object temp = null;
 
+            if (c.RelatedID > 0)
+            {
+                switch (c.CardType)
+                {
+                    case TileCardType.Army:
+                        {
+                            temp = tile.Parties.First(a => a.ID == c.RelatedID);
+                            break;
+                        }
+                    case TileCardType.Dungeon:
+                        {
+                            temp = tile.Dungeons.First(d => d.ID == c.RelatedID);
+                            break;
+                        }
+                    case TileCardType.Dwelling:
+                        {
+                            temp = tile.Dwellings.First(d => d.ID == c.RelatedID);
+                            break;
+                        }
+                    case TileCardType.Unit:
+                        {
+                            temp = UnitFactory.CreateUnit(dbT, c.RelatedID, 1, null, p.Alignment);
+                            break;
+                        }
+                }
+            } else
+            {
+                switch (c.CardType)
+                {
+                    case TileCardType.Army:
+                    case TileCardType.Dwelling:
+                    case TileCardType.Dungeon:
+                        {
+                            temp = tile.GenerateCardEntity(c.CardType, dbT, dbG, calc);
+                            break;
+                        }
+                    case TileCardType.Unit:
+                        {
+                            temp = tile.CreateRandomUnit(dbT, calc, p.Alignment);
+                            break;
+                        }
+                }
+                tile.Cards.Remove(c);
+                dbG.TileCards.Remove(c);
+                dbG.Entry(tile).State = EntityState.Modified;
+                dbG.SaveChanges();
             }
 
-            return new InsideDwellingViewModel(dw, p, leader, UnitFactory.GetViewUnitsFromArray(dwBase.TradeUnits, dbT), UnitFactory.GetViewItemsFromArray(dwBase.TradeItems, dbT), UnitFactory.GetViewSpecsFromArray(dwBase.Specials, dbT));
+            return new DrawResultViewModel(c.CardType, temp, p);
         }
     }
 }

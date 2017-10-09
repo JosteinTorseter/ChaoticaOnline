@@ -31,10 +31,10 @@ namespace ChaoticaOnline.ViewModels
             this.Image = dw.Image;
             this.Alignment = dw.Alignment;
             this.Power = dw.Power;
+            this.Buttons = new List<ActionButtonViewModel>();
 
             if (p != null)
             {
-                this.Buttons = new List<ActionButtonViewModel>();
 
                 // !!! Base these on player
                 if (p.TileID == dw.TileId)

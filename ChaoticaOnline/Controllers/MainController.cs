@@ -71,20 +71,35 @@ namespace ChaoticaOnline.Controllers
 
             Session["PlayerID"] = player.ID;
             Session["PlayerColor"] = player.Color;
+            Session["GameID"] = game.ID;
 
             return View("Index", model);
         }
 
+        private Player GetPlayer()
+        {
+            int iPlayerID = (int)Session["PlayerID"];
+            Player player = dbG.Players.Find(iPlayerID);
+            player.ArrangeStringToTileLists();
+            player.ArrangeStringToVisObjects();
+            return player;
+        }
+
+        private Game GetGame()
+        {
+            int iGameID = (int)Session["GameID"];
+            Game game = dbG.Games.Find(iGameID);
+            return game;
+        }
 
         public ActionResult GetTilePanelInfo(int id)
         {
             Tile tile = null;
-            int iPlayerID = (int)Session["PlayerID"];
             Player player = null;
             if (id > 0)
             {
                 tile = dbG.Tiles.Find(id); 
-                player = dbG.Players.Find(iPlayerID);
+                player = GetPlayer();
             }
             else
             {
@@ -100,19 +115,17 @@ namespace ChaoticaOnline.Controllers
         public ActionResult RefreshTile(int id)
         {
             if (id == 0) { return new EmptyResult(); }
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             Tile tile = dbG.Tiles.Find(id);
             return PartialView("Subs/_Tile", new TileViewModel(tile, TileSelectionType.None, GetSessionDic(), p));
         }
 
         public ActionResult GetDwellingPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
                 Dwelling d = dbG.Dwellings.Find(id);
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 return PartialView("Panels/_DwellingPanel", new DwellingViewModel(d, p));
             }
             else
@@ -123,11 +136,10 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetDungeonPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
                 Dungeon d = dbG.Dungeons.Find(id);
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 return PartialView("Panels/_DungeonPanel", new DungeonViewModel(d, p));
             }
             else
@@ -138,10 +150,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetUnitPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 Unit u = dbG.Units.Find(id);
                 return PartialView("Panels/_UnitPanel", new UnitViewModel(u, false, false, 0, p.Color));
             }
@@ -154,10 +165,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetItemPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 WorldItem it = dbG.WorldItems.Find(id);
                 TDBWorldItem bit = dbT.TDBWorldItems.Find(it.BaseItemID);
                 int iPrice = bit.GoldValue;
@@ -177,10 +187,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetBaseItemPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 TDBWorldItem bit = dbT.TDBWorldItems.Find(id);
                 return PartialView("Panels/_WorldItemPanel", new WorldItemViewModel(p, bit, 1, true, true, bit.GoldValue, 0));
             }
@@ -193,10 +202,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetBaseUnitPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 return PartialView("Panels/_UnitPanel", new UnitViewModel(UnitFactory.CreateUnit(dbT, id, 1), true, true, 0, p.Color));
             }
             else
@@ -208,10 +216,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetBaseSpecPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 TDBSpecial spec = dbT.TDBSpecials.Find(id);
                 return PartialView("Panels/_SpecPanel", new SpecialViewModel(spec, true, true, spec.GoldValue, p.Color));
             }
@@ -224,10 +231,9 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetSpecPanelInfo(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             if (id > 0)
             {
-                Player p = dbG.Players.Find(iPlayerID);
+                Player p = GetPlayer();
                 TDBSpecial spec = dbT.TDBSpecials.Find(id);
                 return PartialView("Panels/_SpecPanel", new SpecialViewModel(spec, false, false, 0, p.Color));
             }
@@ -240,9 +246,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult TryMoveToTile(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             p.ArrangeStringToTileLists();
             if (!p.MovableTiles.Contains(id)) { return new EmptyResult(); }
 
@@ -254,7 +258,6 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult RearrangeUnits(string sf, int fid, string st, int tid)
         {
-            int iPlayerID = (int)Session["PlayerID"];
             int iFromArmy = 0;
             int iToArmy = 0;
             if (sf == "roster") { iFromArmy = 1; }
@@ -263,7 +266,7 @@ namespace ChaoticaOnline.Controllers
             if (iFromArmy == 0 && fid == 0) { return new EmptyResult(); }
             if (iToArmy == 0 && tid == 0) { return new EmptyResult(); }
 
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             Party party = null;
             Party roster = null;
             party = dbG.Parties.Find(p.PartyID);
@@ -323,8 +326,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult AddUnitToParty(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             Party party = dbG.Parties.Find(p.PartyID);
             Party roster = dbG.Parties.Find(p.RosterID);
 
@@ -355,8 +357,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult RemoveUnitFromParty(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             Party party = dbG.Parties.Find(p.PartyID);
             Party roster = dbG.Parties.Find(p.RosterID);
 
@@ -384,8 +385,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult ClickedAction(int id, int act, int obj)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             ButtonAction action = (ButtonAction)act;
             EntityType entity = (EntityType)obj;
             Object res = GameActions.ApplyAction(p, action, entity, id, dbG, dbT);
@@ -400,7 +400,19 @@ namespace ChaoticaOnline.Controllers
                     }
                 case ButtonAction.Explore:
                     {
-                        return PartialView("Subs/_InsideDwellingWindow", (DrawResultViewModel)res); 
+                        //MulipleViewReturnViewModel model = new MulipleViewReturnViewModel();
+                        //model.CardResult = (DrawResultViewModel)res;
+                        //model.Tile = new TileViewModel(dbG.Tiles.Find(p.TileID), TileSelectionType.None, GetSessionDic(), p);
+                        //if (model.CardResult.Dwelling != null) { model.Dwelling = model.CardResult.Dwelling; }
+                        //if (model.CardResult.Dungeon != null) { model.Dungeon = model.CardResult.Dungeon; }
+                        //return PartialView("_MultipleViewReturn", model);
+                        return PartialView("PopUps/_DrawResultPopUp", (DrawResultViewModel)res);
+                    }
+                case ButtonAction.Close:
+                    {
+                        MulipleViewReturnViewModel model = new MulipleViewReturnViewModel();
+                        model.Map = new MapViewModel(GetGame().Map, p, GetSessionDic(), p.TileID);
+                        return PartialView("_MultipleViewReturn", model);
                     }
             }
 
@@ -410,8 +422,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetRoster()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             Party party = dbG.Parties.Find(p.RosterID);
             List<SmallUnitViewModel> lstRes = new List<SmallUnitViewModel>();
             foreach (Unit u in party.OrderedUnits())
@@ -422,8 +433,7 @@ namespace ChaoticaOnline.Controllers
         }
         public ActionResult GetInventory()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             List<SmallWorldItemViewModel> lstRes = p.GetInventoryItems(dbT);
             return PartialView("Panels/_InventoryPanel", new InventoryViewModel(lstRes, 
                 Statics.AlignmentColor(p.Alignment)));
@@ -431,22 +441,19 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetCharSheet()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
             return PartialView("Panels/_CharSheetPanel", new CharSheetViewModel(p, lstRes[0], lstRes[1]));
         }
         public ActionResult RefreshInfoPanel()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             return PartialView("Panels/_InfoPanel", new PlayerViewModel(p));
         }
 
         public ActionResult GetCharSheet2()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             List<List<SmallWorldItemViewModel>> lstRes = p.GetHeroItems(dbT);
             MulipleViewReturnViewModel model = new MulipleViewReturnViewModel();
             model.CharSheet = new CharSheetViewModel(p, lstRes[0], lstRes[1]);
@@ -457,15 +464,13 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult GetHeroUnit()
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             return PartialView("Panels/_UnitPanel", new UnitViewModel(p.GetHeroUnit(), false, false, 0, p.Color));
         }
 
         public ActionResult TakeOff(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             WorldItem it = p.WorldItems.Where(wit => wit.ID == id).First();
             it.Wearing = false;
             dbG.Entry(it).State = EntityState.Modified;
@@ -475,8 +480,7 @@ namespace ChaoticaOnline.Controllers
 
         public ActionResult PutOn(int id)
         {
-            int iPlayerID = (int)Session["PlayerID"];
-            Player p = dbG.Players.Find(iPlayerID);
+            Player p = GetPlayer();
             WorldItem it = p.WorldItems.Where(wit => wit.ID == id).First();
 
             if (p.AlreadyWearingThis(it)) { return new EmptyResult(); }

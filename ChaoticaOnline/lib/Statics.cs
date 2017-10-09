@@ -34,6 +34,28 @@ namespace ChaoticaOnline.lib
         public static int DrawReduction_Dwelling = 50;
         public static int DrawReduction_Dungeon = 50;
 
+        public static int DefaultMaxPartyUnits = 10;
+        public static int DefaultMinPartyUnits = 4;
+
+        public static double DiffIncreaseOn2SlotUnit = 1.6;
+        public static double RewardUnitDifficultyMultiplier = 3;
+
+        public static int Diff_MinAt1 = 10;
+        public static int Diff_MaxAt1 = 25;
+        public static int Diff_MinAt2 = 30;
+        public static int Diff_MaxAt2 = 60;
+        public static int Diff_MinAt3 = 50;
+        public static int Diff_MaxAt3 = 100;
+        public static int Diff_MinAt4 = 100;
+        public static int Diff_MaxAt4 = 200;
+        public static int Diff_MinAt5 = 200;
+        public static int Diff_MaxAt5 = 300;
+        public static int Diff_MinAt6 = 300;
+        public static int Diff_MaxAt6 = 400;
+        public static int Diff_MinAt7 = 375;
+        public static int Diff_MaxAt7 = 500;
+
+
         public static int CardsPerTile = 7;
 
         public static string AlignmentColor(Alignment a)
@@ -72,6 +94,24 @@ namespace ChaoticaOnline.lib
             }
             return res;
         }
+        public static int GetDifficulty(int baseDiff, Calc calc = null)
+        {
+            if (calc == null) { calc = new Calc(); }
+            int iMax = 0;
+            int iMin = 0;
+            switch (baseDiff)
+            {
+                case 1: { iMin = Diff_MinAt1; iMax = Diff_MaxAt1; break; }
+                case 2: { iMin = Diff_MinAt2; iMax = Diff_MaxAt2; break; }
+                case 3: { iMin = Diff_MinAt3; iMax = Diff_MaxAt3; break; }
+                case 4: { iMin = Diff_MinAt4; iMax = Diff_MaxAt4; break; }
+                case 5: { iMin = Diff_MinAt5; iMax = Diff_MaxAt5; break; }
+                case 6: { iMin = Diff_MinAt6; iMax = Diff_MaxAt6; break; }
+                case 7: { iMin = Diff_MinAt7; iMax = Diff_MaxAt7; break; }
+            }
+            return calc.GetRandom(iMin, iMax);
+        }
+
         public static string RarityColor(int rarity, bool isUnique)
         {
             if (isUnique) { return "#FFBB00"; }

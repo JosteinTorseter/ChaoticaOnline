@@ -42,7 +42,7 @@
 @if (Model.Tile != null)
 {
     <div class="holder" data-targetid="InfoPanel1">
-        @Html.Partial("~/Views/Main/_Tile.cshtml", Model.Tile)
+        @Html.Partial("~/Views/Main/Panels/_TilePanel.cshtml", Model.Tile)
     </div>
 }
 
@@ -64,5 +64,26 @@
 {
     <div class="holder" data-targetid="InfoPanel2">
         @Html.Partial("~/Views/Main/Panels/_UnitPanel.cshtml", Model.Unit)
+    </div>
+}
+
+@if (Model.CardResult != null)
+{
+    <div class="holder" data-targetid="MapCell">
+        @Html.Partial("~/Views/Main/Subs/_DrawResultView.cshtml", Model.CardResult)
+    </div>
+}
+
+@if (Model.Dwelling != null)
+{
+    <div class="holder" data-targetid="InfoPanel2">
+        @Html.Partial("~/Views/Main/Panels/_DwellingPanel.cshtml", Model.Dwelling)
+    </div>
+}
+
+@if (Model.Dungeon != null)
+{
+    <div class="holder" data-targetid="InfoPanel2">
+        @Html.Partial("~/Views/Main/Panels/_DungeonPanel.cshtml", Model.Dungeon)
     </div>
 }
